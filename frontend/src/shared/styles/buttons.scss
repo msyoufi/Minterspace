@@ -1,0 +1,14 @@
+.icon-button {
+  width: 2.25rem;
+  height: 2.25rem;
+  background-color: transparent;
+  color: var(--text-color);
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.icon-button:hover {
+  background-color: var(--accent2);
+}
