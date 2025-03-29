@@ -1,0 +1,34 @@
+.account-button {
+  display: flex;
+  align-items: center;
+  padding: .2rem .2rem .2rem .75rem;
+  column-gap: .25rem;
+  border: none;
+  background-color: var(--tertiary);
+  color: var(--text-color);
+  border-radius: var(--radius-l);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.account-button i {
+  display: flex;
+  background-color: var(--background);
+  border: 2px solid var(--tertiary);
+  border-radius: 50%;
+  font-size: 1.75rem;
+  color: var(--primary);
+  transition: var(--transition);
+}
+
+.account-button:hover {
+  background-color: var(--primary);
+  color: #fff;
+}
+
+
+.account-button:hover i {
+  border-color: var(--background);
+}
