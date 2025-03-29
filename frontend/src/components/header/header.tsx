@@ -22,7 +22,6 @@ export default function Header() {
     return window.innerWidth >= 749;
   }
 
-  console.log('render')
   return (
     < header >
       <div className="header-content-wrapper">
