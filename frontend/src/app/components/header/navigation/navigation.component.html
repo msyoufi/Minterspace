@@ -1,1 +1,29 @@
-<p>navigation works!</p>
+<button class='icon-button navigation-toggle' (click)='toggleNavMenu()'>
+  <i [class]='"bi bi-" + (isNavMenuOpen() ? "x-lg" : "list" )'></i>
+</button>
+
+<nav class='header-nav' [class.open]="isNavMenuOpen()">
+  <ul class="left-nav">
+    <li>
+      <a routerLink="/">Coins</a>
+    </li>
+    <li>
+      <a routerLink="/">Exchanges</a>
+    </li>
+  </ul>
+
+  <ul class="right-nav">
+    <li>
+      <a routerLink="/" class='icon-link'>
+        <i [class]='"bi bi-star" + (router.url === "/watchlist" ? "-fill" : "" )'></i>
+        <span>Watchlist</span>
+      </a>
+    </li>
+    <li>
+      <a routerLink="/" class='icon-link'>
+        <i [class]='"bi bi-pie-chart" + (router.url === "/portfolio" ? "-fill" : "" )'></i>
+        <span>Portfolio</span>
+      </a>
+    </li>
+  </ul>
+</nav>

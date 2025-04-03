@@ -26,10 +26,8 @@
   column-gap: .75rem;
 }
 
-.theme-button {
-  font-size: 1.25rem;
-}
-
-.theme-button:hover {
-  transform: rotate(15deg);
+ms-navigation {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
 }
