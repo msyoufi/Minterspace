@@ -4,7 +4,7 @@ import { AccountButtonComponent } from "./account-button/account-button.componen
 import { NavigationComponent } from "./navigation/navigation.component";
 import { HeaderSearchBarComponent } from "./header-search-bar/header-search-bar.component";
 import { ThemeButtonComponent } from "./theme-button/theme-button.component";
-import { AppLogoComponent } from "../../shared/components/app-logo/app-logo.component";
+import { AppLogoComponent } from "../../shared/components/app-logo.component";
 
 @Component({
   selector: 'ms-header',
