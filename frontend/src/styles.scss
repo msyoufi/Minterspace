@@ -1,0 +1,48 @@
+:root {
+  // shared colors:
+  --primary-color: #6e3cda;
+  --secondary-color: #ffffff;
+  --tertiary-color: #7a4bdf57;
+  --red: #fe5e5e;
+  --green: #28c079;
+
+  // default dark-theme colors:
+  --background-color: #0f111c;
+  --accent1-color: #37374c;
+  --accent2-color: #4e4e69;
+  --gray: #b0bbca;
+  --text-color: #fff;
+  --border-color: #2e3842;
+  --shadow: #7171713e;
+
+  // border-radius:
+  --radius-s: 10px;
+  --radius-l: 20px;
+  --transition: .15s;
+  --app-width: 1200px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue';
+  font-optical-sizing: auto;
+  font-variation-settings: "wdth" 100;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+}
+
+body.light-theme {
+  --background: #fff;
+  --tertiary: #7a4bdf2b;
+  --accent1: #eeeefa;
+  --accent2: #d7d7f5;
+  --gray: #727272;
+  --text-color: #000;
+  --border-color: #d5d5d5;
+  --shadow: #0000002b;
+}
