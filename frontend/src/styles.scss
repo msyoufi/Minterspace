@@ -46,3 +46,9 @@ body.light-theme {
   --border-color: #d5d5d5;
   --shadow: #0000002b;
 }
+
+ms-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
