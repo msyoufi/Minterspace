@@ -1,3 +1,36 @@
 <div class="header-content-wrapper">
-  header
+  @if (true) {
+  <div class="upper-header">
+    <ms-global-market-bar />
+
+    <div class="upper-header-right">
+      <ms-theme-button />
+      <ms-account-button />
+    </div>
+  </div>
+
+  <div class="lower-header">
+    <ms-app-logo />
+    <ms-navigation />
+    <ms-header-search-bar />
+  </div>
+
+  } @else {
+  <div class="upper-header">
+    <div class='upper-header-left'>
+      <ms-navigation />
+      <ms-app-logo />
+    </div>
+
+    <div class="upper-header-right">
+      <ms-theme-button />
+      <ms-account-button />
+    </div>
+  </div>
+
+  <div class="lower-header">
+    <ms-header-search-bar />
+  </div>
+  }
+
 </div>
