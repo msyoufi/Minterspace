@@ -1,1 +1,8 @@
-<p>theme-button works!</p>
+<button class='icon-button theme-button' (click)="toggleColorTheme()">
+  @if (isDarkTheme()) {
+  <i class="bi bi-sun-fill"></i>
+
+  } @else {
+  <i class="bi bi-moon-fill"></i>
+  }
+</button>
