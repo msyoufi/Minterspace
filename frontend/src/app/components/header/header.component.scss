@@ -31,3 +31,11 @@ ms-navigation {
   flex: 1;
   justify-content: space-between;
 }
+
+@media (max-width: 749px) {
+
+  ms-header-search-bar {
+    width: 100%;
+  }
+
+}
