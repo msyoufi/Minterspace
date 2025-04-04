@@ -7,11 +7,15 @@
 .upper-header,
 .lower-header {
   display: flex;
-  padding: .75rem 1rem;
+  padding: .25rem 1rem;
   column-gap: 1rem;
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--border-color);
+}
+
+.lower-header {
+  padding: 1rem;
 }
 
 .upper-header-left,
@@ -34,6 +38,7 @@ ms-navigation {
 
 @media (max-width: 880px) {
   .upper-header {
+    padding: 1rem 1rem 0;
     border: none;
   }
 
