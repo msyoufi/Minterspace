@@ -37,3 +37,4 @@ testem.log
 Thumbs.db
 
 .env
+mock/
