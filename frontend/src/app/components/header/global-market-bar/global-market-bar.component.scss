@@ -1,0 +1,15 @@
+.global-market-container {
+  display: flex;
+  column-gap: .5rem;
+}
+
+p {
+  text-wrap: nowrap;
+  font-size: .7rem;
+  color: var(--gray);
+}
+
+p span {
+  color: var(--primary-color);
+  font-weight: 700;
+}

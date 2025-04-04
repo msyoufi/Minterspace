@@ -25,7 +25,7 @@ export class HeaderComponent {
   }
 
   subscribeToScreenResize(): void {
-    this.breakpointObserver.observe(['(max-width: 850px)'])
+    this.breakpointObserver.observe(['(max-width: 880px)'])
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => this.isSmallScreen.set(result.matches));
   }

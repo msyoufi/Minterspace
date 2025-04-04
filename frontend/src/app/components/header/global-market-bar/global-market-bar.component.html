@@ -1,1 +1,36 @@
-<p>global-market-bar works!</p>
+@if (coinService.globalMarket()?.data; as gm) {
+<div class="global-market-container">
+  <p>
+    Coins:
+    <span>
+      {{gm.active_cryptocurrencies | number:'1.0'}}
+    </span>
+  </p>
+  <p>
+    Markets:
+    <span>
+      {{gm.markets | number:'1.0'}}
+    </span>
+  </p>
+  <p>
+    Market Cap:
+    <span>
+      ${{gm.total_market_cap.usd | number : '1.0-0'}}
+    </span>
+  </p>
+  <p>
+    Volume:
+    <span>
+      ${{gm.total_volume.usd | number : '1.0-0'}}
+    </span>
+  </p>
+  <p>
+    Dominance:
+    <span>
+      BTC: {{gm.market_cap_percentage.btc | number:'1.1-1'}}%
+      |
+      ETH: {{gm.market_cap_percentage.eth | number:'1.1-1'}}%
+    </span>
+  </p>
+</div>
+}
