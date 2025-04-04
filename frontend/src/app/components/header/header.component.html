@@ -1,21 +1,5 @@
 <div class="header-content-wrapper">
-  @if (true) {
-  <div class="upper-header">
-    <ms-global-market-bar />
-
-    <div class="upper-header-right">
-      <ms-theme-button />
-      <ms-account-button />
-    </div>
-  </div>
-
-  <div class="lower-header">
-    <ms-app-logo />
-    <ms-navigation />
-    <ms-header-search-bar />
-  </div>
-
-  } @else {
+  @if (isSmallScreen()) {
   <div class="upper-header">
     <div class='upper-header-left'>
       <ms-navigation />
@@ -29,6 +13,22 @@
   </div>
 
   <div class="lower-header">
+    <ms-header-search-bar />
+  </div>
+
+  } @else {
+  <div class="upper-header">
+    <ms-global-market-bar />
+
+    <div class="upper-header-right">
+      <ms-theme-button />
+      <ms-account-button />
+    </div>
+  </div>
+
+  <div class="lower-header">
+    <ms-app-logo />
+    <ms-navigation />
     <ms-header-search-bar />
   </div>
   }

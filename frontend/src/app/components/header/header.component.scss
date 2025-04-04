@@ -32,7 +32,10 @@ ms-navigation {
   justify-content: space-between;
 }
 
-@media (max-width: 749px) {
+@media (max-width: 850px) {
+  .upper-header {
+    border: none;
+  }
 
   ms-header-search-bar {
     width: 100%;
