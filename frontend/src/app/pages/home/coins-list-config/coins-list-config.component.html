@@ -1,0 +1,28 @@
+<button class="config-button">
+  <i class="bi bi-sliders"></i>
+  <span>Customise</span>
+</button>
+
+<div class="config-panel-container">
+  <form #formRef="ngForm" class="config-panel">
+    <div class="config-control-field">
+      <label for='categoryId'>Category</label>
+      <select class='ms-input' name='categoryId' ngModel="all" id='categoryId'>
+        <option value='all'>All</option>
+        @for (category of coinService.coinCategories(); track category.id){
+        <option [value]="category.id">{{category.name}}</option>
+        }
+      </select>
+    </div>
+
+    <div class="config-control-field">
+      <label for='perPage'>Coins per page</label>
+      <select class='ms-input' name='perPage' ngModel="10" id='perPage'>
+        @for (num of [10, 25, 50, 100]; track $index){
+        <option [value]="num">{{num}}</option>
+        }
+      </select>
+    </div>
+
+  </form>
+</div>

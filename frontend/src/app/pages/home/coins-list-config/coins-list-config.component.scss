@@ -1,0 +1,60 @@
+.config-button {
+  padding: .4rem .75rem;
+  font-weight: 600;
+  background-color: var(--accent1-color);
+  color: var(--text-color);
+  border-radius: var(--radius-s);
+  border: none;
+  transition: var(--transition);
+
+  &:hover {
+    background-color: var(--accent2-color);
+  }
+
+  &:hover~.config-panel-container {
+    top: 0;
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  &>span {
+    margin-left: .5rem;
+  }
+}
+
+.config-panel-container {
+  padding-top: 2.5rem;
+  position: absolute;
+  right: 0;
+  top: -1rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+  transition: var(--transition);
+
+  &:hover {
+    top: 0;
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.config-panel {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  border-radius: var(--radius-l);
+  border: 1px solid var(--primary-color);
+
+  .config-control-field {
+    display: flex;
+    flex-direction: column;
+    row-gap: .5rem;
+
+    label {
+      width: fit-content;
+    }
+  }
+}

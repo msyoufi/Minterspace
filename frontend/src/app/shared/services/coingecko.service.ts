@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import globalMarketData from '../mock/globalMarket.json';
 import coins from '../mock/coins.json';
-import coinCategories from '../mock/coinCategory.json';
+import allCategories from '../mock/all-categories.json';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,6 @@ export class CoingeckoService {
   public globalMarket = signal<GlobalMarket | null>(null);
   public coins = signal<CoinBasic[]>([]);
   public coinCategories = signal<CoinCategory[]>([]);
-
 
   constructor() {
     this.getGlobalMarketData();
@@ -28,7 +27,7 @@ export class CoingeckoService {
   }
 
   getCoinCategories(): any {
-    this.coinCategories.set(coinCategories);
+    this.coinCategories.set(allCategories);
     // TODO
   }
 }

@@ -1,0 +1,14 @@
+.ms-input {
+  height: 2rem;
+  padding: 0 .5rem;
+  border: none;
+  border-radius: var(--radius-s);
+  background-color: var(--accent1-color);
+  color: var(--text-color);
+  font-size: .9rem;
+  transition: var(--transition);
+
+  &:focus {
+    background-color: var(--accent2-color);
+  }
+}
