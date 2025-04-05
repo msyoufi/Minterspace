@@ -1,0 +1,37 @@
+@let category = categoryData();
+@let gm = globalMarket();
+@let cg = coinCategory();
+
+<h2 class="category-name">{{category.header}}</h2>
+
+<div class="category-panels-container">
+  <ms-market-cap-panel class="panel" [marketCap]="category.marketCap" [marketCapchange]="category.marketCapchange"
+    [indicatorClass]="category.indicatorClass" />
+
+  <ms-volume-panel class="panel" [volume]="category.volume" />
+
+  @if (gm) {
+  <div class="panel">
+    <p class="title">Dominance</p>
+    <div class="dominance-values">
+      <span class="title">BTC</span>
+      <span class="title">ETH</span>
+      <span>{{gm.data.market_cap_percentage.btc | absolut | number:'1.1-1'}}%</span>
+      <span>{{gm.data.market_cap_percentage.eth | absolut | number:'1.1-1'}}%</span>
+    </div>
+  </div>
+
+  } @else if (cg) {
+  <div class="panel top-coins">
+    <p class="title">Top 3 Coins</p>
+    <div>
+      @for (url of cg.top_3_coins; track $index){
+      <a [routerLink]="'/' + cg.top_3_coins_id[$index]">
+        <img [src]="url" />
+      </a>
+      }
+    </div>
+  </div>
+  }
+
+</div>
