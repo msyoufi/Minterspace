@@ -1,0 +1,40 @@
+.coin-bar {
+  height: 4.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--accent1-color);
+    color: var(--text-color);
+  }
+
+  .bi-star {
+    color: var(--gray);
+
+    &:hover {
+      color: gold;
+    }
+  }
+
+  div:nth-child(3) {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+
+    img {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+
+    p {
+      text-align: left;
+    }
+  }
+
+  p:nth-child(5) span {
+    position: relative;
+  }
+
+  div:last-child {
+    justify-self: right;
+  }
+}

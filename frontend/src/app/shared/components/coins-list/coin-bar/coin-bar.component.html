@@ -1,0 +1,44 @@
+@let cn = coin();
+@let isChangePositive = cn.price_change_percentage_24h >= 0;
+
+<li>
+  <a [routerLink]="'/' + cn.id" class='grid-bar coin-bar'>
+    <ms-watchlist-star [coinId]="cn.id" />
+
+    <span>{{cn.market_cap_rank}}</span>
+
+    <div>
+      <img [src]="cn.image" />
+      <p>
+        {{cn.name}}
+        <span class="coin-symbol">
+          {{cn.symbol | uppercase}}
+        </span>
+      </p>
+    </div>
+
+    <span>${{cn.current_price | number : '1.0-10'}}</span>
+
+    <p>
+      <span [class]="isChangePositive ? 'asc green' : 'desc red'">
+        {{cn.price_change_percentage_24h | absolut | number:'1.1-1'}}%
+      </span>
+    </p>
+
+    <span>${{cn.market_cap | number : '1.0-0'}}</span>
+
+    <span>${{cn.total_volume | number : '1.0-0'}}</span>
+
+    <span>
+      {{cn.circulating_supply | number : '1.0-0'}}
+      <span class="coin-symbol">
+        {{cn.symbol | uppercase}}
+      </span>
+    </span>
+
+    <span>
+      Sparkline placehoder
+    </span>
+
+  </a>
+</li>

@@ -1,0 +1,29 @@
+.coin-symbol {
+  margin-left: .5rem;
+  color: var(--gray);
+  font-size: .8rem;
+}
+
+a,
+a.active {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--primary-color);
+}
+
+.bi-star,
+.bi-star-fill {
+  color: gold;
+}
+
+.bi-pie-chart,
+.bi-pie-chart-fill {
+  color: var(--primary-color);
+}
+
+ul {
+  list-style: none;
+}
