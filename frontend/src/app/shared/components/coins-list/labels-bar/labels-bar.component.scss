@@ -1,0 +1,20 @@
+.labels-bar {
+  height: 3.2rem;
+  position: sticky;
+  top: 0;
+  background-color: var(--background-color);
+  border-top: 1px solid var(--border-color);
+  z-index: 5;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: var(--text-color);
+  position: relative;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

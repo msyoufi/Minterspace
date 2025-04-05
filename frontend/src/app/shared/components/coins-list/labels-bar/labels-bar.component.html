@@ -1,0 +1,16 @@
+<div class='grid-bar labels-bar'>
+  <span><!-- placeholder for the watchlist star column --></span>
+
+  @for (label of labels; track $index) {
+
+  @let className = currentSortKey() === label.sortKey
+  ? (isAscOrder() ? 'asc' : 'desc')
+  : '';
+
+  <ms-label-button [content]="label.content" (changeSortKey)="onSortKeyChange(label.sortKey)" [className]="className" />
+  }
+
+  <span>
+    <span>Last 7 Days</span>
+  </span>
+</div>
