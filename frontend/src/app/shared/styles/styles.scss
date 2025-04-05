@@ -27,3 +27,20 @@ a:hover {
 ul {
   list-style: none;
 }
+
+.asc::before,
+.desc::before {
+  content: '';
+  position: absolute;
+  left: -1rem;
+  border: 6px solid transparent;
+}
+
+.asc::before {
+  border-bottom-color: inherit;
+}
+
+.desc::before {
+  top: 50%;
+  border-top-color: inherit;
+}

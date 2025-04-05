@@ -17,23 +17,6 @@
   }
 }
 
-.asc::before,
-.desc::before {
-  content: '';
-  position: absolute;
-  left: -1rem;
-  border: 6px solid transparent;
-}
-
-.asc::before {
-  border-bottom-color: inherit;
-}
-
-.desc::before {
-  top: 50%;
-  border-top-color: inherit;
-}
-
 @media (max-width: 1250px) {
   .grid-bar {
     grid-template-columns: 2% 5% auto 10% 8% 17% 17% 20%;
