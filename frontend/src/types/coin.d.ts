@@ -39,3 +39,23 @@ const sortKeys = {
 } as const;
 
 type SortKey = keyof typeof sortKeys;
+
+interface CoinCategory {
+  id: string,
+  name: string,
+  market_cap: number | null,
+  market_cap_change_24h: number | null,
+  content: string | null,
+  top_3_coins_id: string[],
+  top_3_coins: string[],
+  volume_24h: number | null,
+  updated_at: string | null
+};
+
+interface CategoryData {
+  header: string,
+  marketCap: number,
+  marketCapchange: number,
+  volume: number,
+  indicatorClass: string
+};
