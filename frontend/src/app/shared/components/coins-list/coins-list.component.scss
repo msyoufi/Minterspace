@@ -21,9 +21,8 @@
   .grid-bar {
     grid-template-columns: 2% 5% auto 10% 8% 17% 17% 20%;
 
-    ms-label-button:last-child,
-    &>span:last-child,
-    &>div:last-child {
+    span:last-child,
+    ms-sparkline:last-child {
       display: none;
     }
   }
