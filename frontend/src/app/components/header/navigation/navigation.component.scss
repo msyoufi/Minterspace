@@ -56,15 +56,14 @@
 
   .header-nav {
     display: flex;
-    width: 100%;
-    height: calc(100vh - 4rem);
+    flex-direction: column;
+    height: 100%;
     padding: 1rem 0;
     position: absolute;
     top: 3rem;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 0;
     justify-content: flex-start;
-    background-color: var(--background-color);
+    background: linear-gradient(var(--background-color), 90%, transparent);
     opacity: 0;
     transition: var(--transition);
     pointer-events: none;
@@ -76,7 +75,6 @@
       pointer-events: all;
     }
 
-    &,
     ul {
       flex-direction: column;
     }
