@@ -1,0 +1,7 @@
+<ms-labels-bar (changeSortKey)="onSortKeyChange($event)" [currentSortKey]="sortKey()" [isAscOrder]="isAscOrder()" />
+
+<ul>
+  @for (coin of sortedCoins(); track coin.id) {
+  <ms-coin-bar [coin]="coin" />
+  }
+</ul>
