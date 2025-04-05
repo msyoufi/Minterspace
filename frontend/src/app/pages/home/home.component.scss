@@ -3,8 +3,18 @@
   align-items: flex-end;
   justify-content: space-between;
   padding: 2rem 1rem;
+  gap: 1rem;
 }
 
 ms-coins-list-config {
   position: relative;
+}
+
+@media (max-width: 880px) {
+
+  ms-category-panels,
+  .coins-list-header {
+    width: 100%;
+    flex-direction: column;
+  }
 }
