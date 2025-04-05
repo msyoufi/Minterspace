@@ -7,5 +7,6 @@
   }
 </div>
 
-
 <ms-coins-list [coins]="coinService.coins()" />
+
+<ms-paginator [page]="page" [isEndOfCoins]="isEndOfCoins" (pageChange)="onPageChange($event)" />

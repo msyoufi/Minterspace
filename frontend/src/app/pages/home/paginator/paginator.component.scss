@@ -1,0 +1,21 @@
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  column-gap: 1.5rem;
+
+  .icon-button:hover i {
+    color: var(--primary-color);
+  }
+
+  span {
+    padding: .2rem 2rem;
+    border-radius: var(--radius-l);
+    background-color: var(--accent1-color);
+    user-select: none;
+  }
+
+  .bi {
+    font-size: 1.25rem;
+  }
+}

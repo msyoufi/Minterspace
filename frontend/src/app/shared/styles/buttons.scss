@@ -6,3 +6,9 @@
   cursor: pointer;
   transition: var(--transition);
 }
+
+.icon-button:disabled {
+  color: var(--gray);
+  cursor: default;
+  pointer-events: none;
+}
