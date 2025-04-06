@@ -8,10 +8,17 @@ def coins_list(request):
     return get("coins/markets", params)
 
 
+coin_details_params = {
+    "localization": False,
+    "tickers": False,
+    "community_data": False,
+    "developer_data": False,
+}
+
+
 @api_view()
-def coin(request):
-    params = request.query_params
-    return get("coins", params)
+def coin(request, coin_id):
+    return get(f"coins/{coin_id}", params=coin_details_params)
 
 
 @api_view()
