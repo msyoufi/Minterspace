@@ -1,9 +1,5 @@
-@let categroy = currentCategory();
-
 <div class="coins-list-header">
-  @if (categroy) {
-  <ms-category-panels [category]="categroy" />
-  }
+  <ms-category-panels [category]="currentCategory()" />
   <ms-coins-list-config [(categoryId)]="categoryId" [(perPage)]="perPage" (categoryIdChange)="onCategoryIdChange()"
     (perPageChange)="onPerPageChange()" />
 </div>

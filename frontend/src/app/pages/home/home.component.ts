@@ -18,7 +18,7 @@ export class HomeComponent {
   destroyRef = inject(DestroyRef);
 
   coins = signal<CoinBasic[]>([]);
-  currentCategory = signal<CoinCategory | GlobalMarket | null>(this.coinService.globalMarket());
+  currentCategory = signal<CoinCategory | GlobalMarket | null>(null);
 
   perPage = JSON.parse(localStorage.getItem('perPage') ?? '25') as string;
   page = 1;
@@ -26,6 +26,7 @@ export class HomeComponent {
   categoryId = '';
 
   constructor() {
+    this.currentCategory.set(this.coinService.globalMarket());
     this.getCoinsList();
   }
 
@@ -59,6 +60,12 @@ export class HomeComponent {
   onCategoryIdChange(): void {
     this.page = 1;
     this.getCoinsList();
+
+    const category =
+      this.coinService.coinCategories().find(c => c.id === this.categoryId) ||
+      this.coinService.globalMarket();
+
+    this.currentCategory.set(category);
   }
 
   onPerPageChange(): void {

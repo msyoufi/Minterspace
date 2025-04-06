@@ -2,6 +2,7 @@
 @let gm = globalMarket();
 @let cg = coinCategory();
 
+@if (category) {
 <h2 class="category-name">{{category.header}}</h2>
 
 <div class="category-panels-container">
@@ -35,3 +36,6 @@
   }
 
 </div>
+} @else {
+<p>Loading...</p>
+}

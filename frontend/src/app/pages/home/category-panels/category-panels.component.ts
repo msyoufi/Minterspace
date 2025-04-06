@@ -12,19 +12,23 @@ import { AbsolutPipe } from '../../../shared/pipes/absolut.pipe';
   styleUrl: './category-panels.component.scss'
 })
 export class CategoryPanelsComponent {
-  category = input.required<CoinCategory | GlobalMarket>();
+  category = input.required<CoinCategory | GlobalMarket | null>();
   categoryData = computed(() => extractCategoryData(this.category()));
 
-  globalMarket = computed<GlobalMarket | null>(() =>
-    'data' in this.category() ? this.category() as GlobalMarket : null
-  );
+  globalMarket = computed<GlobalMarket | null>(() => {
+    const category = this.category();
+    return !category || !('data' in category) ? null : category
+  });
 
-  coinCategory = computed<CoinCategory | null>(() =>
-    'data' in this.category() ? null : this.category() as CoinCategory
-  );
+  coinCategory = computed<CoinCategory | null>(() => {
+    const category = this.category();
+    return !category || 'data' in category ? null : category;
+  });
 }
 
-function extractCategoryData(current: CoinCategory | GlobalMarket): CategoryData {
+function extractCategoryData(current: CoinCategory | GlobalMarket | null): CategoryData | null {
+  if (!current) return null;
+
   const data = 'data' in current
     ? {
       header: 'Global Market',
