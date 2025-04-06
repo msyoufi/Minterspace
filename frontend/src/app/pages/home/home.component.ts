@@ -1,4 +1,4 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
 import { CoinsListComponent } from "../../shared/components/coins-list/coins-list.component";
 import { CoingeckoService } from '../../shared/services/coingecko.service';
 import { CategoryPanelsComponent } from "./category-panels/category-panels.component";
@@ -27,7 +27,7 @@ export class HomeComponent {
   categoryId = '';
 
   constructor() {
-    this.currentCategory.set(this.coinService.globalMarket());
+    effect(() => this.currentCategory.set(this.coinService.globalMarket()));
     this.getCoinsList();
   }
 
