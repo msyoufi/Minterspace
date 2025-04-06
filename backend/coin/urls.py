@@ -1,7 +1,8 @@
 from django.urls import path
-from .views import coins_list, coin
+from . import views
 
 urlpatterns = [
-    path("coins", coins_list),
-    path("coin", coin),
+    path("coins", views.coins_list),
+    path("coin", views.coin),
+    path("global", views.global_market),
 ]

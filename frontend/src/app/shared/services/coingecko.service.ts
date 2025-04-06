@@ -1,28 +1,35 @@
-import { inject, Injectable, signal } from '@angular/core';
-import globalMarketData from '../mock/globalMarket.json';
-import allCategories from '../mock/all-categories.json';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import globalMarketData from '../mock/globalMarket.json';
+import allCategories from '../mock/all-categories.json';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoingeckoService {
   http = inject(HttpClient);
-
-  BASE_URL = 'http://127.0.0.1:8000/coingecko';
+  destroyRef = inject(DestroyRef);
 
   public globalMarket = signal<GlobalMarket | null>(null);
   public coinCategories = signal<CoinCategory[]>([]);
+
+  BASE_URL = 'http://127.0.0.1:8000/coingecko';
 
   constructor() {
     this.getGlobalMarketData();
     this.getCoinCategories();
   }
 
-  getGlobalMarketData(): any {
-    this.globalMarket.set(globalMarketData);
-    // TODO
+  getGlobalMarketData(): void {
+    this.http.get<GlobalMarket>(`${this.BASE_URL}/global`)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(GlobalMarket => {
+        this.globalMarket.set(GlobalMarket);
+      });
+
+    // this.globalMarket.set(globalMarketData);
   }
 
   getCoinsList(additionalParams: { [key: string]: any }): Observable<CoinBasic[]> {

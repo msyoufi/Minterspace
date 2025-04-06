@@ -12,3 +12,8 @@ def coins_list(request):
 def coin(request):
     params = request.query_params
     return get("coins", params)
+
+
+@api_view()
+def global_market(request):
+    return get("global", params=None)
