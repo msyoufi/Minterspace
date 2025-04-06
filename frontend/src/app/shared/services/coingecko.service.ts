@@ -43,7 +43,7 @@ export class CoingeckoService {
     return this.http.get<CoinBasic[]>(url, { params });
   }
 
-  getCoinData(coinId: string): Observable<CoinDetails> {
+  getCoinDetails(coinId: string): Observable<CoinDetails> {
     const url = `${this.BASE_URL}/coins/${coinId}`;
     return this.http.get<CoinDetails>(url);
   }
