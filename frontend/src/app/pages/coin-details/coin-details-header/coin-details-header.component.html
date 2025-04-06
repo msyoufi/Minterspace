@@ -1,1 +1,78 @@
-<p>coin-details-header works!</p>
+@let cn = coin();
+@let priceChange = cn.market_data.price_change_24h_in_currency['usd'];
+@let percentChange = cn.market_data.price_change_percentage_24h;
+@let currentPrice = cn.market_data.current_price['usd'];
+
+<div class="coin-header-container">
+
+  <div class="left-header">
+    <img class="coin-img" [src]="cn.image.large">
+
+    <div class="coin-data">
+
+      <div class="upper-coin-data">
+        <div class="coin-name-box">
+          <h1>{{cn.name}}</h1>
+          <span class="coin-symbol">{{cn.symbol | uppercase}}</span>
+        </div>
+
+        <div class="portfolio-buttons">
+          <button class="icon-button">
+            <i class='bi bi-star'></i>
+          </button>
+          <button class="icon-button">
+            <i class="bi bi-journal-plus"></i>
+          </button>
+        </div>
+
+      </div>
+
+      <span># {{cn.market_cap_rank}}</span>
+    </div>
+  </div>
+
+  <div class="middle-header">
+    <span class="title">
+      {{cn.symbol| uppercase}} Price
+    </span>
+    <p class="price">
+      ${{cn.market_data.current_price['usd'] | number : '1.0-10'}}
+    </p>
+    <div class="price-change">
+      <span class="title">24h</span>
+      <div>
+        <span [class]="percentChange < 0 ? 'desc red': 'asc green'">
+          {{percentChange | absolut | number : '1.2-2'}}%
+        </span>
+      </div>
+      <span [class]="percentChange < 0 ? 'red': 'green'">
+        {{
+        priceChange > 0 ? '+' : '-'
+        }}${{
+        priceChange | absolut | number : `1.0-${0.01 > (currentPrice | absolut) ? '12' : '2'}`
+        }}
+      </span>
+    </div>
+  </div>
+
+  <div class="right-header">
+    <p class="title">Price Range</p>
+    <div class="low-high">
+      <span>Low</span>
+      <span class="time-span">24H</span>
+      <span>High</span>
+    </div>
+    <div class="slider-container">
+      <input type="range" class="price-slider" [min]="cn.market_data.low_24h['usd']"
+        [max]="cn.market_data.high_24h['usd']" [value]="cn.market_data.current_price['usd']" step="0.0000000001">
+    </div>
+    <div>
+      <span>
+        ${{cn.market_data.low_24h['usd'] | number : '1.0-12'}}
+      </span>
+      <span>
+        ${{cn.market_data.high_24h['usd'] | number : '1.0-12'}}
+      </span>
+    </div>
+  </div>
+</div>
