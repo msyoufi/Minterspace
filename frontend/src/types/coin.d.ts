@@ -90,7 +90,7 @@ interface CoinDetails {
     atl_change_percentage: { [key: string]: number },
     atl_date: { [key: string]: string },
     market_cap: { [key: string]: number },
-    market_cap_rank: 1,
+    market_cap_rank: number,
     fully_diluted_valuation: { [key: string]: number },
     market_cap_fdv_ratio: number,
     total_volume: { [key: string]: number },
