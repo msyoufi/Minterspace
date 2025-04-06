@@ -6,9 +6,12 @@ env = environ.Env(DEBUG=(bool, False))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 SECRET_KEY = env("SECRET_KEY")
+
+COINGECKO_API_KEY = env("COINGECKO_API_KEY")
+
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = []
@@ -22,6 +25,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "coin",
+    "user",
+    "portfolio"
 ]
 
 MIDDLEWARE = [
