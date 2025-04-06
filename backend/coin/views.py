@@ -17,8 +17,14 @@ coin_details_params = {
 
 
 @api_view()
-def coin(request, coin_id):
+def coin_data(request, coin_id):
     return get(f"coins/{coin_id}", params=coin_details_params)
+
+
+@api_view()
+def coin_charts(request, coin_id):
+    params = request.query_params
+    return get(f"coins/{coin_id}/market_chart", params)
 
 
 @api_view()
