@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, input, Input, Output } from '@angular/core';
 import { CoingeckoService } from '../../../shared/services/coingecko.service';
 import { FormsModule } from '@angular/forms';
 
@@ -10,6 +10,8 @@ import { FormsModule } from '@angular/forms';
 })
 export class CoinsListConfigComponent {
   coinService = inject(CoingeckoService);
+
+  isLoading = input.required<boolean>();
 
   @Input({ required: true }) categoryId: string = '';
   @Output() categoryIdChange = new EventEmitter<string>();

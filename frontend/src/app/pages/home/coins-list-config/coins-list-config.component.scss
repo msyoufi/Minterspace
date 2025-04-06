@@ -17,6 +17,10 @@
     pointer-events: all;
   }
 
+  &:disabled {
+    pointer-events: none;
+  }
+
   &>span {
     margin-left: .5rem;
   }

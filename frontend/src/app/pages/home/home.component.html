@@ -1,9 +1,9 @@
 <div class="coins-list-header">
   <ms-category-panels [category]="currentCategory()" />
   <ms-coins-list-config [(categoryId)]="categoryId" [(perPage)]="perPage" (categoryIdChange)="onCategoryIdChange()"
-    (perPageChange)="onPerPageChange()" />
+    (perPageChange)="onPerPageChange()" [isLoading]="isLoading()" />
 </div>
 
-<ms-coins-list [coins]="coins()" />
+<ms-coins-list [coins]="coins()" [loaderBarCount]="perPage" [isLoading]="isLoading()" />
 
-<ms-paginator [(page)]="page" [isEndOfCoins]="isEndOfCoins" (pageChange)="onPageChange()" />
+<ms-paginator [(page)]="page" [isEndOfCoins]="isEndOfCoins" (pageChange)="onPageChange()" [isLoading]="isLoading()" />

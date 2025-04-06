@@ -44,3 +44,39 @@ ul {
   top: 50%;
   border-top-color: inherit;
 }
+
+.skeleton {
+  width: 6rem;
+  height: 1.2rem;
+  border-radius: var(--radius-s);
+  opacity: .6;
+  animation: skeleton-loader .75s linear infinite alternate;
+}
+
+.circle {
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 50%;
+  opacity: .6;
+  animation: skeleton-loader .75s linear infinite alternate;
+}
+
+@keyframes skeleton-loader {
+  from {
+    background-color: #7a7a7a;
+  }
+
+  to {
+    background-color: #c5c5c5;
+  }
+}
+
+@keyframes icon-loader {
+  from {
+    color: #7a7a7a;
+  }
+
+  to {
+    color: #c5c5c5;
+  }
+}

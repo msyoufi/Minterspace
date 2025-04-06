@@ -1,0 +1,29 @@
+.skeleton-bar {
+  height: 4.5rem;
+  justify-items: right;
+
+  &>span:nth-child(2) {
+    justify-self: center;
+    width: 1.5rem;
+  }
+
+  &>span:nth-child(5) {
+    width: 1.5rem;
+  }
+
+  div:nth-child(3) {
+    display: flex;
+    align-items: center;
+    justify-self: left;
+    column-gap: .5rem;
+  }
+
+  .bi-star-fill {
+    animation: icon-loader .75s linear infinite alternate;
+  }
+
+  &>span:last-child {
+    width: 9rem;
+    height: 3rem;
+  }
+}

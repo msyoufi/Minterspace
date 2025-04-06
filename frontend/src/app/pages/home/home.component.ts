@@ -19,8 +19,9 @@ export class HomeComponent {
 
   coins = signal<CoinBasic[]>([]);
   currentCategory = signal<CoinCategory | GlobalMarket | null>(null);
+  isLoading = signal<boolean>(true);
 
-  perPage = JSON.parse(localStorage.getItem('perPage') ?? '25') as string;
+  perPage = JSON.parse(localStorage.getItem('perPage') ?? '25');
   page = 1;
   isEndOfCoins = false;
   categoryId = '';
@@ -31,17 +32,19 @@ export class HomeComponent {
   }
 
   getCoinsList(): void {
+    this.isLoading.set(true);
+
     const params = this.getParams();
-    console.log(params)
 
     this.coinService.getCoinsList(params)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(coins => {
         this.coins.set(coins);
         this.isEndOfCoins = coins.length < parseInt(this.perPage);
+        this.isLoading.set(false);
       });
 
-    // this.coins.set(mockCoins)
+    // this.coins.set([])
   }
 
   getParams(): { [key: string]: string | number | boolean } {

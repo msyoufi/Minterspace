@@ -7,6 +7,7 @@ import { Component, EventEmitter, Input, input, Output } from '@angular/core';
   styleUrl: './paginator.component.scss'
 })
 export class PaginatorComponent {
+  isLoading = input.required<boolean>();
   isEndOfCoins = input.required<boolean>();
 
   @Input({ required: true }) page: number = 1;

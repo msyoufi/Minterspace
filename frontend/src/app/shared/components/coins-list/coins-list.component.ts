@@ -1,16 +1,21 @@
 import { Component, computed, input, signal } from '@angular/core';
 import { CoinBarComponent } from "./coin-bar/coin-bar.component";
 import { LabelsBarComponent } from './labels-bar/labels-bar.component';
+import { CoinBarLoaderComponent } from "./coin-bar/coin-bar-loader/coin-bar-loader.component";
 
 @Component({
   selector: 'ms-coins-list',
-  imports: [CoinBarComponent, LabelsBarComponent],
+  imports: [CoinBarComponent, LabelsBarComponent, CoinBarLoaderComponent],
   templateUrl: './coins-list.component.html',
   styleUrl: './coins-list.component.scss'
 })
 export class CoinsListComponent {
   coins = input.required<CoinBasic[]>();
-  sortedCoins = computed(() => this.sortCoins())
+  sortedCoins = computed(() => this.sortCoins());
+
+  isLoading = input.required<boolean>();
+  loaderBarCount = input.required<number | string>();
+  loaderArr = computed(() => Array.from({ length: Number(this.loaderBarCount()) }));
 
   sortKey = signal<SortKey | null>(null);
   isAscOrder = signal<boolean>(true);
