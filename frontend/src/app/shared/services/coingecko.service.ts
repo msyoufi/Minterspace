@@ -48,6 +48,17 @@ export class CoingeckoService {
     return this.http.get<CoinDetails>(url);
   }
 
+  getCoinChartsData(coinId: string, days: string): Observable<CoinCharts> {
+    const url = `${this.BASE_URL}/coins-charts/${coinId}`;
+
+    const params = {
+      vs_currency: 'usd',
+      'days': days
+    };
+
+    return this.http.get<CoinCharts>(url, { params });
+  }
+
   getCoinCategories(): any {
     this.coinCategories.set(allCategories);
     // TODO

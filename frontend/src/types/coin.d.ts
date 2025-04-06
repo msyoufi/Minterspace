@@ -157,3 +157,9 @@ interface CategoryData {
   volume: number,
   indicatorClass: string
 };
+
+interface CoinCharts {
+  prices: number[][],
+  market_caps: number[][],
+  total_volumes: number[][]
+};

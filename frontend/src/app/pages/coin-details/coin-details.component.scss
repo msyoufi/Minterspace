@@ -1,0 +1,46 @@
+.data-and-charts-section {
+  display: flex;
+  width: 100%;
+  padding: 0 .25rem;
+  gap: 2rem;
+}
+
+.market-data-container {
+  width: 35%;
+}
+
+.charts-container {
+  width: 65%;
+}
+
+.description {
+  padding: 2rem .25rem;
+
+  h4 {
+    font: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    width: 80%;
+    line-height: 1.6;
+    text-indent: 1rem;
+    color: var(--gray);
+    text-align: justify;
+  }
+}
+
+@media (max-width: 1100px) {
+  .data-and-charts-section {
+    flex-direction: column-reverse;
+  }
+
+  .market-data-container,
+  .charts-container {
+    width: 100%;
+  }
+
+  .description p {
+    width: 100%;
+  }
+}

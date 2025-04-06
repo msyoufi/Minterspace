@@ -1,1 +1,22 @@
-<p>coin-details works!</p>
+@let cn = coin();
+
+@if (cn) {
+<ms-coin-details-header [coin]="cn" />
+
+<section class="data-and-charts-section">
+  <div class="market-data-container">
+    <ms-coin-market-data [coin]="cn" />
+  </div>
+  <div class="charts-container">
+    <ms-coin-charts [chartsData]="chartsData()" />
+  </div>
+</section>
+
+
+@if (cn.description.en) {
+<div class="description">
+  <h4>About {{cn.name}}:</h4>
+  <p [innerHTML]="cn.description.en"></p>
+</div>
+}
+}
