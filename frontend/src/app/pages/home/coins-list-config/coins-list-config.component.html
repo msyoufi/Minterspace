@@ -4,11 +4,12 @@
 </button>
 
 <div class="config-panel-container">
-  <form #formRef="ngForm" class="config-panel">
+  <form class="config-panel">
     <div class="config-control-field">
       <label for='categoryId'>Category</label>
-      <select class='ms-input' name='categoryId' ngModel="all" id='categoryId'>
-        <option value='all'>All</option>
+      <select class='ms-input' name='categoryId' id='categoryId' [(ngModel)]="categoryId"
+        (ngModelChange)="categoryIdChange.emit($event)">
+        <option value=''>All</option>
         @for (category of coinService.coinCategories(); track category.id){
         <option [value]="category.id">{{category.name}}</option>
         }
@@ -17,7 +18,8 @@
 
     <div class="config-control-field">
       <label for='perPage'>Coins per page</label>
-      <select class='ms-input' name='perPage' ngModel="10" id='perPage'>
+      <select class='ms-input' name='perPage' id='perPage' [(ngModel)]="perPage"
+        (ngModelChange)="perPageChange.emit($event)">
         @for (num of [10, 25, 50, 100]; track $index){
         <option [value]="num">{{num}}</option>
         }

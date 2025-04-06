@@ -3,10 +3,11 @@
 <div class="coins-list-header">
   @if (categroy) {
   <ms-category-panels [category]="categroy" />
-  <ms-coins-list-config />
   }
+  <ms-coins-list-config [(categoryId)]="categoryId" [(perPage)]="perPage" (categoryIdChange)="onCategoryIdChange()"
+    (perPageChange)="onPerPageChange()" />
 </div>
 
 <ms-coins-list [coins]="coins()" />
 
-<ms-paginator [page]="page()" [isEndOfCoins]="isEndOfCoins()" (pageChange)="onPageChange($event)" />
+<ms-paginator [(page)]="page" [isEndOfCoins]="isEndOfCoins" (pageChange)="onPageChange()" />

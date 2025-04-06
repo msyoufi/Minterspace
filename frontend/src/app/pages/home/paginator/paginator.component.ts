@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 
 @Component({
   selector: 'ms-paginator',
@@ -7,12 +7,13 @@ import { Component, input, output } from '@angular/core';
   styleUrl: './paginator.component.scss'
 })
 export class PaginatorComponent {
-  page = input.required<number>();
   isEndOfCoins = input.required<boolean>();
 
-  pageChange = output<number>();
+  @Input({ required: true }) page: number = 1;
+  @Output() pageChange = new EventEmitter<number>();
 
-  onClick(page: number) {
-    this.pageChange.emit(page);
+  onClick(change: number) {
+    this.page += change;
+    this.pageChange.emit(this.page);
   }
 }

@@ -18,10 +18,12 @@ export class HomeComponent {
   destroyRef = inject(DestroyRef);
 
   coins = signal<CoinBasic[]>([]);
-  currentCategory = signal<CoinCategory | GlobalMarket | null>(this.coinService.coinCategories()[0]);
-  perPage = signal<number>(25);
-  page = signal<number>(1);
-  isEndOfCoins = signal<boolean>(false);
+  currentCategory = signal<CoinCategory | GlobalMarket | null>(this.coinService.globalMarket());
+
+  perPage = JSON.parse(localStorage.getItem('perPage') ?? '25') as string;
+  page = 1;
+  isEndOfCoins = false;
+  categoryId = '';
 
   constructor() {
     this.getCoinsList();
@@ -29,30 +31,42 @@ export class HomeComponent {
 
   getCoinsList(): void {
     const params = this.getParams();
+    console.log(params)
 
     this.coinService.getCoinsList(params)
       .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(coins => this.coins.set(coins));
+      .subscribe(coins => {
+        this.coins.set(coins);
+        this.isEndOfCoins = coins.length < parseInt(this.perPage);
+      });
 
     // this.coins.set(mockCoins)
   }
 
   getParams(): { [key: string]: string | number | boolean } {
     const params: any = {
-      page: this.page(),
-      per_page: this.perPage(),
+      page: this.page,
+      per_page: this.perPage,
       sparkline: true
     };
 
-    const currentCategory = this.currentCategory();
-
-    if (currentCategory && 'id' in currentCategory)
-      params.category = currentCategory.id;
+    if (this.categoryId)
+      params.category = this.categoryId;
 
     return params;
   }
 
-  onPageChange(page: number): void {
-    console.log(page);
+  onCategoryIdChange(): void {
+    this.page = 1;
+    this.getCoinsList();
+  }
+
+  onPerPageChange(): void {
+    localStorage.setItem('perPage', JSON.stringify(this.perPage));
+    this.getCoinsList();
+  }
+
+  onPageChange(): void {
+    this.getCoinsList();
   }
 }
