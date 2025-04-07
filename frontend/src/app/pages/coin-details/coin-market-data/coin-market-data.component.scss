@@ -1,0 +1,184 @@
+.coin-data-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.panel {
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+  border: 3px solid var(--primary-color);
+  border-radius: var(--radius-l);
+  font-size: .9rem;
+}
+
+.market-data-panel div,
+.performance-panel div {
+  display: flex;
+  padding-bottom: .5rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--border-color);
+
+  &:last-child {
+    border: none;
+  }
+}
+
+.market-data-panel div {
+  min-height: 3rem;
+}
+
+// Links panel
+
+.links-panel {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+
+  p {
+    margin-top: .25rem;
+    text-wrap: nowrap;
+  }
+
+  div {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+    gap: .5rem;
+  }
+
+  a {
+    padding: .25rem .8rem;
+    border-radius: var(--radius-l);
+    background-color: var(--primary-color);
+    color: white;
+    font-size: .8rem;
+    text-wrap: nowrap;
+    transition: all .2s;
+    cursor: pointer;
+
+    &:hover {
+      filter: brightness(90%);
+    }
+
+    &:active {
+      filter: brightness(80%);
+    }
+  }
+}
+
+.contract-address-panel {
+  display: flex;
+  flex-direction: column;
+  row-gap: .5rem;
+  padding: 1rem;
+
+  a {
+    font-size: .9rem;
+    word-break: break-all;
+  }
+}
+
+.explorers-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  position: relative;
+
+  i {
+    font-size: 1.25rem;
+    transition: transform .2s;
+  }
+
+  &:hover {
+    background-color: var(--accent1-color);
+  }
+
+  &:hover i {
+    transform: rotate(180deg);
+  }
+
+  &:hover .explorers-menu {
+    top: 3.85rem;
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.explorers-menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: .5rem;
+  position: absolute;
+  top: 2rem;
+  left: 0;
+  font-size: .8rem;
+  background-color: var(--accent1-color);
+  border-radius: var(--radius-l);
+  transition: all 0.2s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+
+  a {
+    padding: .5rem 1rem;
+    word-break: break-all;
+    border-radius: var(--radius-l);
+    color: var(--text-color);
+  }
+
+  a:hover {
+    background-color: var(--accent2-color);
+  }
+}
+
+.performance-panel {
+  .title {
+    margin-top: 1rem;
+  }
+
+  .date {
+    font-size: .8rem;
+    color: var(--gray);
+  }
+
+  div div {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    row-gap: .7rem;
+    align-items: flex-start;
+    border: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .contract-address-panel {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 450px) {
+
+  .panel {
+    font-size: .8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .market-data-panel div {
+    flex-direction: column;
+    padding-top: .5rem;
+
+    span:first-child {
+      align-self: flex-start;
+      color: var(--gray);
+    }
+  }
+}

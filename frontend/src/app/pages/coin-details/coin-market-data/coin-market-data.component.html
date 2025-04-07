@@ -1,1 +1,121 @@
-<p>coin-market-data works!</p>
+@let cn = coin();
+
+<div class="coin-data-container">
+  <div class="panel market-data-panel">
+    <div>
+      <span>Market Cap</span>
+      <span>
+        ${{cn.market_data.market_cap['usd'] | number : '1.0-0'}}
+      </span>
+    </div>
+    <div>
+      <span>Fully Diluted Market Cap</span>
+      <span>
+        ${{cn.market_data.fully_diluted_valuation['usd'] | number :
+        '1.0-0'}}
+      </span>
+    </div>
+    <div>
+      <span>Market Cap / FD Market Cap</span>
+      <span>
+        {{cn.market_data.market_cap_fdv_ratio | number : '1.1-2'}}
+      </span>
+    </div>
+    <div>
+      <span>24 Hour Trading Vol</span>
+      <span>
+        ${{cn.market_data.total_volume['usd'] | number : '1.0-0'}}
+      </span>
+    </div>
+    <div>
+      <span>Circulating Supply</span>
+      <span>
+        {{cn.market_data.circulating_supply | number : '1.0-0'}}
+      </span>
+    </div>
+    <div>
+      <span>Total Supply</span>
+      <span>
+        {{cn.market_data.total_supply | number : '1.0-0'}}
+      </span>
+    </div>
+    <div>
+      <span>Max Supply</span>
+      <span>
+        @if (cn.market_data.max_supply){
+        {{cn.market_data.max_supply | number : '1.0-0'}}
+        } @else {
+        &#8734;
+        }
+      </span>
+    </div>
+  </div>
+
+  <div class="panel links-panel">
+    <p>Official Links</p>
+    <div>
+      @if (cn.links.homepage[0]){
+      <a [href]="cn.links.homepage[0]" target="_blank">Website</a>
+      }
+      @if (cn.links.whitepaper){
+      <a [href]="cn.links.whitepaper" target="_blank">Whitepaper</a>
+      }
+      @if (cn.links.repos_url.github[0]){
+      <a [href]="cn.links.repos_url.github[0]" target="_blank">Github</a>
+      }
+      @if (cn.links.twitter_screen_name){
+      <a [href]="'https://twitter.com/'+cn.links.twitter_screen_name" target="_blank">X</a>
+      }
+      @if (cn.links.chat_url[0]){
+      <a [href]="cn.links.chat_url[0]" target="_blank">Discord</a>
+      }
+      @if (cn.links.telegram_channel_identifier){
+      <a [href]="'https://t.me/'+cn.links.telegram_channel_identifier" target="_blank">Telegram</a>
+      }
+      @if (cn.links.subreddit_url){
+      <a [href]="cn.links.subreddit_url" target="_blank">Reddit</a>
+      }
+    </div>
+  </div>
+
+  @if (cn.contract_address){
+  <div class="panel contract-address-panel">
+    <p>Contract Address:</p>
+    <a [href]="cn.links.blockchain_site[0]" target="_blank">
+      {{cn.contract_address}}
+    </a>
+  </div>
+  }
+
+  <div class="panel explorers-panel">
+    <p>Blockchain Explorers</p>
+    <i class='bi bi-chevron-down'></i>
+
+    <ul class="explorers-menu">
+      @for (explorer of cn.links.blockchain_site; track $index) {
+      @if (explorer){
+      <a [href]="explorer" target="_blank">
+        {{explorer.slice(8)}}
+      </a>
+      }
+      }
+    </ul>
+  </div>
+
+  <div class="panel performance-panel">
+    <div>
+      <div>
+        <span class="title">All-time high</span>
+        <span class="date">{{cn.market_data.ath_date['usd'] | date}}</span>
+      </div>
+      <span>${{cn.market_data.ath['usd'] | number : '1.2-10'}}</span>
+    </div>
+    <div>
+      <div>
+        <span class="title">All-time low</span>
+        <span class="date">{{cn.market_data.atl_date['usd'] | date}}</span>
+      </div>
+      <span>${{cn.market_data.atl['usd'] | number : '1.2-10'}}</span>
+    </div>
+  </div>
+</div>
