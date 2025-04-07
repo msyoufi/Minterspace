@@ -1,11 +1,6 @@
 import { ChangeDetectionStrategy, Component, ElementRef, input, OnDestroy, OnInit, viewChild } from '@angular/core';
 import { ChartOptions, createChart, DeepPartial, IChartApi, UTCTimestamp, LineSeries } from "lightweight-charts";
 
-interface SparklineData {
-  time: UTCTimestamp,
-  value: number
-};
-
 @Component({
   selector: 'ms-sparkline',
   imports: [],
@@ -48,7 +43,7 @@ export class SparklineComponent implements OnInit, OnDestroy {
     this.renderChart(chartData);
   }
 
-  mapToChartData(): SparklineData[] {
+  mapToChartData(): ChartDataPoint[] {
     return this.priceData().map((price, index) => ({
       time: index as UTCTimestamp,
       value: price
@@ -59,7 +54,7 @@ export class SparklineComponent implements OnInit, OnDestroy {
     this.chart?.remove();
   }
 
-  renderChart(chartData: SparklineData[]): void {
+  renderChart(chartData: ChartDataPoint[]): void {
     const chartColor = chartData[0].value > chartData[chartData.length - 1].value
       ? '#fe5e5e'
       : '#28c079';
