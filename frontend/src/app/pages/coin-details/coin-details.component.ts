@@ -5,12 +5,13 @@ import { CoinDetailsHeaderComponent } from "./coin-details-header/coin-details-h
 import { CoinMarketDataComponent } from "./coin-market-data/coin-market-data.component";
 import { CoinChartsComponent } from "./coin-charts/coin-charts.component";
 import { ChartService } from './coin-charts/chart.service';
+import { CoinDetailsLoaderComponent } from "./coin-details-loader/coin-details-loader.component";
 
 import coinDetailsData from '../../shared/mock/coin-details.json';
 
 @Component({
   selector: 'ms-coin-details',
-  imports: [CoinDetailsHeaderComponent, CoinMarketDataComponent, CoinChartsComponent],
+  imports: [CoinDetailsHeaderComponent, CoinMarketDataComponent, CoinChartsComponent, CoinDetailsLoaderComponent],
   templateUrl: './coin-details.component.html',
   styleUrl: './coin-details.component.scss'
 })
