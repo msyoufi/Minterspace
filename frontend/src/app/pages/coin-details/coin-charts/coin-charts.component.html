@@ -1,1 +1,42 @@
-<p>coin-charts works!</p>
+@let isLoading = chartService.isLoading();
+
+<div class="chart-container">
+  <div class="chart-controls-container">
+    <div>
+      <button (click)="onChartTypeChange('prices')" [class.selected]="chartType === 'prices'" [disabled]="isLoading">
+        Price
+      </button>
+      <button (click)="onChartTypeChange('market_caps')" [class.selected]="chartType === 'market_caps'"
+        [disabled]="isLoading">
+        Markt Cap
+      </button>
+    </div>
+
+    <div>
+      <button (click)="onChartDaysChange(1)" [class.selected]="chartDays === 1" [disabled]="isLoading">
+        24H
+      </button>
+      <button (click)="onChartDaysChange(7)" [class.selected]="chartDays === 7" [disabled]="isLoading">
+        7D
+      </button>
+      <button (click)="onChartDaysChange(30)" [class.selected]="chartDays === 30" [disabled]="isLoading">
+        1M
+      </button>
+      <button (click)="onChartDaysChange(180)" [class.selected]="chartDays === 180" [disabled]="isLoading">
+        6M
+      </button>
+      <button (click)="onChartDaysChange(365)" [class.selected]="chartDays === 365" [disabled]="isLoading">
+        1Y
+      </button>
+    </div>
+  </div>
+
+  <div class="chart-pane" #chartPane></div>
+
+  @if (isLoading) {
+  <div class="charts-loader">
+    <i class="bi bi-graph-up"></i>
+  </div>
+  }
+
+</div>

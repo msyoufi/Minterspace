@@ -163,3 +163,8 @@ interface CoinCharts {
   market_caps: number[][],
   total_volumes: number[][]
 };
+
+interface ChartDataPoint {
+  time: UTCTimestamp,
+  value: number
+};

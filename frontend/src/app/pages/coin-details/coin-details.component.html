@@ -8,10 +8,9 @@
     <ms-coin-market-data [coin]="cn" />
   </div>
   <div class="charts-container">
-    <ms-coin-charts [chartsData]="chartsData()" />
+    <ms-coin-charts [coinId]="cn.id" />
   </div>
 </section>
-
 
 @if (cn.description.en) {
 <div class="description">

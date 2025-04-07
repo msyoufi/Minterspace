@@ -23,13 +23,13 @@ export class CoingeckoService {
   }
 
   getGlobalMarketData(): void {
-    this.http.get<GlobalMarket>(`${this.BASE_URL}/global`)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(GlobalMarket => {
-        this.globalMarket.set(GlobalMarket);
-      });
+    // this.http.get<GlobalMarket>(`${this.BASE_URL}/global`)
+    //   .pipe(takeUntilDestroyed(this.destroyRef))
+    //   .subscribe(GlobalMarket => {
+    //     this.globalMarket.set(GlobalMarket);
+    //   });
 
-    // this.globalMarket.set(globalMarketData);
+    this.globalMarket.set(globalMarketData);
   }
 
   getCoinsList(additionalParams: { [key: string]: any }): Observable<CoinBasic[]> {
@@ -48,12 +48,12 @@ export class CoingeckoService {
     return this.http.get<CoinDetails>(url);
   }
 
-  getCoinChartsData(coinId: string, days: string): Observable<CoinCharts> {
+  getCoinChartsData(coinId: string, days: number): Observable<CoinCharts> {
     const url = `${this.BASE_URL}/coins-charts/${coinId}`;
 
     const params = {
       vs_currency: 'usd',
-      'days': days
+      days
     };
 
     return this.http.get<CoinCharts>(url, { params });
