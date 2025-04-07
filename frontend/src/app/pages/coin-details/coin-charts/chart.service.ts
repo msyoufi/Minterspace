@@ -57,6 +57,54 @@ export class ChartService implements OnDestroy {
     return chart;
   }
 
+  cleanCoinCharts(): void {
+    this.coinCharts$.next(null);
+  }
+
+  ngOnDestroy(): void {
+    this.cleanCoinCharts();
+  }
+
+  chartOptions: DeepPartial<ChartOptions> = {
+    autoSize: true,
+    layout: {
+      background: { color: 'transparent' },
+      fontSize: 16,
+      textColor: '#878787',
+      attributionLogo: false
+    },
+    timeScale: {
+      fixLeftEdge: true,
+      fixRightEdge: true,
+      lockVisibleTimeRangeOnResize: true,
+      timeVisible: true,
+      borderVisible: false,
+      tickMarkFormatter: (time: Time, tickMarkType: TickMarkType) => this.formatTime(time, tickMarkType)
+    },
+    rightPriceScale: {
+      borderVisible: false
+    },
+    grid: {
+      vertLines: {
+        visible: false
+      },
+      horzLines: {
+        color: '#757a8330'
+      }
+    },
+    crosshair: {
+      vertLine: {
+        labelBackgroundColor: '#202b41'
+      },
+      horzLine: {
+        labelBackgroundColor: '#202b41'
+      }
+    },
+    localization: {
+      priceFormatter: (price: number) => this.formatPrice(price)
+    }
+  };
+
   formatPrice(price: number): string {
     if (price >= 1000)
       price = Math.trunc(price);
@@ -107,53 +155,5 @@ export class ChartService implements OnDestroy {
       default:
         return '';
     }
-  }
-
-  chartOptions: DeepPartial<ChartOptions> = {
-    autoSize: true,
-    layout: {
-      background: { color: 'transparent' },
-      fontSize: 16,
-      textColor: '#878787',
-      attributionLogo: false
-    },
-    timeScale: {
-      fixLeftEdge: true,
-      fixRightEdge: true,
-      lockVisibleTimeRangeOnResize: true,
-      timeVisible: true,
-      borderVisible: false,
-      tickMarkFormatter: (time: Time, tickMarkType: TickMarkType) => this.formatTime(time, tickMarkType)
-    },
-    rightPriceScale: {
-      borderVisible: false
-    },
-    grid: {
-      vertLines: {
-        visible: false
-      },
-      horzLines: {
-        color: '#757a8330'
-      }
-    },
-    crosshair: {
-      vertLine: {
-        labelBackgroundColor: '#202b41'
-      },
-      horzLine: {
-        labelBackgroundColor: '#202b41'
-      }
-    },
-    localization: {
-      priceFormatter: (price: number) => this.formatPrice(price)
-    }
-  };
-
-  cleanCoinCharts(): void {
-    this.coinCharts$.next(null);
-  }
-
-  ngOnDestroy(): void {
-    this.cleanCoinCharts();
   }
 }
