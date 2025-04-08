@@ -2,7 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { GlobalMarketBarComponent } from "./global-market-bar/global-market-bar.component";
 import { AccountButtonComponent } from "./account-button/account-button.component";
 import { NavigationComponent } from "./navigation/navigation.component";
-import { HeaderSearchBarComponent } from "./header-search-bar/header-search-bar.component";
+import { HeaderSearchComponent } from "./header-search/header-search.component";
 import { ThemeButtonComponent } from "./theme-button/theme-button.component";
 import { AppLogoComponent } from "../../shared/components/app-logo.component";
 import { BreakpointObserver } from '@angular/cdk/layout';
@@ -10,7 +10,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'ms-header',
-  imports: [GlobalMarketBarComponent, AccountButtonComponent, NavigationComponent, HeaderSearchBarComponent, ThemeButtonComponent, AppLogoComponent],
+  imports: [GlobalMarketBarComponent, AccountButtonComponent, NavigationComponent, HeaderSearchComponent, ThemeButtonComponent, AppLogoComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
