@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, DestroyRef, ElementRef, inject, output, signal, viewChild } from '@angular/core';
+import { AfterViewInit, Component, DestroyRef, ElementRef, inject, output, viewChild } from '@angular/core';
 import { CoingeckoService } from '../../services/coingecko.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, debounceTime, distinctUntilChanged, filter, of, Subject, switchMap } from 'rxjs';
@@ -17,7 +17,7 @@ export class SearchBarComponent implements AfterViewInit {
 
   inputRef = viewChild.required<ElementRef<HTMLInputElement>>('input');
   searchResults = output<SearchResults | null>();
-  isLoading = signal(true);
+  isLoading = output<boolean>();
 
   constructor() {
     this.subscribeToSearch()
@@ -33,7 +33,10 @@ export class SearchBarComponent implements AfterViewInit {
         debounceTime(300),
         filter(query => !!query && this.validateQuery(query)),
         distinctUntilChanged(),
-        switchMap(query => this.coinService.searchCoinGecko(query)),
+        switchMap(query => {
+          this.isLoading.emit(true);
+          return this.coinService.searchCoinGecko(query)
+        }),
         catchError(error => {
           this.showMessage(error);
           return of(null);
@@ -42,6 +45,7 @@ export class SearchBarComponent implements AfterViewInit {
       )
       .subscribe(searchResults => {
         this.searchResults.emit(searchResults);
+        this.isLoading.emit(false);
       });
   }
 
