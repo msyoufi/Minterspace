@@ -1,0 +1,15 @@
+.search-bar-input {
+  padding: 1rem;
+  border: 2px solid transparent;
+  outline: none;
+  border-radius: var(--radius-l) var(--radius-l) 0 0;
+  background-color: var(--accent1-color);
+  color: var(--text-color);
+  font-size: .9rem;
+  transition: var(--transition);
+
+  &:focus {
+    background-color: var(--accent2-color);
+    border-bottom-color: var(--primary-color);
+  }
+}
