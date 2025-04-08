@@ -28,5 +28,11 @@ def coin_charts(request, coin_id):
 
 
 @api_view()
+def search(request):
+    params = request.query_params
+    return get("search", params)
+
+
+@api_view()
 def global_market(request):
     return get("global", params=None)
