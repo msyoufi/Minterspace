@@ -63,4 +63,9 @@ export class CoingeckoService {
     this.coinCategories.set(allCategories);
     // TODO
   }
+
+  searchCoinGecko(query: string): Observable<SearchResults> {
+    const url = `${this.BASE_URL}/search`;
+    return this.http.get<SearchResults>(url, { params: { query } });
+  }
 }
