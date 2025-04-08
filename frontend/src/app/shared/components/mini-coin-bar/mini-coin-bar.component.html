@@ -1,0 +1,10 @@
+<div class="coin-bar-container">
+  <div class="left-section">
+    <img [src]="imgURL">
+    <span>
+      {{coin().name}}
+      <span class="coin-symbol">{{coin().symbol}}</span>
+    </span>
+  </div>
+  <ng-content></ng-content>
+</div>
