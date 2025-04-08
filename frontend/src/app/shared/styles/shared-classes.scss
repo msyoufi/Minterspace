@@ -61,22 +61,33 @@ ul {
   animation: skeleton-loader .75s linear infinite alternate;
 }
 
-@keyframes skeleton-loader {
-  from {
-    background-color: #7a7a7a;
-  }
-
-  to {
-    background-color: #c5c5c5;
-  }
+.overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #00000039;
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  animation: show-overlay var(--transition) forwards;
 }
 
-@keyframes icon-loader {
-  from {
-    color: #7a7a7a;
-  }
+.dialog-container {
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  position: absolute;
+  top: 50vh;
+  left: 50%;
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: var(--radius-l);
+  border: 2px solid var(--primary-color);
+  box-shadow: var(--shadow);
+  animation: show-dialog-container var(--transition) forwards;
 
-  to {
-    color: #c5c5c5;
+  &.top-20 {
+    top: 20vh;
   }
 }
