@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, DestroyRef, ElementRef, inject, output, viewChild } from '@angular/core';
 import { CoingeckoService } from '../../services/coingecko.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { catchError, debounceTime, distinctUntilChanged, filter, of, Subject, switchMap } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, filter, of, Subject, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'ms-search-bar',
@@ -30,15 +30,13 @@ export class SearchBarComponent implements AfterViewInit {
   subscribeToSearch(): void {
     this.searchQuery$
       .pipe(
+        tap(() => this.isLoading.emit(true)),
         debounceTime(300),
-        filter(query => !!query && this.validateQuery(query)),
-        distinctUntilChanged(),
-        switchMap(query => {
-          this.isLoading.emit(true);
-          return this.coinService.searchCoinGecko(query)
-        }),
+        filter(query => this.validateQuery(query)),
+        switchMap(query => this.coinService.searchCoinGecko(query)),
         catchError(error => {
           this.showMessage(error);
+          this.isLoading.emit(false);
           return of(null);
         }),
         takeUntilDestroyed(this.destroyRef)
@@ -50,10 +48,17 @@ export class SearchBarComponent implements AfterViewInit {
   }
 
   validateQuery(query: string): boolean {
+    if (!query) {
+      this.isLoading.emit(false);
+      return false;
+    }
+
     const isValid = /^[a-zA-Z0-9]+$/.test(query);
 
-    if (!isValid)
+    if (!isValid) {
+      this.isLoading.emit(false);
       this.showMessage('query not valid');
+    }
 
     return isValid;
   }

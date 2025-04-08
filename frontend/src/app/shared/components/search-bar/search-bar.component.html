@@ -1,2 +1,5 @@
-<input type="text" class="search-bar-input" placeholder="Coin name or ticker symbol"
-  (input)="searchQuery$.next(input.value)" #input>
+<div class="search-bar-container">
+  <input type="text" class="search-bar-input" placeholder="Coin name or ticker symbol"
+    (input)="searchQuery$.next(input.value)" #input>
+  <i class="bi bi-search"></i>
+</div>

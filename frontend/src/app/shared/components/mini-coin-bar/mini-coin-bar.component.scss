@@ -1,21 +1,14 @@
 .coin-bar-container {
   display: flex;
   width: 100%;
-  padding: .5rem 1rem;
+  padding: .5rem .75rem;
   column-gap: .5rem;
   align-items: center;
   justify-content: space-between;
   font-size: .9rem;
-  border-radius: var(--radius);
+  border-radius: var(--radius-l);
+  color: var(--text-color);
   cursor: pointer;
-}
-
-.coin-bar-container:hover {
-  background-color: var(--accent2);
-}
-
-.coin-bar-container:active {
-  background-color: var(--main-color);
 }
 
 .left-section {
