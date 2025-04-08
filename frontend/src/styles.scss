@@ -13,7 +13,7 @@
   --gray: #b0bbca;
   --text-color: #fff;
   --border-color: #2e3842;
-  --shadow: #7171713e;
+  --shadow: 0 0 10px 2px #ffffff31;
 
   // border-radius:
   --radius-s: 10px;
@@ -44,7 +44,7 @@ body.light-theme {
   --gray: #727272;
   --text-color: #000;
   --border-color: #d5d5d5;
-  --shadow: #0000002b;
+  --shadow: 0 0 10px 2px #00000031;
 }
 
 ms-root {
