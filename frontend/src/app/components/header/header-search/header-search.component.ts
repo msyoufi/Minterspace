@@ -17,7 +17,8 @@ export class HeaderSearchComponent {
   searchResults = signal<SearchResults | null>(null);
   isSearchPanelOpen = signal(false);
   isLoading = signal(false);
-  message = signal('Search coins by name or ticker symbol');
+  startMessage = 'Search coins by name or ticker symbol';
+  message = signal(this.startMessage);
 
   onSearchResults(searchResults: SearchResults | null): void {
     if (!searchResults)
@@ -47,5 +48,6 @@ export class HeaderSearchComponent {
   closeSearchPanel(): void {
     this.isSearchPanelOpen.set(false);
     this.searchResults.set(null);
+    this.message.set(this.startMessage);
   }
 }
