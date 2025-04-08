@@ -1,4 +1,13 @@
 <div class="header-search-bar-container">
-  <input type="search" name="query" placeholder='Search' />
+  <input role="button" placeholder='Search' [disabled]="isSearchPanelOpen()" (click)="openSearchPanel($event)"
+    (focus)="openSearchPanel($event)" />
   <i class="bi bi-search"></i>
 </div>
+
+@if (isSearchPanelOpen()) {
+<div class="overlay">
+  <div class="dialog-container top-20" (msClickOutside)="closeSearchPanel()">
+    <p>Search for coins here</p>
+  </div>
+</div>
+}
