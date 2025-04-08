@@ -168,3 +168,114 @@ interface ChartDataPoint {
   time: UTCTimestamp,
   value: number
 };
+
+interface SearchResults {
+  coins: CoinSearch[],
+  exchanges: ExchangeSearch[],
+  categories: CategorySearch[],
+  nfts: NFTSearch[],
+  icos: string[]
+}
+
+interface CoinSearch {
+  id: string,
+  name: string,
+  api_symbol: string,
+  symbol: string,
+  market_cap_rank: number,
+  thumb: string,
+  large: string
+}
+
+interface ExchangeSearch {
+  id: string,
+  name: string,
+  market_interface: string,
+  thumb: string,
+  large: string
+}
+
+interface CategorySearch {
+  id: number,
+  name: string,
+}
+
+interface NFTSearch {
+  id: string,
+  name: string,
+  symbol: string,
+  thumb: string,
+}
+
+interface TrendingAssets {
+  coins: CoinTrendingItem[],
+  nfts: NFTTrending[],
+  categories: CategoryTrending[]
+}
+
+interface CoinTrendingItem {
+  item: CoinTrending
+}
+
+interface CoinTrending {
+  id: string,
+  coin_id: number,
+  name: string,
+  symbol: string,
+  market_cap_rank: number,
+  thumb: string,
+  small: string,
+  large: string,
+  slug: string,
+  price_btc: number,
+  score: number,
+  data: {
+    price: number,
+    price_btc: string,
+    price_change_percentage_24h: { [key: sting]: number }
+    market_cap: string,
+    market_cap_btc: string,
+    total_volume: string,
+    total_volume_btc: string,
+    sparkline: string,
+    content: {
+      title: string,
+      description: string
+    }
+  }
+}
+
+interface NFTTrending {
+  id: string,
+  name: string,
+  symbol: string,
+  thumb: string,
+  nft_contract_id: number,
+  native_currency_symbol: string,
+  floor_price_in_native_currency: number
+  floor_price_24h_percentage_change: number,
+  data: {
+    floor_price: string,
+    floor_price_in_usd_24h_percentage_change: string,
+    h24_volume: string,
+    h24_average_sale_price: string,
+    sparkline: string,
+    content: null
+  }
+}
+
+interface CategoryTrending {
+  id: number,
+  name: string,
+  market_cap_1h_change: number,
+  slug: string,
+  coins_count: number,
+  data: {
+    market_cap: number,
+    market_cap_btc: number,
+    total_volume: number,
+    total_volume_btc: number,
+    market_cap_change_percentage_24h: { [key: sting]: number },
+    sparkline: string
+  }
+}
