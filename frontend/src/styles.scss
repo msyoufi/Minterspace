@@ -1,3 +1,5 @@
+@use '@angular/material' as mat;
+
 :root {
   // shared colors:
   --primary-color: #6e3cda;
@@ -20,6 +22,9 @@
   --radius-l: 20px;
   --transition: .15s;
   --app-width: 1200px;
+
+  @include mat.progress-spinner-overrides((active-indicator-color: var(--primary-color),
+    ));
 }
 
 * {

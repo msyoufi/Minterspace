@@ -1,0 +1,94 @@
+.dialog-container {
+  max-width: 500px;
+  padding: 2rem;
+  row-gap: 2.25rem;
+}
+
+.dialog-header {
+  position: relative;
+}
+
+.close-button {
+  top: 0;
+  right: 0;
+}
+
+.tabs-container {
+  display: flex;
+  justify-content: space-evenly;
+  position: relative;
+  padding-top: 1rem;
+
+  label {
+    width: 50%;
+    padding-bottom: .75rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--gray);
+    border-bottom: 2px solid var(--accent1-color);
+    cursor: pointer;
+    transition: var(--transition);
+
+    &:hover {
+      border-color: var(--accent2-color);
+    }
+
+    &.acitve {
+      border-color: var(--primary-color);
+      color: var(--text-color);
+    }
+  }
+
+  input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  input:checked+label {
+    border-color: var(--primary-color);
+  }
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1.5rem;
+
+  button[type="submit"] {
+    margin-top: 3rem;
+  }
+}
+
+.agreement-field {
+  display: flex;
+  align-items: center;
+}
+
+.agreement-field {
+  padding: 0 1.45rem;
+
+  input {
+    width: 15px;
+    height: 15px;
+    margin-right: .5rem;
+    cursor: pointer;
+  }
+
+  label {
+    font-size: .85rem;
+  }
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  column-gap: .5rem;
+  color: var(--gray);
+  font-size: .9rem;
+
+  button:hover {
+    text-decoration: underline;
+  }
+}

@@ -2,6 +2,7 @@ import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs';
+import { AuthModalService } from '../../auth-modal/auth-modal.service';
 
 @Component({
   selector: 'ms-navigation',
@@ -12,6 +13,7 @@ import { filter } from 'rxjs';
 export class NavigationComponent {
   router = inject(Router);
   destroyRef = inject(DestroyRef);
+  authModel = inject(AuthModalService);
 
   isNavMenuOpen = signal(false);
 
@@ -30,5 +32,9 @@ export class NavigationComponent {
 
   toggleNavMenu(): void {
     this.isNavMenuOpen.set(!this.isNavMenuOpen());
+  }
+
+  onIconButtonClick(url: string): void {
+    this.authModel.open(url);
   }
 }

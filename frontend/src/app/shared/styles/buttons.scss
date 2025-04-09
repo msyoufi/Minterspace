@@ -1,14 +1,71 @@
-.icon-button {
-  background-color: transparent;
-  color: var(--text-color);
-  border-radius: 50%;
+@use '@angular/material' as mat;
+
+button {
   border: none;
-  cursor: pointer;
+  background-color: transparent;
+  text-wrap: nowrap;
   transition: var(--transition);
+  color: var(--text-color);
+  cursor: pointer;
 }
 
-.icon-button:disabled {
-  color: var(--gray);
-  cursor: default;
+.ms-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  padding: .5rem .8rem;
+  column-gap: .5rem;
+  border-radius: var(--radius-l);
+  font-weight: 600;
+}
+
+.primary {
+  background-color: var(--primary-color);
+  color: white;
+
+  @include mat.progress-spinner-overrides((active-indicator-color: white,
+    ));
+}
+
+.secondary {
+  border: 1px solid var(--primary-color);
+  color: var(--text-color);
+}
+
+.red-button {
+  background-color: var(--red);
+  color: white;
+
+  @include mat.progress-spinner-overrides((active-indicator-color: white,
+    ));
+}
+
+.ms-button:hover {
+  filter: brightness(90%);
+}
+
+.ms-button:active {
+  filter: brightness(80%);
+}
+
+.ms-button:disabled {
+  filter: brightness(60%);
   pointer-events: none;
+}
+
+.icon-button {
+  color: var(--text-color);
+  border-radius: 50%;
+}
+
+.close-button {
+  position: absolute;
+  transform: translate(50%, -50%);
+  font-size: 1.2rem;
+  color: var(--gray);
+}
+
+.close-button:hover {
+  color: var(--text-color);
 }

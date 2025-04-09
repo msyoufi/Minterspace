@@ -1,0 +1,78 @@
+<div class="overlay">
+  <div class="dialog-container top-10" role="dialog" aria-labelledby="login" aria-describedby="loginDesc"
+    (msClickOutside)="closeModal()" (msEscapePress)="closeModal()">
+    <div class="dialog-header">
+      <button class="icon-button close-button" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+
+      <div class="tabs-container">
+        <input type="radio" name="mode" value="login" id="login_radio" (change)="toggleIsLogin()" [checked]="isLogin()">
+        <label for="login_radio" [class.acitve]="isLogin()">
+          Log In
+        </label>
+
+        <input type="radio" name="mode" value="signup" id="signup_radio" (change)="toggleIsLogin()"
+          [checked]="!isLogin()">
+        <label for="signup_radio" [class.acitve]="!isLogin()">
+          Sign Up
+        </label>
+      </div>
+    </div>
+
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+      <div class="control-field">
+        <input type="email" class="ms-input" name="email" ngModel id="email" #emailInput required>
+        <label for="email" [class.top]="emailInput.value">Email</label>
+      </div>
+
+      <!-- <small class="error-message">
+        Invalid email format
+      </small> -->
+
+      <div class="control-field">
+        <input type="password" class="ms-input" name="password" ngModel id="password" #passwordInput required>
+        <label for="password" [class.top]="passwordInput.value">Password</label>
+        <ms-password-eye [input]="passwordInput" />
+      </div>
+
+      <!-- <small class="error-message">
+        Password musst contain both letters and numbers, with minimum length of 8 characters. Space is not allowed.
+      </small> -->
+
+      @if (!isLogin()) {
+      <div class="agreement-field">
+        <input type="checkbox" name="isAgreed" ngModel id="agreement" required>
+        <label for="agreement">
+          I agree to MinterSpace's
+          <a routerLink="/terms-of-use" (click)="closeModal()">Terms of Use</a> &
+          <a routerLink="/privacy-policy" (click)="closeModal()">Privacy Policy</a>.
+        </label>
+      </div>
+
+      <!-- <small class="error-message">
+        You musst check the agreement box
+      </small> -->
+      }
+      <button class="ms-button primary" type="submit" [disabled]="form.invalid || isLoading()">
+        {{isLogin() ? 'Log In' : 'Sign Up'}}
+
+        @if (isLoading()) {
+        <mat-spinner [diameter]="20" [strokeWidth]="3" />
+        }
+      </button>
+    </form>
+
+    <p class="question">
+      <span>
+        {{ isLogin()
+        ? "Don't have an account?"
+        : "Already have an account?"
+        }}
+      </span>
+      <button type="button" (click)="toggleIsLogin()">
+        {{isLogin() ? 'Sign Up' : 'Log In' }}
+      </button>
+    </p>
+  </div>
+</div>

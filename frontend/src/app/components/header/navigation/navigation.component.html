@@ -1,4 +1,4 @@
-<button class='icon-button navigation-toggle' (click)='toggleNavMenu()'>
+<button class='navigation-toggle' (click)='toggleNavMenu()'>
   <i [class]='"bi bi-" + (isNavMenuOpen() ? "x-lg" : "list" )'></i>
 </button>
 
@@ -14,16 +14,16 @@
 
   <ul class="right-nav">
     <li>
-      <a routerLink="/" class='icon-link'>
+      <button class='icon-button' (click)="onIconButtonClick('watchlist')">
         <i [class]='"bi bi-star" + (router.url === "/watchlist" ? "-fill" : "" )'></i>
         <span>Watchlist</span>
-      </a>
+      </button>
     </li>
     <li>
-      <a routerLink="/" class='icon-link'>
+      <button class='icon-button' (click)="onIconButtonClick('portfolio')">
         <i [class]='"bi bi-pie-chart" + (router.url === "/portfolio" ? "-fill" : "" )'></i>
         <span>Portfolio</span>
-      </a>
+      </button>
     </li>
   </ul>
 </nav>

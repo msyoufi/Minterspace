@@ -1,14 +1,41 @@
+.control-field {
+  position: relative;
+
+  label {
+    position: absolute;
+    left: 1.25rem;
+    top: 0;
+    transform: translateY(50%);
+    padding: 0 .2rem;
+    color: var(--gray);
+    background-color: var(--background-color);
+    transition: var(--transition);
+  }
+
+  label.top,
+  .ms-input:focus+label {
+    transform: translateY(-50%);
+    font-size: .9rem;
+    color: var(--primary-color);
+  }
+
+  .ms-input:not(focus)+label {
+    color: var(--gray);
+  }
+}
+
 .ms-input {
-  height: 2rem;
-  padding: 0 .5rem;
-  border: none;
-  border-radius: var(--radius-s);
-  background-color: var(--accent1-color);
+  width: 100%;
+  padding: .7rem 1.45rem;
+  border: 2px solid var(--accent2-color);
+  outline: none;
+  border-radius: var(--radius-l);
+  background-color: var(--background-color);
   color: var(--text-color);
   font-size: .9rem;
   transition: var(--transition);
 
   &:focus {
-    background-color: var(--accent2-color);
+    border-color: var(--primary-color);
   }
 }

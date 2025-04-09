@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthModalService } from '../../auth-modal/auth-modal.service';
 
 @Component({
   selector: 'ms-account-button',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
   styleUrl: './account-button.component.scss'
 })
 export class AccountButtonComponent {
+  authModel = inject(AuthModalService);
 
+  openAuthModal(): void {
+    this.authModel.open('');
+  }
 }
