@@ -1,4 +1,4 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'ms-password-eye',
@@ -19,12 +19,9 @@ import { Component, input, OnInit } from '@angular/core';
     }
   `
 })
-export class PasswordEyeComponent implements OnInit {
+export class PasswordEyeComponent {
   input = input.required<HTMLInputElement>();
 
-  ngOnInit(): void {
-    console.log(this.input().type)
-  }
   onClick(): void {
     const newType = this.input().type === 'password' ? 'text' : 'password';
     this.input().setAttribute('type', newType);
