@@ -78,7 +78,7 @@ ul {
   display: flex;
   flex-direction: column;
   min-width: min(80%, 500px);
-  max-height: 70vh;
+  max-height: 85vh;
   position: absolute;
   top: 50vh;
   left: 50%;
@@ -87,13 +87,9 @@ ul {
   border: 2px solid var(--accent2-color);
   box-shadow: var(--shadow);
   animation: show-dialog-container var(--transition) forwards;
+  overflow-y: auto;
 
   &.top-10 {
     top: 10vh;
   }
-}
-
-.error-message {
-  padding: 0 1.45rem;
-  color: var(--red);
 }

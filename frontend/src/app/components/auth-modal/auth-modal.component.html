@@ -3,13 +3,12 @@
     (msClickOutside)="closeModal()" (msEscapePress)="closeModal()">
     <div class="dialog-header">
       <div class="tabs-container">
-        <input type="radio" name="mode" value="login" id="login_radio" (change)="toggleIsLogin()" [checked]="isLogin()">
+        <input type="radio" name="mode" value="login" id="login_radio" (change)="switchForm()" [checked]="isLogin()">
         <label for="login_radio" [class.acitve]="isLogin()">
           Log In
         </label>
 
-        <input type="radio" name="mode" value="signup" id="signup_radio" (change)="toggleIsLogin()"
-          [checked]="!isLogin()">
+        <input type="radio" name="mode" value="signup" id="signup_radio" (change)="switchForm()" [checked]="!isLogin()">
         <label for="signup_radio" [class.acitve]="!isLogin()">
           Sign Up
         </label>
@@ -20,29 +19,38 @@
       </button>
     </div>
 
-    <form #form="ngForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="control-field">
-        <input type="email" class="ms-input" name="email" ngModel id="email" #emailInput required>
+        <input type="email" class="ms-input" formControlName="email" id="email" #emailInput>
         <label for="email" [class.top]="emailInput.value">Email</label>
       </div>
 
-      <!-- <small class="error-message">
+      <small [class.show]="false">
         Invalid email format
-      </small> -->
+      </small>
 
       <div class="control-field">
-        <input type="password" class="ms-input" name="password" ngModel id="password" #passwordInput required>
+        <input type="password" class="ms-input" formControlName="password" id="password" #passwordInput>
         <label for="password" [class.top]="passwordInput.value">Password</label>
         <ms-password-eye [input]="passwordInput" />
       </div>
 
-      <!-- <small class="error-message">
-        Password musst contain both letters and numbers, with minimum length of 8 characters. Space is not allowed.
-      </small> -->
+      <small [class.show]="false">
+        Password musst contain at least one letter
+      </small>
+      <small [class.show]="false">
+        Password musst contain at least one digit
+      </small>
+      <small [class.show]="false">
+        Whitespace is not allowed
+      </small>
+      <small [class.show]="false">
+        Password musst be at least 8 charachters length
+      </small>
 
       @if (!isLogin()) {
       <div class="agreement-field">
-        <input type="checkbox" name="isAgreed" ngModel id="agreement" required>
+        <input type="checkbox" formControlName="isAgreed" id="agreement">
         <label for="agreement">
           I agree to MinterSpace's
           <a routerLink="/terms-of-use" (click)="closeModal()">Terms of Use</a> &
@@ -50,9 +58,6 @@
         </label>
       </div>
 
-      <!-- <small class="error-message">
-        You musst check the agreement box
-      </small> -->
       }
       <button class="ms-button primary" type="submit" [disabled]="form.invalid || isLoading()">
         {{isLogin() ? 'Log In' : 'Sign Up'}}
@@ -70,7 +75,7 @@
         : "Already have an account?"
         }}
       </span>
-      <button type="button" (click)="toggleIsLogin()">
+      <button type="button" (click)="switchForm()">
         {{isLogin() ? 'Sign Up' : 'Log In' }}
       </button>
     </p>

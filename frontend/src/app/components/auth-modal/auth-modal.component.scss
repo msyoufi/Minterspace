@@ -57,7 +57,7 @@ form {
   row-gap: 1.5rem;
 
   button[type="submit"] {
-    margin-top: 3rem;
+    margin-top: 2rem;
   }
 }
 
@@ -91,4 +91,15 @@ form {
   button:hover {
     text-decoration: underline;
   }
+}
+
+small {
+  display: none;
+  margin-top: -1rem;
+  padding: 0 1.45rem;
+  color: var(--red);
+}
+
+small.show {
+  display: initial;
 }

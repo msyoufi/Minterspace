@@ -39,3 +39,11 @@
     border-color: var(--primary-color);
   }
 }
+
+.ng-invalid.ng-dirty.ng-touched {
+  border-color: var(--red);
+}
+
+.ng-invalid.ng-dirty.ng-touched+label {
+  color: var(--red);
+}
