@@ -2,10 +2,6 @@
   <div class="dialog-container top-10" role="dialog" aria-labelledby="login" aria-describedby="loginDesc"
     (msClickOutside)="closeModal()" (msEscapePress)="closeModal()">
     <div class="dialog-header">
-      <button class="icon-button close-button" (click)="closeModal()">
-        <i class="bi bi-x-lg"></i>
-      </button>
-
       <div class="tabs-container">
         <input type="radio" name="mode" value="login" id="login_radio" (change)="toggleIsLogin()" [checked]="isLogin()">
         <label for="login_radio" [class.acitve]="isLogin()">
@@ -18,6 +14,10 @@
           Sign Up
         </label>
       </div>
+
+      <button class="close-button" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
     </div>
 
     <form #form="ngForm" (ngSubmit)="onSubmit()">
