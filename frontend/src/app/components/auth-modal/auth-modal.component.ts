@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { EscapePressDirective } from '../../shared/directives/escape-press.directive';
 import MsValidators from '../../shared/utils/ms.validators';
 import { AuthService } from '../../shared/services/auth.service';
+import { HttpErrorResponse } from '@angular/common/http';
 
 interface AuthFormGroup {
   email: FormControl<string | null>,
@@ -34,8 +35,16 @@ export class AuthModalComponent {
 
   isLogin = signal(true);
   isLoading = signal(false);
+  formError = signal<string | null>(null);
 
   async onSubmit(): Promise<void> {
+    this.formError.set(null);
+
+    if (this.form.invalid) {
+      this.formError.set('Please ensure all fields are valid');
+      return;
+    }
+
     const { email, password } = this.form.value;
     this.isLoading.set(true);
 
@@ -43,14 +52,24 @@ export class AuthModalComponent {
       if (this.isLogin())
         await this.authService.login(email!, password!);
       else
-        await this.authService.signup(email!, password!);
+        await this.authService.register(email!, password!);
 
       this.router.navigateByUrl(this.authModel.forwardURL);
       this.authModel.close();
       console.log('Success');
 
     } catch (err: unknown) {
-      console.log(err);
+      if (err instanceof HttpErrorResponse) {
+        const emailErr = err.error.email;
+
+        if (emailErr)
+          this.formError.set(emailErr[0]);
+        else
+          this.formError.set(err.error.detail);
+      }
+
+    } finally {
+      this.isLoading.set(false);
     }
   }
 
@@ -64,6 +83,7 @@ export class AuthModalComponent {
 
   switchForm(): void {
     this.isLogin.set(!this.isLogin());
+    this.formError.set(null);
     this.toggleIsAgreedControl();
     this.toggelPasswordValidators();
   }

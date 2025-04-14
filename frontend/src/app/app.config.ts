@@ -1,7 +1,9 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { authInterceptor } from './shared/interceptors/auth.interceptor';
+import { AuthService } from './shared/services/auth.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -11,6 +13,15 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
       withComponentInputBinding()
     ),
-    provideHttpClient(withFetch())
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor])
+    ),
+    provideAppInitializer(() => awaitAuthentication())
   ]
 };
+
+function awaitAuthentication() {
+  const authService = inject(AuthService);
+  return authService.setCurrentUser();
+}

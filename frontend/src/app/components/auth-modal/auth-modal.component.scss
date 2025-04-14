@@ -55,10 +55,6 @@ form {
   display: flex;
   flex-direction: column;
   row-gap: 1.5rem;
-
-  button[type="submit"] {
-    margin-top: 2rem;
-  }
 }
 
 .agreement-field {
@@ -94,12 +90,11 @@ form {
 }
 
 small {
-  display: none;
-  margin-top: -1rem;
-  padding: 0 1.45rem;
+  padding: .5rem 1.45rem;
   color: var(--red);
+  opacity: 0;
 }
 
 small.show {
-  display: initial;
+  opacity: 1;
 }

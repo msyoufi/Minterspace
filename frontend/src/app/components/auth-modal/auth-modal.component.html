@@ -25,40 +25,34 @@
         <label for="email" [class.top]="emailInput.value">Email</label>
       </div>
 
-      <small [class.show]="false">
-        Invalid email format
-      </small>
-
       <div class="control-field">
         <input type="password" class="ms-input" formControlName="password" id="password" #passwordInput>
         <label for="password" [class.top]="passwordInput.value">Password</label>
         <ms-password-eye [input]="passwordInput" />
       </div>
 
-      <small [class.show]="false">
-        Password musst contain at least one letter
-      </small>
-      <small [class.show]="false">
-        Password musst contain at least one digit
-      </small>
-      <small [class.show]="false">
-        Whitespace is not allowed
-      </small>
-      <small [class.show]="false">
-        Password musst be at least 8 charachters length
-      </small>
-
       @if (!isLogin()) {
       <div class="agreement-field">
         <input type="checkbox" formControlName="isAgreed" id="agreement">
         <label for="agreement">
           I agree to MinterSpace's
-          <a routerLink="/terms-of-use" (click)="closeModal()">Terms of Use</a> &
+          <a routerLink="/terms-of-use" (click)="closeModal()">Terms of Use</a>
+          &
           <a routerLink="/privacy-policy" (click)="closeModal()">Privacy Policy</a>.
         </label>
       </div>
 
       }
+
+      <small [class.show]="formError()">
+        {{formError()}}
+        <!-- Invalid email format -->
+        <!-- Password musst contain at least one letter -->
+        <!-- Password musst contain at least one digit -->
+        <!-- Whitespace is not allowed -->
+        <!-- Password musst be at least 8 charachters length -->
+      </small>
+
       <button class="ms-button primary" type="submit" [disabled]="form.invalid || isLoading()">
         {{isLogin() ? 'Log In' : 'Sign Up'}}
 
@@ -66,6 +60,7 @@
         <mat-spinner [diameter]="20" [strokeWidth]="3" />
         }
       </button>
+
     </form>
 
     <p class="question">
