@@ -1,18 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+import datetime
 
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password, **extra_fields):
-        if not email:
-            raise ValueError("Users must have an email address")
-
         email = self.normalize_email(email)
         username = email.split("@")[0]
 
         user = self.model(email=email, username=username, **extra_fields)
 
         user.set_password(password)
+        user.last_login = datetime.datetime.now()
         user.save(using=self._db)
 
         return user
@@ -38,10 +37,11 @@ class User(AbstractBaseUser):
     role = models.CharField(
         choices=[("admin", "Admin"), ("user", "User")],
         default="user",
+        max_length=10,
     )
 
-    date_joined = models.DateTimeField(auto_now_add=True)
-    last_login = models.DateTimeField(auto_now=True, null=True, blank=True)
+    date_joined = models.DateTimeField(auto_now_add=True, editable=False)
+    last_login = models.DateTimeField(blank=True, null=True, editable=False)
 
     USERNAME_FIELD = "email"
     EMAIL_FIELD = "email"
@@ -52,21 +52,8 @@ class User(AbstractBaseUser):
     def __str__(self):
         return self.username
 
-    def serialize(self):
-        watchlist = getattr(self, "watchlist", None)
-        portfolio = getattr(self, "portfolio", None)
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
 
-        return {
-            "id": self.id,
-            "username": self.username,
-            "email": self.email,
-            "role": self.role,
-            "dateJoined": self.date_joined.isoformat(),
-            "lastLogin": self.last_login.isoformat(),
-            "watchlist_ids": list(watchlist.values_list("id", flat=True))
-            if watchlist
-            else [],
-            "portfolio_ids": list(portfolio.values_list("id", flat=True))
-            if portfolio
-            else [],
-        }
+    def has_module_perms(self, app_label):
+        return self.is_superuser

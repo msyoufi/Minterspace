@@ -1,41 +1,32 @@
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from .serializers import UserSerializer, UserRegistrationSerializer
+from .utils import get_tokens_for_user
 
 
-# TODO
 @api_view(["POST"])
-def register(request):
-    if request.method == "POST":
-        pass
+@permission_classes([AllowAny])
+def register_view(request):
+    serializer = UserRegistrationSerializer(data=request.data)
 
-    return Response(status=405)
+    if not serializer.is_valid():
+        print(serializer.errors)
+        return Response(serializer.errors, status=400)
+
+    user = serializer.save()
+
+    response_data = {
+        "user": serializer.data,
+        "tokens": get_tokens_for_user(user),
+    }
+
+    return Response(response_data, status=201)
 
 
-# TODO
-@api_view(["GET", "PUT", "DELETE"])
+@api_view(["GET"])
 @permission_classes([IsAuthenticated])
-def user(request):
-    if request.method == "GET":
-        return get_current_user()
+def user_view(request):
+    serializer = UserRegistrationSerializer(instance=request.user)
 
-    if request.method == "PUT":
-        return update_user()
-
-    if request.method == "DELETE":
-        return delete_user()
-
-    return Response(status=405)
-
-
-def get_current_user():
-    pass
-
-
-def update_user():
-    pass
-
-
-def delete_user():
-    pass
+    return Response(serializer.data, status=200)
