@@ -15,7 +15,7 @@ export class CoingeckoService {
   public globalMarket = signal<GlobalMarket | null>(null);
   public coinCategories = signal<CoinCategory[]>([]);
 
-  BASE_URL = 'http://127.0.0.1:8000/coingecko';
+  BASE_URL = 'http://127.0.0.1:8000/api/coingecko';
 
   constructor() {
     this.getGlobalMarketData();

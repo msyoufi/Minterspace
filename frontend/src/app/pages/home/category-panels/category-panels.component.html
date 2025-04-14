@@ -27,7 +27,7 @@
     <p class="title">Top 3 Coins</p>
     <div>
       @for (url of cg.top_3_coins; track $index){
-      <a [routerLink]="'/' + cg.top_3_coins_id[$index]">
+      <a [routerLink]="'/coins/' + cg.top_3_coins_id[$index]">
         <img [src]="url" />
       </a>
       }
