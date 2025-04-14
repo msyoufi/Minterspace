@@ -1,6 +1,8 @@
 .coin-bar {
   height: 4.5rem;
   cursor: pointer;
+  text-decoration: none;
+  font-weight: 500;
 
   &:hover {
     background-color: var(--accent1-color);
@@ -19,6 +21,7 @@
     display: flex;
     align-items: center;
     column-gap: .5rem;
+    font-weight: 550;
 
     img {
       width: 1.5rem;

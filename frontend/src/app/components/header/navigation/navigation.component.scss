@@ -18,10 +18,10 @@
   width: 100%;
   align-items: center;
   justify-content: space-between;
+  font-weight: 500;
 
   ul {
     display: flex;
-    list-style: none;
     font-size: .9rem;
   }
 
@@ -29,16 +29,18 @@
     column-gap: 1rem;
   }
 
-  a:hover {
+  a {
     text-decoration: none;
   }
 }
 
-.icon-button {
+.left-nav a:hover {
+  color: var(--primary-color);
+}
+
+.icon-link {
   padding: .3rem .5rem;
-  font-size: .9rem;
   border-radius: var(--radius-s);
-  color: var(--text-color);
   transition: var(--transition);
 
   i {
@@ -50,7 +52,7 @@
   }
 }
 
-// This value must match the value in tsx
+// This value must match the value of the breakpointObserver in the header component class
 @media (max-width: 880px) {
   .navigation-toggle {
     display: block;
@@ -81,24 +83,21 @@
     ul {
       flex-direction: column;
       width: 100%;
+      font-size: 1rem;
     }
 
-    .icon-button,
-    li a {
+    a {
       display: block;
-      width: 100%;
-      text-align: left;
       padding: .6rem 1.75rem;
       border-radius: 0;
-      color: var(--text-color);
     }
 
-    li a:hover {
+    a:hover {
       background-color: var(--tertiary-color);
       color: var(--text-color);
     }
 
-    .icon-button i {
+    .icon-link i {
       display: none;
     }
   }

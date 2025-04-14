@@ -1,7 +1,6 @@
 import { Component, DestroyRef, inject, input, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NavigationEnd, Router, RouterLink } from '@angular/router';
-import { filter } from 'rxjs';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ms-navigation',
@@ -22,10 +21,7 @@ export class NavigationComponent {
 
   closeNavMenuOnNavigationEnd(): void {
     this.router.events
-      .pipe(
-        filter(e => e instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef)
-      )
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(e => this.isNavMenuOpen.set(false));
   }
 
