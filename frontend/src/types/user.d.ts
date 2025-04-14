@@ -3,10 +3,8 @@ interface User {
   username: string,
   email: string,
   role: 'admin' | 'user'
-  dateJoined: string,
-  lastLogin: string,
-  watchlist_ids: (number | bigint)[]
-  protfolio_ids: (number | bigint)[]
+  date_joined: string,
+  last_login: string
 }
 
 interface Watchlist {
