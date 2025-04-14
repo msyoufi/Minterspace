@@ -1,8 +1,7 @@
-import { Component, DestroyRef, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { PasswordEyeComponent } from "../../shared/components/password-eye.component";
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
-import { AuthModalService } from './auth-modal.service';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { EscapePressDirective } from '../../shared/directives/escape-press.directive';
@@ -24,9 +23,7 @@ interface AuthFormGroup {
 })
 export class AuthModalComponent {
   authService = inject(AuthService);
-  authModel = inject(AuthModalService);
   router = inject(Router);
-  destroyRef = inject(DestroyRef);
 
   form = new FormGroup<AuthFormGroup>({
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -54,8 +51,8 @@ export class AuthModalComponent {
       else
         await this.authService.register(email!, password!);
 
-      this.router.navigateByUrl(this.authModel.forwardURL);
-      this.authModel.close();
+      this.router.navigateByUrl(this.authService.forwardURL);
+      this.authService.closeAuthModal();
       console.log('Success');
 
     } catch (err: unknown) {
@@ -109,6 +106,6 @@ export class AuthModalComponent {
   }
 
   closeModal(): void {
-    this.authModel.close();
+    this.authService.closeAuthModal();
   }
 }

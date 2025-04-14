@@ -1,16 +1,14 @@
-import { Component, inject } from '@angular/core';
-import { AuthModalService } from '../../auth-modal/auth-modal.service';
+import { Component, inject, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'ms-account-button',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './account-button.component.html',
   styleUrl: './account-button.component.scss'
 })
 export class AccountButtonComponent {
-  authModel = inject(AuthModalService);
-
-  openAuthModal(): void {
-    this.authModel.open('');
-  }
+  authService = inject(AuthService);
+  user = input.required<User | null>();
 }

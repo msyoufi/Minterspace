@@ -14,16 +14,16 @@
 
   <ul class="right-nav">
     <li>
-      <button class='icon-button' (click)="onIconButtonClick('watchlist')">
+      <a class='icon-button' routerLink="/watchlist">
         <i [class]='"bi bi-star" + (router.url === "/watchlist" ? "-fill" : "" )'></i>
         <span>Watchlist</span>
-      </button>
+      </a>
     </li>
     <li>
-      <button class='icon-button' (click)="onIconButtonClick('portfolio')">
+      <a class='icon-button' routerLink="/portfolio">
         <i [class]='"bi bi-pie-chart" + (router.url === "/portfolio" ? "-fill" : "" )'></i>
         <span>Portfolio</span>
-      </button>
+      </a>
     </li>
   </ul>
 </nav>

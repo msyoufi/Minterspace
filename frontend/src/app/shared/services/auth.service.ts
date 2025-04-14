@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, DestroyRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, filter, firstValueFrom, Observable, take, tap, throwError, timeout } from 'rxjs';
+import { BehaviorSubject, filter, firstValueFrom, Observable, Subject, take, tap, throwError, timeout } from 'rxjs';
 
 interface RegisterResponse {
   user: User,
@@ -22,6 +22,8 @@ export class AuthService {
   destroyRef = inject(DestroyRef);
 
   public user$ = signal<User | null>(null);
+  public isAuthModalOpen$ = signal<boolean>(false);
+  public forwardURL = '';
 
   private refreshTokenSubject = new BehaviorSubject<{ access: string } | null>(null);
   private isRefreshingToken = false;
@@ -135,5 +137,15 @@ export class AuthService {
   clearTokens(): void {
     localStorage.removeItem('access');
     localStorage.removeItem('refresh');
+  }
+
+  openAuthModal(forwardURL: string): void {
+    this.isAuthModalOpen$.set(true);
+    this.forwardURL = forwardURL;
+  }
+
+  closeAuthModal(): void {
+    this.isAuthModalOpen$.set(false);
+    this.forwardURL = '';
   }
 }

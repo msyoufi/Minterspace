@@ -7,6 +7,7 @@ import { ThemeButtonComponent } from "./theme-button/theme-button.component";
 import { AppLogoComponent } from "../../shared/components/app-logo.component";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { AuthService } from '../../shared/services/auth.service';
 
 @Component({
   selector: 'ms-header',
@@ -15,6 +16,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
+  authService = inject(AuthService);
   breakpointObserver = inject(BreakpointObserver);
   destroyRef = inject(DestroyRef);
 

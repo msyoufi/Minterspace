@@ -2,13 +2,13 @@
   @if (isSmallScreen()) {
   <div class="upper-header">
     <div class='upper-header-left'>
-      <ms-navigation />
+      <ms-navigation [user]="authService.user$()" />
       <ms-app-logo />
     </div>
 
     <div class="upper-header-right">
       <ms-theme-button />
-      <ms-account-button />
+      <ms-account-button [user]="authService.user$()" />
     </div>
   </div>
 
@@ -22,13 +22,13 @@
 
     <div class="upper-header-right">
       <ms-theme-button />
-      <ms-account-button />
+      <ms-account-button [user]="authService.user$()" />
     </div>
   </div>
 
   <div class="lower-header">
     <ms-app-logo />
-    <ms-navigation />
+    <ms-navigation [user]="authService.user$()" />
     <ms-header-search />
   </div>
   }
