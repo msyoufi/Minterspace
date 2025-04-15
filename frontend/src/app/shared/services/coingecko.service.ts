@@ -1,7 +1,6 @@
-import { DestroyRef, inject, Injectable, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import globalMarketData from '../mock/globalMarket.json';
 import allCategories from '../mock/all-categories.json';
 
@@ -10,7 +9,6 @@ import allCategories from '../mock/all-categories.json';
 })
 export class CoingeckoService {
   http = inject(HttpClient);
-  destroyRef = inject(DestroyRef);
 
   public globalMarket = signal<GlobalMarket | null>(null);
   public coinCategories = signal<CoinCategory[]>([]);
@@ -22,17 +20,16 @@ export class CoingeckoService {
     this.getCoinCategories();
   }
 
-  getGlobalMarketData(): void {
-    // this.http.get<GlobalMarket>(`${this.BASE_URL}/global`)
-    //   .pipe(takeUntilDestroyed(this.destroyRef))
-    //   .subscribe(GlobalMarket => {
-    //     this.globalMarket.set(GlobalMarket);
-    //   });
+  async getGlobalMarketData(): Promise<void> {
+    const url = `${this.BASE_URL}/global`;
 
-    this.globalMarket.set(globalMarketData);
+    const response$ = this.http.get<GlobalMarket>(url);
+    const globalMarket = await firstValueFrom(response$);
+
+    this.globalMarket.set(globalMarket);
   }
 
-  getCoinsList(additionalParams: { [key: string]: any }): Observable<CoinBasic[]> {
+  async getCoinsList(additionalParams: { [key: string]: any }): Promise<CoinBasic[]> {
     const url = `${this.BASE_URL}/coins`;
 
     const params = {
@@ -40,7 +37,8 @@ export class CoingeckoService {
       ...additionalParams
     };
 
-    return this.http.get<CoinBasic[]>(url, { params });
+    const response$ = this.http.get<CoinBasic[]>(url, { params });
+    return await firstValueFrom(response$);
   }
 
   async getCoinDetails(coinId: string): Promise<CoinDetails> {

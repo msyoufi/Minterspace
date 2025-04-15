@@ -1,10 +1,9 @@
-import { Component, DestroyRef, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { CoinsListComponent } from "../../shared/components/coins-list/coins-list.component";
 import { CoingeckoService } from '../../shared/services/coingecko.service';
 import { CategoryPanelsComponent } from "./category-panels/category-panels.component";
 import { CoinsListConfigComponent } from "./coins-list-config/coins-list-config.component";
 import { PaginatorComponent } from "./paginator/paginator.component";
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import mockCoins from '../../shared/mock/coins.json';
 
 @Component({
@@ -15,7 +14,6 @@ import mockCoins from '../../shared/mock/coins.json';
 })
 export class HomeComponent {
   coinService = inject(CoingeckoService);
-  destroyRef = inject(DestroyRef);
 
   coins = signal<CoinBasic[]>([]);
   currentCategory = signal<CoinCategory | GlobalMarket | null>(null);
@@ -31,20 +29,17 @@ export class HomeComponent {
     this.getCoinsList();
   }
 
-  getCoinsList(): void {
+  async getCoinsList(): Promise<void> {
     this.isLoading.set(true);
 
-    const params = this.getParams();
+    const coins = await this.coinService.getCoinsList(this.getParams());
 
-    this.coinService.getCoinsList(params)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(coins => {
-        this.coins.set(coins);
-        this.isEndOfCoins = coins.length < parseInt(this.perPage);
-        this.isLoading.set(false);
-      });
+    this.coins.set(coins);
+    this.isEndOfCoins = coins.length < parseInt(this.perPage);
+    this.isLoading.set(false);
 
-    // this.coins.set([])
+    // this.coins.set(mockCoins);
+    // this.isLoading.set(false);
   }
 
   getParams(): { [key: string]: string | number | boolean } {
