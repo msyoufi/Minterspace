@@ -3,17 +3,14 @@
 }
 
 .search-bar-input {
-  width: calc(100% + 2px);
-  margin-left: -1px;
+  width: 100%;
   padding: 1rem;
   padding-left: 3.75rem;
   border: none;
   outline: none;
-  border-radius: var(--radius-s) var(--radius-s) 0 0;
   background-color: var(--accent2-color);
   color: var(--text-color);
   font-size: .9rem;
-  transition: var(--transition);
 
   &:focus+i {
     color: var(--text-color);

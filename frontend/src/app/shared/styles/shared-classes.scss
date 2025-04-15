@@ -25,10 +25,6 @@ a:hover {
   color: var(--primary-color);
 }
 
-ul {
-  list-style: none;
-}
-
 .asc::before,
 .desc::before {
   content: '';
@@ -44,6 +40,14 @@ ul {
 .desc::before {
   top: 50%;
   border-top-color: inherit;
+}
+
+.red {
+  color: var(--red);
+}
+
+.green {
+  color: var(--green);
 }
 
 .skeleton {
@@ -78,18 +82,13 @@ ul {
   display: flex;
   flex-direction: column;
   min-width: min(80%, 500px);
-  max-height: 85vh;
+  height: 75vh;
   position: absolute;
-  top: 50vh;
+  top: 10vh;
   left: 50%;
   background-color: var(--background-color);
   border-radius: var(--radius-l);
-  border: 2px solid var(--accent2-color);
   box-shadow: var(--shadow);
   animation: show-dialog-container var(--transition) forwards;
-  overflow-y: auto;
-
-  &.top-10 {
-    top: 10vh;
-  }
+  overflow: hidden;
 }
