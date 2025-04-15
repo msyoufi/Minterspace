@@ -12,12 +12,14 @@ export class CoingeckoService {
 
   public globalMarket = signal<GlobalMarket | null>(null);
   public coinCategories = signal<CoinCategory[]>([]);
+  public TrendingCoins = signal<CoinTrending[]>([]);
 
   BASE_URL = 'http://127.0.0.1:8000/api/coingecko';
 
   constructor() {
     this.getGlobalMarketData();
     this.getCoinCategories();
+    this.getTrendingAssetes();
   }
 
   async getGlobalMarketData(): Promise<void> {
@@ -59,13 +61,27 @@ export class CoingeckoService {
     return await firstValueFrom(response$);
   }
 
-  getCoinCategories(): any {
-    this.coinCategories.set(allCategories);
-    // TODO
+  async getCoinCategories(): Promise<void> {
+    const url = `${this.BASE_URL}/categories`;
+
+    const response$ = this.http.get<CoinCategory[]>(url);
+    const categories = await firstValueFrom(response$);
+
+    this.coinCategories.set(categories);
   }
 
   searchCoinGecko(query: string): Observable<SearchResults> {
     const url = `${this.BASE_URL}/search`;
     return this.http.get<SearchResults>(url, { params: { query } });
+  }
+
+  async getTrendingAssetes(): Promise<void> {
+    const url = `${this.BASE_URL}/trending`;
+
+    const response$ = this.http.get<TrendingAssets>(url);
+    const trendingAssets = await firstValueFrom(response$);
+
+    const trendingCoins = trendingAssets.coins.map(c => c.item);
+    this.TrendingCoins.set(trendingCoins);
   }
 }

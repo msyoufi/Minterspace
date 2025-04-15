@@ -28,9 +28,19 @@ def coin_charts(request, coin_id):
 
 
 @api_view()
+def categories(request):
+    return get("coins/categories", params=None)
+
+
+@api_view()
 def search(request):
     params = request.query_params
     return get("search", params)
+
+
+@api_view()
+def trending(request):
+    return get("search/trending", params=None)
 
 
 @api_view()
