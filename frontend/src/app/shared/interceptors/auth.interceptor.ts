@@ -5,7 +5,7 @@ import { AuthService } from "../services/auth.service";
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
-  const apiUrl = authService.baseUrl;
+  const apiUrl = 'http://127.0.0.1:8000/api/';
   const accessToken = authService.getAccessToken();
 
   if (req.url.startsWith(apiUrl) && accessToken)
