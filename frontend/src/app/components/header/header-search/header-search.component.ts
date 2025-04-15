@@ -2,12 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
+import { MiniCoinsListComponent } from '../../../shared/components/mini-coins-list/mini-coins-list.component';
 import { Router } from '@angular/router';
-import { MiniCoinBarComponent } from "../../../shared/components/mini-coin-bar/mini-coin-bar.component";
 
 @Component({
   selector: 'ms-header-search',
-  imports: [ClickOutsideDirective, SearchBarComponent, EscapePressDirective, MiniCoinBarComponent],
+  imports: [ClickOutsideDirective, SearchBarComponent, EscapePressDirective, MiniCoinsListComponent],
   templateUrl: './header-search.component.html',
   styleUrl: './header-search.component.scss'
 })
@@ -36,9 +36,9 @@ export class HeaderSearchComponent {
     this.isLoading.set(isLoading);
   }
 
-  onCoinBarClick(coinId: string): void {
+  onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {
     this.closeSearchPanel();
-    this.router.navigateByUrl(`coins/${coinId}`);
+    this.router.navigateByUrl(`coins/${coin.id}`);
   }
 
   openSearchPanel(e: MouseEvent | FocusEvent): void {

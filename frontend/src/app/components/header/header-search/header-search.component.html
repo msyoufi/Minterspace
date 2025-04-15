@@ -8,37 +8,18 @@
 
 @if (isSearchPanelOpen()) {
 <div class="overlay">
-  <div class="dialog-container top-10" (msClickOutside)="closeSearchPanel()" (msEscapePress)="closeSearchPanel()">
+  <div class="dialog-container" (msClickOutside)="closeSearchPanel()" (msEscapePress)="closeSearchPanel()">
 
     <ms-search-bar (searchResults)="onSearchResults($event)" (isLoading)="onIsLoading($event)" />
 
-    <ul class="coins-list-cointainer">
+    @if (results) {
 
-      @if (isLoading()) {
+    <ms-mini-coins-list [coins]="results.coins" [isLoading]="isLoading()" (coinBarClick)="onCoinBarClick($event)" />
 
-      @for (coin of [1,2,3,4,5,6,7,8,9]; track $index) {
-      <li>
-        <span class="skeleton"></span>
-      </li>
-      }
+    } @else {
+    <p class="empty-list">{{message()}}</p>
+    }
 
-      } @else if (results) {
-
-      @for (coin of results.coins; track coin.id) {
-      <li>
-        <button (click)="onCoinBarClick(coin.id)">
-          <ms-mini-coin-bar [coin]="coin">
-            <p class="coin-rank">#{{coin.market_cap_rank}}</p>
-          </ms-mini-coin-bar>
-        </button>
-      </li>
-      }
-
-      } @else {
-      <p class="empty-list">{{message()}}</p>
-      }
-
-    </ul>
   </div>
 </div>
 }
