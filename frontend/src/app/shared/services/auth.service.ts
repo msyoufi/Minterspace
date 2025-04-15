@@ -34,8 +34,6 @@ export class AuthService {
   }
 
   async setCurrentUser(): Promise<boolean> {
-    console.log('set user')
-
     if (!this.getAccessToken()) {
       this.user$.set(null);
       return true;
