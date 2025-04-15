@@ -1,8 +1,6 @@
-import { Component, DestroyRef, effect, ElementRef, inject, input, OnDestroy, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, inject, input, OnDestroy, viewChild } from '@angular/core';
 import { IChartApi } from 'lightweight-charts';
 import { ChartService } from './chart.service';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { filter } from 'rxjs';
 
 @Component({
   selector: 'ms-coin-charts',
@@ -12,7 +10,6 @@ import { filter } from 'rxjs';
 })
 export class CoinChartsComponent implements OnDestroy {
   chartService = inject(ChartService);
-  destroyRef = inject(DestroyRef);
 
   coinId = input.required<string>();
   chartPane = viewChild.required<ElementRef<HTMLDivElement>>('chartPane');
@@ -22,16 +19,14 @@ export class CoinChartsComponent implements OnDestroy {
   chartDays = 1;
 
   constructor() {
-    effect(() => this.subscribeToCoinCharts())
+    this.onChartsDataChange();
   }
 
-  subscribeToCoinCharts(): void {
-    this.chartService.coinCharts$
-      .pipe(
-        filter(data => !!data),
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(coinChartsData => this.createChart(coinChartsData));
+  onChartsDataChange(): void {
+    effect(() => {
+      const chartsData = this.chartService.coinCharts$();
+      chartsData && this.createChart(chartsData);
+    });
   }
 
   createChart(coinChartsData: CoinCharts): void {
@@ -40,12 +35,12 @@ export class CoinChartsComponent implements OnDestroy {
   }
 
   onChartTypeChange(type: 'prices' | 'market_caps'): void {
-    const coinChartsData = this.chartService.coinCharts$.getValue();
+    const chartsData = this.chartService.coinCharts$();
 
-    if (!coinChartsData) return;
+    if (!chartsData) return;
 
     this.chartType = type;
-    this.createChart(coinChartsData);
+    this.createChart(chartsData);
   }
 
   onChartDaysChange(days: number): void {

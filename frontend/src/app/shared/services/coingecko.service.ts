@@ -43,20 +43,22 @@ export class CoingeckoService {
     return this.http.get<CoinBasic[]>(url, { params });
   }
 
-  getCoinDetails(coinId: string): Observable<CoinDetails> {
+  async getCoinDetails(coinId: string): Promise<CoinDetails> {
     const url = `${this.BASE_URL}/coins/${coinId}`;
-    return this.http.get<CoinDetails>(url);
+    const response$ = this.http.get<CoinDetails>(url);
+    return await firstValueFrom(response$);
   }
 
-  getCoinChartsData(coinId: string, days: number): Observable<CoinCharts> {
-    const url = `${this.BASE_URL}/coins-charts/${coinId}`;
+  async getCoinChartsData(coinId: string, days: number): Promise<CoinCharts> {
+    const url = `${this.BASE_URL}/coins/charts/${coinId}`;
 
     const params = {
       vs_currency: 'usd',
       days
     };
 
-    return this.http.get<CoinCharts>(url, { params });
+    const response$ = this.http.get<CoinCharts>(url, { params });
+    return await firstValueFrom(response$);
   }
 
   getCoinCategories(): any {

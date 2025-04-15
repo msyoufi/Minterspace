@@ -1,25 +1,21 @@
-import { Injectable, DestroyRef, inject, OnDestroy, signal } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Injectable, inject, OnDestroy, signal } from '@angular/core';
 import { UTCTimestamp, Time, TickMarkType, DeepPartial, ChartOptions, createChart, AreaSeries, IChartApi } from 'lightweight-charts';
 import { CoingeckoService } from '../../../shared/services/coingecko.service';
-import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService implements OnDestroy {
   coinService = inject(CoingeckoService);
-  destroyRef = inject(DestroyRef);
 
-  coinCharts$ = new BehaviorSubject<CoinCharts | null>(null);
+  coinCharts$ = signal<CoinCharts | null>(null);
   isLoading = signal(true);
 
-  getCoinCharts(coinId: string, days: number): void {
+  async getCoinCharts(coinId: string, days: number): Promise<void> {
     this.isLoading.set(true);
 
-    this.coinService.getCoinChartsData(coinId, days)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(chartsData => this.coinCharts$.next(chartsData));
+    const chartsData = await this.coinService.getCoinChartsData(coinId, days);
+    this.coinCharts$.set(chartsData);
   }
 
   createChart(chartPane: HTMLDivElement, coinCharts: number[][]): IChartApi {
@@ -58,7 +54,7 @@ export class ChartService implements OnDestroy {
   }
 
   cleanCoinCharts(): void {
-    this.coinCharts$.next(null);
+    this.coinCharts$.set(null);
   }
 
   ngOnDestroy(): void {
