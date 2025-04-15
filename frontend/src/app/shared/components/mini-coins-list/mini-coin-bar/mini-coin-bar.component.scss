@@ -1,0 +1,36 @@
+.coin-bar-item {
+  display: flex;
+  width: 100%;
+  padding: .5rem .75rem;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 550;
+  border-radius: var(--radius-l);
+  transition: none;
+
+  &:hover {
+    background-color: var(--accent2-color);
+  }
+
+  &:active {
+    background-color: var(--primary-color);
+  }
+}
+
+.left-section {
+  display: flex;
+  align-items: center;
+
+  img {
+    width: 25px;
+    height: 25px;
+    margin-right: .5rem;
+    border-radius: 50%;
+  }
+
+  .coin-symbol {
+    margin-left: .2rem;
+    color: var(--gray);
+    font-size: .7rem;
+  }
+}

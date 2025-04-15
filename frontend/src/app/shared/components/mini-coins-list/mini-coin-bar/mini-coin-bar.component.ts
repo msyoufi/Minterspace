@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'ms-mini-coin-bar',
@@ -8,6 +8,7 @@ import { Component, input } from '@angular/core';
 })
 export class MiniCoinBarComponent {
   coin = input.required<CoinBasic | CoinSearch | CoinTrending>();
+  coinBarClick = output<CoinBasic | CoinSearch | CoinTrending>();
   imgURL: string = '';
 
   ngOnInit(): void {
@@ -18,5 +19,9 @@ export class MiniCoinBarComponent {
 
     if ('thumb' in coin)
       this.imgURL = coin.thumb;
+  }
+
+  onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {
+    this.coinBarClick.emit(coin);
   }
 }

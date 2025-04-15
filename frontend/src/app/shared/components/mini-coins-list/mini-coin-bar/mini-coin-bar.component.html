@@ -1,4 +1,4 @@
-<div class="coin-bar-container">
+<button class="coin-bar-item" (click)="onCoinBarClick(coin())">
   <div class="left-section">
     <img [src]="imgURL">
     <span>
@@ -6,5 +6,5 @@
       <span class="coin-symbol">{{coin().symbol}}</span>
     </span>
   </div>
-  <ng-content></ng-content>
-</div>
+  <p class="coin-rank">#{{coin().market_cap_rank}}</p>
+</button>
