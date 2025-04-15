@@ -1,1 +1,7 @@
-<p>watchlist works!</p>
+<ms-watchlist-header (addCoinClick)="openSelectMenu()" />
+
+<ms-coins-list [coins]="coins()" [isLoading]="isLoading()" [loaderBarCount]="loaderBarCount" />
+
+@if (isCoinSelectMenuOpen()) {
+<ms-watchlist-coin-select-menu (selectMenuClose)="onSelectMenuClose()" />
+}

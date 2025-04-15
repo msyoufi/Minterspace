@@ -1,0 +1,37 @@
+.menu-header {
+  position: relative;
+  padding: 1rem;
+  font-size: .9rem;
+}
+
+.close-button {
+  top: 1.5rem;
+  right: 1.5rem;
+}
+
+.selected-coins-container {
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 5rem;
+  gap: .5rem;
+  border: .5rem solid transparent;
+  background-color: var(--accent2-color);
+  overflow: hidden auto;
+
+  .icon-button {
+    height: 1.5rem;
+    padding: 0 .75rem;
+    border-radius: var(--radius-l);
+    background-color: var(--accent1-color);
+  }
+
+  .icon-button:hover {
+    background-color: var(--primary-color);
+    color: #fff;
+  }
+}
+
+.ms-button {
+  min-height: 3rem;
+  border-radius: 0;
+}

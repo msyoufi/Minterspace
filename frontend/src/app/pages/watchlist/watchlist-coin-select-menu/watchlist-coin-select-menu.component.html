@@ -1,0 +1,35 @@
+<div class="overlay">
+  <div class="dialog-container" (msClickOutside)="closeMenu()">
+    <div class="menu-header">
+      <p>Select Coins</p>
+
+      <button class="close-button" (click)="closeMenu()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <ms-search-bar (searchResults)="onSearchResults($event)" (isLoading)="onIsLoading($event)" />
+
+    @if (coins().length) {
+    <ms-mini-coins-list (coinBarClick)="onCoinBarClick($event)" [coins]="coins()" [isLoading]="isLoading()" />
+
+    } @else {
+    <p class="empty-list">No coins found</p>
+    }
+
+    @if (selectedCoins().length) {
+    <div class="selected-coins-container">
+      @for (coin of selectedCoins(); track coin.id) {
+      <button class="icon-button" (click)="onCoinToggleClick(coin.id)">
+        <i class='bi bi-x-lg'></i>
+        {{coin.symbol}}
+      </button>
+      }
+    </div>
+    }
+
+    <button class="ms-button primary" [disabled]="!selectedCoins().length">
+      Save
+    </button>
+  </div>
+</div>
