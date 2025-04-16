@@ -6,7 +6,7 @@ from .serializers import WatchlistSerializer
 from django.shortcuts import get_object_or_404
 
 
-@api_view(["GET", "POST", "PUT", "DELETE"])
+@api_view(["GET", "POST", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
 def watchlist_view(request, id=None):
     user = request.user
@@ -17,7 +17,7 @@ def watchlist_view(request, id=None):
     if request.method == "POST":
         return create_watchlist(user, request.data)
 
-    if request.method == "PUT":
+    if request.method == "PATCH":
         return update_watchlist(user, id, request.data)
 
     if request.method == "DELETE":
@@ -54,7 +54,7 @@ def update_watchlist(user, watchlist_id, data):
             status=403,
         )
 
-    serializer = WatchlistSerializer(watchlist, data=data)
+    serializer = WatchlistSerializer(watchlist, data=data, partial=True)
 
     if not serializer.is_valid():
         return Response(serializer.errors, status=400)

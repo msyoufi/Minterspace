@@ -7,7 +7,8 @@ class Watchlist(models.Model):
         on_delete=models.CASCADE,
         related_name="watchlist",
     )
+    name = models.CharField(max_length=50)
     coins = models.JSONField(default=list, blank=True)
 
     def __str__(self):
-        return f"{self.user} - {self.id}"
+        return f"{self.user} - {self.name} - {self.id}"

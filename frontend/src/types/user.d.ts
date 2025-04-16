@@ -9,6 +9,7 @@ interface User {
 
 interface Watchlist {
   id: number | bigint,
+  name: string,
   coins: string[]
 }
 
