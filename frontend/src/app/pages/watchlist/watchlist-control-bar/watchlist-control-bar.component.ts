@@ -1,18 +1,12 @@
-import { Component, effect, ElementRef, inject, output, signal, viewChild } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { WatchlistService } from '../../../shared/services/watchlist.service';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
-import { FormsModule } from '@angular/forms';
-import { MatProgressSpinner } from '@angular/material/progress-spinner';
-
-interface NameForm {
-  name: string,
-  actionType: 'create' | 'edit'
-};
+import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
 
 @Component({
   selector: 'ms-watchlist-control-bar',
-  imports: [ClickOutsideDirective, EscapePressDirective, FormsModule, MatProgressSpinner],
+  imports: [ClickOutsideDirective, EscapePressDirective, NameInputPaneComponent],
   templateUrl: './watchlist-control-bar.component.html',
   styleUrl: './watchlist-control-bar.component.scss'
 })
@@ -22,14 +16,8 @@ export class WatchlistControlBarComponent {
   isSelectMenuOpen = signal(false);
   isNameFormOpen = signal(false);
   isLoading = signal(false);
-  nameInput = viewChild<ElementRef<HTMLInputElement>>('nameInput');
   formActionType: 'create' | 'edit' = 'create';
-
   addCoinsClick = output<void>();
-
-  constructor() {
-    effect(() => this.nameInput()?.nativeElement.focus());
-  }
 
   onWatchlistSelect(watchlistId: number | bigint): void {
     const watchlist = this.watchlistService.watchlists$().find(wl => wl.id === watchlistId)!;
@@ -41,15 +29,13 @@ export class WatchlistControlBarComponent {
     this.addCoinsClick.emit();
   }
 
-  async onNameFormSubmit(values: NameForm): Promise<void> {
-    const { name, actionType } = values;
-
+  async onNameFormSubmit(name: string): Promise<void> {
     if (!/[a-zA-Z]/.test(name))
       return console.log('invalid name');
 
     this.isLoading.set(true);
 
-    if (actionType === 'create') {
+    if (this.formActionType === 'create') {
       await this.watchlistService.createWatchlist(name, []);
       console.log('New watchlist added');
 

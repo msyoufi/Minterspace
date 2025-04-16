@@ -1,0 +1,32 @@
+<div class="overlay" (msEscapePress)="onPaneClose()">
+  <form #form="ngForm" class="name-input-container" (ngSubmit)="onSubmit(nameInput.value)"
+    (msClickOutside)="onPaneClose()">
+
+    <p>
+      {{
+      formActionType() === 'create'
+      ?`Add a new ${object()}`
+      :`Rename the current ${object()}`
+      }}
+    </p>
+
+    <button type="button" class="close-button" (click)="onPaneClose()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <input type="text" class="ms-input" name="name" ngModel [placeholder]="object() + ' Name'" #nameInput required>
+
+    <button type="submit" class="ms-button primary" [disabled]="form.invalid || isLoading()">
+      {{
+      formActionType() === 'create'
+      ?`Add ${object()}`
+      :`Rename ${object()}`
+      }}
+
+      @if (isLoading()) {
+      <mat-spinner [diameter]="20" [strokeWidth]="3" />
+      }
+    </button>
+
+  </form>
+</div>

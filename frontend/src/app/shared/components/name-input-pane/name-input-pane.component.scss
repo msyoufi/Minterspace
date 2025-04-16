@@ -1,0 +1,21 @@
+.name-input-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  width: 100%;
+  padding: 2rem;
+  row-gap: 1rem;
+  position: absolute;
+  top: 30vh;
+  left: 50%;
+  background-color: var(--background-color);
+  border: 3px solid var(--accent1-color);
+  border-radius: var(--radius-l);
+  box-shadow: var(--shadow);
+  animation: show-dialog-container var(--transition) forwards;
+}
+
+.close-button {
+  top: 2.6rem;
+  right: 2.6rem;
+}

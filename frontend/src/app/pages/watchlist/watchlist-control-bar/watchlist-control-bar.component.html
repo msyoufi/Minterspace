@@ -41,38 +41,6 @@
 }
 
 @if (isNameFormOpen()) {
-<div class="overlay" (msEscapePress)="closeNameForm()">
-  <form #nameForm="ngForm" class="name-input-container" (ngSubmit)="onNameFormSubmit(nameForm.value)"
-    (msClickOutside)="closeNameForm()">
-
-    <input type="hidden" name="actionType" [(ngModel)]="formActionType" value="create" #typeInput>
-
-    <p>
-      {{
-      typeInput.value === 'create'
-      ?'Add a new watchlist'
-      :'Rename the current watchlist'
-      }}
-    </p>
-
-    <button type="button" class="close-button" (click)="closeNameForm()">
-      <i class="bi bi-x-lg"></i>
-    </button>
-
-    <input type="text" class="ms-input" name="name" ngModel placeholder="Watchlist Name" #nameInput required>
-
-    <button type="submit" class="ms-button primary" [disabled]="nameForm.invalid || isLoading()">
-      {{
-      typeInput.value === 'create'
-      ?'Add Watchlist'
-      :'Rename Watchlist'
-      }}
-
-      @if (isLoading()) {
-      <mat-spinner [diameter]="20" [strokeWidth]="3" />
-      }
-    </button>
-
-  </form>
-</div>
+<ms-name-input-pane [isLoading]="isLoading()" [formActionType]="formActionType" [object]="'Watchlist'"
+  (paneClose)="closeNameForm()" (nameSubmit)="onNameFormSubmit($event)" />
 }
