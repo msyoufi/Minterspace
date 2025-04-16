@@ -39,6 +39,12 @@ export class WatchlistCoinSelectMenuComponent {
   }
 
   onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {
+    const alreadyAdded =
+      this.selectedCoins().findIndex(c => c.id === coin.id) >= 0
+      || this.watchlistService.currentWatchlist$()?.coins.includes(coin.id);
+
+    if (alreadyAdded) return;
+
     const { id, symbol } = coin;
     const newSelectedCoins = [...this.selectedCoins(), { id, symbol }];
     this.selectedCoins.set(newSelectedCoins);
