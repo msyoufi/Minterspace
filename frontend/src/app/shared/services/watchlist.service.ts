@@ -8,7 +8,9 @@ import { firstValueFrom } from 'rxjs';
 export class WatchlistService {
   private http = inject(HttpClient);
 
-  public watchlists = signal<Watchlist[]>([]);
+  public watchlists$ = signal<Watchlist[]>([]);
+  public currentWatchlist$ = signal<Watchlist | null>(null);
+
   public allWatchlistsCoins = computed<Set<string>>(() => this.getCoinIdsSet());
 
   private BASE_URL = 'http://127.0.0.1:8000/api/watchlist';
@@ -18,52 +20,84 @@ export class WatchlistService {
   }
 
   getCoinIdsSet(): Set<string> {
-    const allCoinIds = this.watchlists().flatMap(wl => wl.coins);
+    const allCoinIds = this.watchlists$().flatMap(wl => wl.coins);
     return new Set(allCoinIds);
   }
 
   async getAllWatchlists(): Promise<void> {
     const url = `${this.BASE_URL}/`;
 
-    const response$ = this.http.get<Watchlist[]>(url);
-    const watchlists = await firstValueFrom(response$);
+    try {
+      const response$ = this.http.get<Watchlist[]>(url);
+      const watchlists = await firstValueFrom(response$);
 
-    this.watchlists.set(watchlists);
+      this.watchlists$.set(watchlists);
+      this.selectFirstWatchlist();
+
+    } catch (err: unknown) {
+      this.handleError(err);
+    }
   }
 
-  async createWatchlist(coinIds: string[]): Promise<void> {
+  async createWatchlist(name: string, coins: string[]): Promise<void> {
     const url = `${this.BASE_URL}/`;
-    const body = { coins: coinIds };
+    const body = { name, coins };
 
-    const response$ = this.http.post<Watchlist>(url, body);
-    const createdWatchlist = await firstValueFrom(response$);
+    try {
+      const response$ = this.http.post<Watchlist>(url, body);
+      const createdWatchlist = await firstValueFrom(response$);
 
-    this.watchlists.set([...this.watchlists(), createdWatchlist]);
+      this.watchlists$.set([...this.watchlists$(), createdWatchlist]);
+      this.currentWatchlist$.set(createdWatchlist);
+
+    } catch (err: unknown) {
+      this.handleError(err);
+    }
   }
 
-  async updateWatchlist(watchlistId: number | bigint, coinIds: string[]): Promise<void> {
+  async updateWatchlist(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<void> {
     const url = `${this.BASE_URL}/${watchlistId}`;
-    const body = { coins: coinIds };
 
-    const response$ = this.http.put<Watchlist>(url, body);
-    const updatedWatchlist = await firstValueFrom(response$);
+    try {
+      const response$ = this.http.patch<Watchlist>(url, changes);
+      const updatedWatchlist = await firstValueFrom(response$);
 
-    const index = this.watchlists().findIndex(wl => wl.id === watchlistId);
+      const index = this.watchlists$().findIndex(wl => wl.id === watchlistId);
 
-    if (index < 0)
-      throw new Error('not found');
+      if (index < 0)
+        throw new Error('not found');
 
-    const newWatchlists = this.watchlists().splice(index, 1, updatedWatchlist);
+      const newWatchlists = this.watchlists$().map(wl =>
+        wl.id === watchlistId ? updatedWatchlist : wl
+      );
 
-    this.watchlists.set(newWatchlists);
+      this.watchlists$.set(newWatchlists);
+      this.currentWatchlist$.set(updatedWatchlist);
+
+    } catch (err: unknown) {
+      this.handleError(err);
+    }
   }
 
   async deleteWatchlist(watchlistId: number | bigint): Promise<void> {
     const url = `${this.BASE_URL}/${watchlistId}`;
+    try {
+      const response$ = this.http.delete<null>(url);
+      await firstValueFrom(response$);
 
-    const response$ = this.http.delete<null>(url);
-    await firstValueFrom(response$);
+      this.watchlists$.set(this.watchlists$().filter(wl => wl.id !== watchlistId));
+      this.selectFirstWatchlist();
 
-    this.watchlists.set(this.watchlists().filter(wl => wl.id !== watchlistId));
+    } catch (err: unknown) {
+      this.handleError(err);
+    }
+  }
+
+  selectFirstWatchlist(): void {
+    this.currentWatchlist$.set(this.watchlists$()[0] ?? null);
+  }
+
+  private handleError(err: unknown): void {
+    console.log(err);
   }
 }

@@ -28,7 +28,7 @@
     </div>
     }
 
-    <button class="ms-button primary" [disabled]="!selectedCoins().length">
+    <button class="ms-button primary" [disabled]="!selectedCoins().length" (click)="onSaveClick()">
       Save
     </button>
   </div>

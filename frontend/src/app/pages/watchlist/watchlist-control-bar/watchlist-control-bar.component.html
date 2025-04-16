@@ -1,0 +1,78 @@
+@if (!watchlistService.watchlists$().length) {
+<button type="button" class="ms-button add-button" (click)="openNameForm('create')">
+  Add a new watchlist +
+</button>
+
+} @else if (watchlistService.currentWatchlist$()) {
+<div class="select-menu-container" (msClickOutside)="closeSelectMenu()">
+  <button type="button" class="select-menu-button" (click)="openSelectMenu()">
+    {{watchlistService.currentWatchlist$()!.name}}
+    <i [class]='"bi bi-chevron-" + (isSelectMenuOpen()? "up" : "down")'></i>
+  </button>
+
+  <div class="action-buttons-container">
+    <button type="button" class="icon-button" (click)="onAddCoinsClick()">
+      <i class="bi bi-plus-circle"></i>
+    </button>
+    <button type="button" class="icon-button" (click)="openNameForm('edit')">
+      <i class="bi bi-pencil-square"></i>
+    </button>
+    <button type="button" class="icon-button" (click)="onDeleteClick()">
+      <i class="bi bi-trash3"></i>
+    </button>
+  </div>
+
+  <ul class="select-menu" [class.show]="isSelectMenuOpen()" (msEscapePress)="closeSelectMenu()">
+    @for ( wl of watchlistService.watchlists$(); track wl.id ) {
+    <li>
+      <button type="button" class="menu-item" (click)="onWatchlistSelect(wl.id)">
+        {{wl.name}}
+      </button>
+    </li>
+    }
+    <li>
+      <button type="button" class="menu-item" (click)="openNameForm('create')">
+        Add a new watchlist +
+      </button>
+    </li>
+  </ul>
+
+</div>
+}
+
+@if (isNameFormOpen()) {
+<div class="overlay" (msEscapePress)="closeNameForm()">
+  <form #nameForm="ngForm" class="name-input-container" (ngSubmit)="onNameFormSubmit(nameForm.value)"
+    (msClickOutside)="closeNameForm()">
+
+    <input type="hidden" name="actionType" [(ngModel)]="formActionType" value="create" #typeInput>
+
+    <p>
+      {{
+      typeInput.value === 'create'
+      ?'Add a new watchlist'
+      :'Rename the current watchlist'
+      }}
+    </p>
+
+    <button type="button" class="close-button" (click)="closeNameForm()">
+      <i class="bi bi-x-lg"></i>
+    </button>
+
+    <input type="text" class="ms-input" name="name" ngModel placeholder="Watchlist Name" #nameInput required>
+
+    <button type="submit" class="ms-button primary" [disabled]="nameForm.invalid || isLoading()">
+      {{
+      typeInput.value === 'create'
+      ?'Add Watchlist'
+      :'Rename Watchlist'
+      }}
+
+      @if (isLoading()) {
+      <mat-spinner [diameter]="20" [strokeWidth]="3" />
+      }
+    </button>
+
+  </form>
+</div>
+}

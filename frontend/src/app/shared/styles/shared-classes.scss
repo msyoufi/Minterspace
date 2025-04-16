@@ -25,6 +25,18 @@ a:hover {
   color: var(--primary-color);
 }
 
+.bi-trash3:hover {
+  color: var(--red);
+}
+
+.bi-plus-circle:hover {
+  color: var(--green);
+}
+
+.bi-pencil-square:hover {
+  color: var(--primary-color);
+}
+
 .asc::before,
 .desc::before {
   content: '';

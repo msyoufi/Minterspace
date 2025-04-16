@@ -1,6 +1,13 @@
+<ms-watchlist-control-bar (addCoinsClick)="openSelectMenu()" />
+
 <ms-watchlist-header (addCoinClick)="openSelectMenu()" />
 
-<ms-coins-list [coins]="coins()" [isLoading]="isLoading()" [loaderBarCount]="loaderBarCount" />
+@if (currentCoins().length || loaderBarCount() > 0) {
+<ms-coins-list [coins]="currentCoins()" [isLoading]="isLoading()" [loaderBarCount]="loaderBarCount()" />
+
+} @else {
+<p>empty watchlist</p>
+}
 
 @if (isCoinSelectMenuOpen()) {
 <ms-watchlist-coin-select-menu (selectMenuClose)="onSelectMenuClose()" />

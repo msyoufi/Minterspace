@@ -3,6 +3,7 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { MiniCoinsListComponent } from "../../../shared/components/mini-coins-list/mini-coins-list.component";
 import { CoingeckoService } from '../../../shared/services/coingecko.service';
+import { WatchlistService } from '../../../shared/services/watchlist.service';
 
 @Component({
   selector: 'ms-watchlist-coin-select-menu',
@@ -12,6 +13,7 @@ import { CoingeckoService } from '../../../shared/services/coingecko.service';
 })
 export class WatchlistCoinSelectMenuComponent {
   coinService = inject(CoingeckoService);
+  watchlistService = inject(WatchlistService);
 
   coins = signal<(CoinSearch | CoinTrending)[]>([]);
   selectedCoins = signal<{ id: string, symbol: string }[]>([]);
@@ -44,6 +46,16 @@ export class WatchlistCoinSelectMenuComponent {
   onCoinToggleClick(coinId: string): void {
     const newSelectedCoins = this.selectedCoins().filter(c => c.id !== coinId);
     this.selectedCoins.set(newSelectedCoins);
+  }
+
+  async onSaveClick(): Promise<void> {
+    const { id, coins } = this.watchlistService.currentWatchlist$()!;
+
+    let newCoinsIds = this.selectedCoins().map(c => c.id);
+    newCoinsIds = newCoinsIds.concat(coins);
+
+    await this.watchlistService.updateWatchlist(id, { coins: newCoinsIds });
+    this.closeMenu();
   }
 
   onIsLoading(isLoading: boolean): void {

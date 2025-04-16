@@ -1,4 +1,5 @@
-import { Component, output, signal } from '@angular/core';
+import { Component, inject, output } from '@angular/core';
+import { WatchlistService } from '../../../shared/services/watchlist.service';
 
 @Component({
   selector: 'ms-watchlist-header',
@@ -7,9 +8,11 @@ import { Component, output, signal } from '@angular/core';
   styleUrl: './watchlist-header.component.scss'
 })
 export class WatchlistHeaderComponent {
+  watchlistService = inject(WatchlistService);
+
   addCoinClick = output<void>();
 
-  onAddCoinClicked(): void {
+  onAddCoinClick(): void {
     this.addCoinClick.emit();
   }
 }
