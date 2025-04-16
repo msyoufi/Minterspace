@@ -10,18 +10,12 @@ export class WatchlistService {
 
   public watchlists$ = signal<Watchlist[]>([]);
   public currentWatchlist$ = signal<Watchlist | null>(null);
-
-  public allWatchlistsCoins = computed<Set<string>>(() => this.getCoinIdsSet());
+  public mainWatchlist = computed<Watchlist | null>(() => this.watchlists$()[0] ?? null);
 
   private BASE_URL = 'http://127.0.0.1:8000/api/watchlist';
 
   constructor() {
     this.getAllWatchlists();
-  }
-
-  getCoinIdsSet(): Set<string> {
-    const allCoinIds = this.watchlists$().flatMap(wl => wl.coins);
-    return new Set(allCoinIds);
   }
 
   async getAllWatchlists(): Promise<void> {
@@ -32,7 +26,7 @@ export class WatchlistService {
       const watchlists = await firstValueFrom(response$);
 
       this.watchlists$.set(watchlists);
-      this.selectFirstWatchlist();
+      this.currentWatchlist$.set(this.mainWatchlist());
 
     } catch (err: unknown) {
       this.handleError(err);
@@ -86,15 +80,11 @@ export class WatchlistService {
       await firstValueFrom(response$);
 
       this.watchlists$.set(this.watchlists$().filter(wl => wl.id !== watchlistId));
-      this.selectFirstWatchlist();
+      this.currentWatchlist$.set(this.mainWatchlist());
 
     } catch (err: unknown) {
       this.handleError(err);
     }
-  }
-
-  selectFirstWatchlist(): void {
-    this.currentWatchlist$.set(this.watchlists$()[0] ?? null);
   }
 
   private handleError(err: unknown): void {

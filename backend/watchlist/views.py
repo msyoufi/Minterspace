@@ -25,7 +25,7 @@ def watchlist_view(request, id=None):
 
 
 def get_all_watchlists(user):
-    user_watchlists = Watchlist.objects.filter(user=user)
+    user_watchlists = Watchlist.objects.filter(user=user).order_by("id")
     serializer = WatchlistSerializer(user_watchlists, many=True)
 
     return Response(serializer.data, status=200)
