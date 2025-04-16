@@ -4,10 +4,11 @@ import { SearchBarComponent } from '../../../shared/components/search-bar/search
 import { MiniCoinsListComponent } from "../../../shared/components/mini-coins-list/mini-coins-list.component";
 import { CoingeckoService } from '../../../shared/services/coingecko.service';
 import { WatchlistService } from '../../../shared/services/watchlist.service';
+import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
 
 @Component({
   selector: 'ms-watchlist-coin-select-menu',
-  imports: [ClickOutsideDirective, SearchBarComponent, MiniCoinsListComponent],
+  imports: [ClickOutsideDirective, EscapePressDirective, SearchBarComponent, MiniCoinsListComponent],
   templateUrl: './watchlist-coin-select-menu.component.html',
   styleUrl: './watchlist-coin-select-menu.component.scss'
 })

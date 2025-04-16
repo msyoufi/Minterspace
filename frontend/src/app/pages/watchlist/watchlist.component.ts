@@ -43,9 +43,10 @@ export class WatchlistComponent {
 
   async getCoinsData(watchlist: Watchlist): Promise<void> {
     this.isLoading.set(true);
-
-    const ids = watchlist.coins.join(',');
-    const params = { ids, sparkline: true };
+    const params = {
+      ids: watchlist.coins.join(','),
+      sparkline: true
+    };
 
     const coins = await this.coinService.getCoinsList(params);
 

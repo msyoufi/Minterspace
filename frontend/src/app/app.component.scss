@@ -2,6 +2,7 @@ main {
   flex: 1;
   max-width: var(--app-width);
   width: 100%;
+  min-height: 50vh;
   margin: 0 auto;
   padding: 1rem;
 }

@@ -1,5 +1,7 @@
 <ms-watchlist-control-bar (addCoinsClick)="openSelectMenu()" />
 
+@if (watchlistService.currentWatchlist$()) {
+
 <ms-watchlist-header (addCoinClick)="openSelectMenu()" />
 
 @if (currentCoins().length || loaderBarCount() > 0) {
@@ -11,4 +13,11 @@
 
 @if (isCoinSelectMenuOpen()) {
 <ms-watchlist-coin-select-menu (selectMenuClose)="onSelectMenuClose()" />
+}
+
+} @else {
+<div class="no-watchlists">
+  TODO <br>
+  You have no watchlists yet
+</div>
 }
