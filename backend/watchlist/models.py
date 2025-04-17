@@ -7,6 +7,7 @@ class Watchlist(models.Model):
         on_delete=models.CASCADE,
         related_name="watchlist",
     )
+    is_main = models.BooleanField(default=False)
     name = models.CharField(max_length=50)
     coins = models.JSONField(default=list, blank=True)
 

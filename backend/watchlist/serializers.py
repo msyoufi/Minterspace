@@ -5,5 +5,5 @@ from .models import Watchlist
 class WatchlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watchlist
-        fields = ("id", "name", "coins")
+        fields = ("id", "is_main", "name", "coins")
         read_only_fields = ("id",)

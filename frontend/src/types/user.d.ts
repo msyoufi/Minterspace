@@ -7,10 +7,10 @@ interface User {
   last_login: string
 }
 
-// The watchlist with index 0 is always the main watchlist
 interface Watchlist {
   id: number | bigint,
   name: string,
+  is_main: boolean,
   coins: string[]
 }
 
