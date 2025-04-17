@@ -1,90 +1,126 @@
 import { HttpClient } from '@angular/common/http';
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class WatchlistService {
+  private authService = inject(AuthService);
   private http = inject(HttpClient);
 
   public watchlists$ = signal<Watchlist[]>([]);
   public currentWatchlist$ = signal<Watchlist | null>(null);
-  public mainWatchlist = computed<Watchlist | null>(() => this.watchlists$()[0] ?? null);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/watchlist';
+  // The main watchlist is created on accout creation and cannot be deleted by the user
+  public mainWatchlist = computed<Watchlist | null>(() =>
+    this.watchlists$().find(wl => wl.is_main) ?? null
+  );
+
+  private BASE_URL = 'http://127.0.0.1:8000/api/watchlist/';
 
   constructor() {
-    this.getAllWatchlists();
+    this.getUserWatchlists();
+  }
+
+  getUserWatchlists(): void {
+    effect(() => {
+      this.authService.user$()
+        ? this.getAllWatchlists()
+        : this.setWatchlists([], null);
+    });
   }
 
   async getAllWatchlists(): Promise<void> {
-    const url = `${this.BASE_URL}/`;
+    const watchlists = await this.fetchFromBackend();
+    const currentWatchlist = watchlists.find(wl => wl.is_main) ?? null;
 
+    this.setWatchlists(watchlists, currentWatchlist);
+  }
+
+  private async fetchFromBackend(): Promise<Watchlist[]> {
     try {
-      const response$ = this.http.get<Watchlist[]>(url);
-      const watchlists = await firstValueFrom(response$);
-
-      this.watchlists$.set(watchlists);
-      this.currentWatchlist$.set(this.mainWatchlist());
+      const response$ = this.http.get<Watchlist[]>(this.BASE_URL);
+      return await firstValueFrom(response$);
 
     } catch (err: unknown) {
       this.handleError(err);
+      return [];
     }
   }
 
-  async createWatchlist(name: string, coins: string[]): Promise<void> {
-    const url = `${this.BASE_URL}/`;
-    const body = { name, coins };
+  async createWatchlist(name: string, is_main = false): Promise<void> {
+    const createdWatchlist = await this.createInBackend({ name, is_main });
+    if (!createdWatchlist) return;
 
+    const newWatchlists = [...this.watchlists$(), createdWatchlist];
+    this.setWatchlists(newWatchlists, createdWatchlist);
+  }
+
+  private async createInBackend(watchlistData: Omit<Watchlist, 'coins' | 'id'>): Promise<Watchlist | null> {
     try {
-      const response$ = this.http.post<Watchlist>(url, body);
-      const createdWatchlist = await firstValueFrom(response$);
-
-      this.watchlists$.set([...this.watchlists$(), createdWatchlist]);
-      this.currentWatchlist$.set(createdWatchlist);
+      const response$ = this.http.post<Watchlist>(this.BASE_URL, watchlistData);
+      return await firstValueFrom(response$);
 
     } catch (err: unknown) {
       this.handleError(err);
+      return null;
     }
   }
 
   async updateWatchlist(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<void> {
-    const url = `${this.BASE_URL}/${watchlistId}`;
+    if (!changes.coins && !changes.name)
+      return console.log('No changes were provided for an update');
 
+    const updatedWatchlist = await this.updateInBackend(watchlistId, changes);
+    if (!updatedWatchlist) return;
+
+    const newWatchlists = this.watchlists$().map(wl =>
+      wl.id === watchlistId ? updatedWatchlist : wl
+    );
+
+    this.setWatchlists(newWatchlists, updatedWatchlist);
+  }
+
+  private async updateInBackend(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Watchlist | null> {
     try {
-      const response$ = this.http.patch<Watchlist>(url, changes);
-      const updatedWatchlist = await firstValueFrom(response$);
-
-      const index = this.watchlists$().findIndex(wl => wl.id === watchlistId);
-
-      if (index < 0)
-        throw new Error('not found');
-
-      const newWatchlists = this.watchlists$().map(wl =>
-        wl.id === watchlistId ? updatedWatchlist : wl
-      );
-
-      this.watchlists$.set(newWatchlists);
-      this.currentWatchlist$.set(updatedWatchlist);
+      const response$ = this.http.patch<Watchlist>(this.BASE_URL + watchlistId, changes);
+      return await firstValueFrom(response$);
 
     } catch (err: unknown) {
       this.handleError(err);
+      return null;
     }
   }
 
   async deleteWatchlist(watchlistId: number | bigint): Promise<void> {
-    const url = `${this.BASE_URL}/${watchlistId}`;
+    if (watchlistId === this.mainWatchlist()?.id)
+      return console.log('Cannot delete the main watchlist');
+
+    const result = await this.deleteInBackend(watchlistId);
+    if (!result) return;
+
+    const newWatchlists = this.watchlists$().filter(wl => wl.id !== watchlistId);
+    this.setWatchlists(newWatchlists, this.mainWatchlist());
+  }
+
+  private async deleteInBackend(watchlistId: number | bigint): Promise<boolean> {
     try {
-      const response$ = this.http.delete<null>(url);
+      const response$ = this.http.delete<null>(this.BASE_URL + watchlistId);
       await firstValueFrom(response$);
 
-      this.watchlists$.set(this.watchlists$().filter(wl => wl.id !== watchlistId));
-      this.currentWatchlist$.set(this.mainWatchlist());
+      return true;
 
     } catch (err: unknown) {
       this.handleError(err);
+      return false;
     }
+  }
+
+  private setWatchlists(all: Watchlist[], current: Watchlist | null): void {
+    this.watchlists$.set(all);
+    this.currentWatchlist$.set(current);
   }
 
   private handleError(err: unknown): void {
