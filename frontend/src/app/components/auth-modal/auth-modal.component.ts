@@ -8,6 +8,7 @@ import { EscapePressDirective } from '../../shared/directives/escape-press.direc
 import MsValidators from '../../shared/utils/ms.validators';
 import { AuthService } from '../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
+import { WatchlistService } from '../../shared/services/watchlist.service';
 
 interface AuthFormGroup {
   email: FormControl<string | null>,
@@ -23,6 +24,7 @@ interface AuthFormGroup {
 })
 export class AuthModalComponent {
   authService = inject(AuthService);
+  watchlistService = inject(WatchlistService);
   router = inject(Router);
 
   form = new FormGroup<AuthFormGroup>({
@@ -43,30 +45,50 @@ export class AuthModalComponent {
     }
 
     const { email, password } = this.form.value;
+
+    const result = await this.authenticateUser(email!, password!);
+    if (!result) return;
+
+    this.router.navigateByUrl(this.authService.forwardURL);
+    this.authService.closeAuthModal();
+    console.log('Success');
+  }
+
+  async authenticateUser(email: string, password: string): Promise<boolean> {
     this.isLoading.set(true);
 
     try {
-      if (this.isLogin())
-        await this.authService.login(email!, password!);
-      else
-        await this.authService.register(email!, password!);
+      this.isLogin()
+        ? await this.authService.login(email, password)
+        : await this.createUserAccount(email, password);
 
-      this.router.navigateByUrl(this.authService.forwardURL);
-      this.authService.closeAuthModal();
-      console.log('Success');
+      return true;
 
     } catch (err: unknown) {
-      if (err instanceof HttpErrorResponse) {
-        const emailErr = err.error.email;
-
-        if (emailErr)
-          this.formError.set(emailErr[0]);
-        else
-          this.formError.set(err.error.detail);
-      }
+      this.handleAuthErrors(err);
+      return false;
 
     } finally {
       this.isLoading.set(false);
+    }
+  }
+
+  async createUserAccount(email: string, password: string): Promise<void> {
+    await this.authService.register(email, password);
+
+    // Only the first watchlist on account creation musst be set as main watchlist.
+    await this.watchlistService.createWatchlist('Main', true);
+  }
+
+  handleAuthErrors(err: unknown): void {
+    // TODO
+    if (err instanceof HttpErrorResponse) {
+      const emailErr = err.error.email;
+
+      if (emailErr)
+        this.formError.set(emailErr[0]);
+      else
+        this.formError.set(err.error.detail);
     }
   }
 
