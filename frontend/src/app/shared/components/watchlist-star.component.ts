@@ -1,8 +1,9 @@
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { WatchlistService } from '../services/watchlist.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'ms-watchlist-star',
@@ -11,9 +12,10 @@ import { Router } from '@angular/router';
     <div>
       @if(isLoading()) {
       <mat-spinner [diameter]="20" [strokeWidth]="2" />
+
       } @else {
       <button class="icon-button" (click)="onStarClick($event)"
-        [matTooltip]="(isInWatchlist() ? 'Remove From ' : 'Add To ') + relevantWatchlist()?.name + ' Watchlist'">
+        [matTooltip]="tooltip()">
         <i [class]="'bi bi-star' + (isInWatchlist() ? '-fill' : '')"></i>
       </button>
       }
@@ -23,41 +25,70 @@ import { Router } from '@angular/router';
     div {
       text-align: center;
     }
+    
+    .bi-star {
+      color: var(--gray);
+      &:hover {
+        color: gold;
+      }
+    }
   `
 })
 export class WatchlistStarComponent {
+  authService = inject(AuthService);
   watchlistService = inject(WatchlistService);
   router = inject(Router);
 
-  relevantWatchlist = this.router.url.includes('watchlist')
+  coinId = input.required<string>();
+
+  contextWatchlist = this.router.url.includes('watchlist')
     ? this.watchlistService.currentWatchlist$
     : this.watchlistService.mainWatchlist;
 
-  coinId = input.required<string>();
-  isInWatchlist = computed(() => this.relevantWatchlist()?.coins.includes(this.coinId()));
-
+  isInWatchlist = computed(() => !!this.contextWatchlist()?.coins.includes(this.coinId()));
+  tooltip = signal('');
   isLoading = signal(false);
+
+  constructor() {
+    effect(() => this.setTooltip());
+  }
+
+  setTooltip(): void {
+    const user = this.authService.user$();
+    const watchlist = this.contextWatchlist();
+    let content = 'Add To Watchlist';
+
+    if (user && watchlist) {
+      content = (this.isInWatchlist() ? 'Remove From ' : 'Add To ')
+        + (watchlist.is_main ? 'Main' : 'this')
+        + ' Watchlist';
+    }
+
+    this.tooltip.set(content);
+  }
 
   onStarClick(e: MouseEvent): void {
     e.stopPropagation();
     e.preventDefault();
 
-    const watchlist = this.relevantWatchlist();
-
-    if (!watchlist) return;
-
-    this.updateWatchlistCoins(watchlist);
+    if (!this.authService.user$())
+      return this.authService.openAuthModal('/watchlist');
+    else
+      this.updateWatchlistCoins();
   }
 
-  async updateWatchlistCoins(watchlist: Watchlist): Promise<void> {
+  async updateWatchlistCoins(): Promise<void> {
+    const watchlist = this.contextWatchlist();
+    if (!watchlist) return;
+
     this.isLoading.set(true);
 
     const coins = this.isInWatchlist()
       ? watchlist.coins.filter(id => id !== this.coinId())
       : [...watchlist.coins, this.coinId()];
 
-    await this.watchlistService.updateWatchlist(this.relevantWatchlist()!.id, { coins });
-    
+    await this.watchlistService.updateWatchlist(watchlist.id, { coins });
+
     this.isLoading.set(false);
   }
 }
