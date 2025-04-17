@@ -75,9 +75,11 @@ export class AuthModalComponent {
 
   async createUserAccount(email: string, password: string): Promise<void> {
     await this.authService.register(email, password);
-
     // Only the first watchlist on account creation musst be set as main watchlist.
-    await this.watchlistService.createWatchlist('Main', true);
+    const watchlist = await this.watchlistService.createWatchlist('Main', true);
+
+    if (watchlist && !watchlist.is_main)
+      console.log('Watchlist created');
   }
 
   handleAuthErrors(err: unknown): void {
