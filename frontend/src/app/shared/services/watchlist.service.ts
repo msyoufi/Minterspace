@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -10,33 +10,31 @@ export class WatchlistService {
   private authService = inject(AuthService);
   private http = inject(HttpClient);
 
+  private BASE_URL = 'http://127.0.0.1:8000/api/watchlist/';
+
   public watchlists$ = signal<Watchlist[]>([]);
   public currentWatchlist$ = signal<Watchlist | null>(null);
 
   // The main watchlist is created on accout creation and cannot be deleted by the user
-  public mainWatchlist = computed<Watchlist | null>(() =>
+  public mainWatchlist = computed(() =>
     this.watchlists$().find(wl => wl.is_main) ?? null
   );
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/watchlist/';
-
   constructor() {
-    this.getUserWatchlists();
+    effect(() => this.getUserWatchlists());
   }
 
   getUserWatchlists(): void {
-    effect(() => {
-      this.authService.user$()
-        ? this.getAllWatchlists()
-        : this.setWatchlists([], null);
-    });
+    this.authService.user$()
+      ? this.getAllWatchlists()
+      : this.setWatchlists([], null);
   }
 
   async getAllWatchlists(): Promise<void> {
     const watchlists = await this.fetchFromBackend();
-    const currentWatchlist = watchlists.find(wl => wl.is_main) ?? null;
+    const mainWatchlist = watchlists.find(wl => wl.is_main) ?? null;
 
-    this.setWatchlists(watchlists, currentWatchlist);
+    this.setWatchlists(watchlists, mainWatchlist);
   }
 
   private async fetchFromBackend(): Promise<Watchlist[]> {
@@ -50,12 +48,14 @@ export class WatchlistService {
     }
   }
 
-  async createWatchlist(name: string, is_main = false): Promise<void> {
+  async createWatchlist(name: string, is_main = false): Promise<Watchlist | null> {
     const createdWatchlist = await this.createInBackend({ name, is_main });
-    if (!createdWatchlist) return;
+    if (!createdWatchlist) return null;
 
     const newWatchlists = [...this.watchlists$(), createdWatchlist];
     this.setWatchlists(newWatchlists, createdWatchlist);
+
+    return createdWatchlist;
   }
 
   private async createInBackend(watchlistData: Omit<Watchlist, 'coins' | 'id'>): Promise<Watchlist | null> {
@@ -69,18 +69,22 @@ export class WatchlistService {
     }
   }
 
-  async updateWatchlist(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<void> {
-    if (!changes.coins && !changes.name)
-      return console.log('No changes were provided for an update');
+  async updateWatchlist(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Watchlist | null> {
+    if (!changes.coins && !changes.name) {
+      console.log('No changes were provided for an update');
+      return null;
+    }
 
     const updatedWatchlist = await this.updateInBackend(watchlistId, changes);
-    if (!updatedWatchlist) return;
+    if (!updatedWatchlist) return null;
 
     const newWatchlists = this.watchlists$().map(wl =>
       wl.id === watchlistId ? updatedWatchlist : wl
     );
 
     this.setWatchlists(newWatchlists, updatedWatchlist);
+
+    return updatedWatchlist;
   }
 
   private async updateInBackend(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Watchlist | null> {
@@ -94,15 +98,19 @@ export class WatchlistService {
     }
   }
 
-  async deleteWatchlist(watchlistId: number | bigint): Promise<void> {
-    if (watchlistId === this.mainWatchlist()?.id)
-      return console.log('Cannot delete the main watchlist');
+  async deleteWatchlist(watchlistId: number | bigint): Promise<boolean> {
+    if (watchlistId === this.mainWatchlist()?.id) {
+      console.log('Cannot delete the main watchlist');
+      return false;
+    }
 
     const result = await this.deleteInBackend(watchlistId);
-    if (!result) return;
+    if (!result) return false;
 
     const newWatchlists = this.watchlists$().filter(wl => wl.id !== watchlistId);
     this.setWatchlists(newWatchlists, this.mainWatchlist());
+
+    return true;
   }
 
   private async deleteInBackend(watchlistId: number | bigint): Promise<boolean> {
@@ -121,6 +129,11 @@ export class WatchlistService {
   private setWatchlists(all: Watchlist[], current: Watchlist | null): void {
     this.watchlists$.set(all);
     this.currentWatchlist$.set(current);
+  }
+
+  public setCurrentWatchlistById(id: number | bigint) {
+    const watchlist = this.watchlists$().find(wl => wl.id === id) ?? null;
+    this.currentWatchlist$.set(watchlist);
   }
 
   private handleError(err: unknown): void {
