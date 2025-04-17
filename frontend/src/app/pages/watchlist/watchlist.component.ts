@@ -5,10 +5,11 @@ import { WatchlistHeaderComponent } from './watchlist-header/watchlist-header.co
 import { WatchlistCoinSelectMenuComponent } from './watchlist-coin-select-menu/watchlist-coin-select-menu.component';
 import { CoingeckoService } from '../../shared/services/coingecko.service';
 import { WatchlistControlBarComponent } from './watchlist-control-bar/watchlist-control-bar.component';
+import { EmptyWatchlistSVGComponent } from './empty-watchlist-svg/empty-watchlist-svg.component';
 
 @Component({
   selector: 'ms-watchlist',
-  imports: [CoinsListComponent, WatchlistHeaderComponent, WatchlistCoinSelectMenuComponent, WatchlistControlBarComponent],
+  imports: [CoinsListComponent, WatchlistHeaderComponent, WatchlistCoinSelectMenuComponent, WatchlistControlBarComponent, EmptyWatchlistSVGComponent],
   templateUrl: './watchlist.component.html',
   styleUrl: './watchlist.component.scss'
 })
@@ -25,26 +26,25 @@ export class WatchlistComponent {
   );
 
   constructor() {
-    this.onWatchlistChange();
+    effect(() => this.onWatchlistChange());
   }
 
   async onWatchlistChange(): Promise<void> {
-    effect(async () => {
-      const watchlist = this.watchlistService.currentWatchlist$();
+    const watchlist = this.watchlistService.currentWatchlist$();
 
-      if (!watchlist || !watchlist.coins.length) {
-        this.currentCoins.set([]);
-        return;
-      }
+    if (!watchlist || !watchlist.coins.length) {
+      this.currentCoins.set([]);
+      return;
+    }
 
-      this.getCoinsData(watchlist);
-    });
+    this.getCoinsData(watchlist.coins);
   }
 
-  async getCoinsData(watchlist: Watchlist): Promise<void> {
+  async getCoinsData(coinsIds: string[]): Promise<void> {
     this.isLoading.set(true);
+
     const params = {
-      ids: watchlist.coins.join(','),
+      ids: coinsIds.join(','),
       sparkline: true
     };
 

@@ -1,23 +1,30 @@
-<ms-watchlist-control-bar (addCoinsClick)="openSelectMenu()" />
+<div class="watchlist-component-container">
 
-@if (watchlistService.currentWatchlist$()) {
+  <ms-watchlist-control-bar (addCoinsClick)="openSelectMenu()" />
 
-<ms-watchlist-header (addCoinClick)="openSelectMenu()" />
+  @if (currentCoins().length || loaderBarCount()) {
+  <ms-watchlist-header (addCoinClick)="openSelectMenu()" />
+  <ms-coins-list [coins]="currentCoins()" [isLoading]="isLoading()" [loaderBarCount]="loaderBarCount()" />
 
-@if (currentCoins().length || loaderBarCount() > 0) {
-<ms-coins-list [coins]="currentCoins()" [isLoading]="isLoading()" [loaderBarCount]="loaderBarCount()" />
+  <button type="button" class="add-coin-bar" (click)="openSelectMenu()">
+    Add Coins +
+  </button>
 
-} @else {
-<p>empty watchlist</p>
-}
+  } @else {
+  <div class="empty-watchlist-container">
+    <div>
+      <h2>Start Tracking Your Favorit Coins <br> In Your Watchlist Now.</h2>
+
+      <button type="button" class="ms-button primary" (click)="openSelectMenu()">
+        Add Coins +
+      </button>
+    </div>
+
+    <ms-empty-watchlist-svg />
+  </div>
+  }
+</div>
 
 @if (isCoinSelectMenuOpen()) {
 <ms-watchlist-coin-select-menu (selectMenuClose)="onSelectMenuClose()" />
-}
-
-} @else {
-<div class="no-watchlists">
-  TODO <br>
-  You have no watchlists yet
-</div>
 }

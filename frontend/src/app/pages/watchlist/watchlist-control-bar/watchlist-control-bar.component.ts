@@ -3,10 +3,11 @@ import { WatchlistService } from '../../../shared/services/watchlist.service';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
 import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'ms-watchlist-control-bar',
-  imports: [ClickOutsideDirective, EscapePressDirective, NameInputPaneComponent],
+  imports: [ClickOutsideDirective, EscapePressDirective, NameInputPaneComponent, MatTooltip],
   templateUrl: './watchlist-control-bar.component.html',
   styleUrl: './watchlist-control-bar.component.scss'
 })
@@ -20,8 +21,7 @@ export class WatchlistControlBarComponent {
   addCoinsClick = output<void>();
 
   onWatchlistSelect(watchlistId: number | bigint): void {
-    const watchlist = this.watchlistService.watchlists$().find(wl => wl.id === watchlistId)!;
-    this.watchlistService.currentWatchlist$.set(watchlist);
+    this.watchlistService.setCurrentWatchlistById(watchlistId);
     this.closeSelectMenu();
   }
 
@@ -36,28 +36,34 @@ export class WatchlistControlBarComponent {
     this.isLoading.set(true);
 
     if (this.formActionType === 'create') {
-      await this.watchlistService.createWatchlist(name, []);
-      console.log('New watchlist added');
+      const watchlist = await this.watchlistService.createWatchlist(name);
+
+      if (watchlist)
+        console.log('New watchlist added');
 
     } else {
       const id = this.watchlistService.currentWatchlist$()!.id;
-      await this.watchlistService.updateWatchlist(id, { name });
-      console.log('Watchlist renamed');
+      const watchlist = await this.watchlistService.updateWatchlist(id, { name });
+
+      if (watchlist)
+        console.log('Watchlist renamed');
     }
 
     this.isLoading.set(false);
     this.closeNameForm();
   }
 
-  onDeleteClick(): void {
-    this.deleteCurrentWatchlist();
-  }
+  async onDeleteClick(): Promise<void> {
+    const watchlist = this.watchlistService.currentWatchlist$();
+    if (!watchlist) return;
 
-  async deleteCurrentWatchlist(): Promise<void> {
-    const id = this.watchlistService.currentWatchlist$()!.id;
-    await this.watchlistService.deleteWatchlist(id);
+    if (watchlist.is_main)
+      return console.log('cannot delete main watchlist');
 
-    console.log('Watchlist deleted');
+    const result = await this.watchlistService.deleteWatchlist(watchlist.id);
+
+    if (result)
+      console.log('Watchlist deleted');
   }
 
   openSelectMenu(): void {
@@ -71,6 +77,7 @@ export class WatchlistControlBarComponent {
   openNameForm(action: 'create' | 'edit'): void {
     this.formActionType = action;
     this.isNameFormOpen.set(true);
+    this.isSelectMenuOpen.set(false);
   }
 
   closeNameForm(): void {
