@@ -10,15 +10,29 @@
 <div class="overlay">
   <div class="dialog-container" (msClickOutside)="closeSearchPanel()" (msEscapePress)="closeSearchPanel()">
 
-    <ms-search-bar (searchResults)="onSearchResults($event)" (isLoading)="onIsLoading($event)" />
+    <ms-search-bar (searchResults)="onSearchResults($event)" (isSearching)="onIsSearching($event)" />
 
-    @if (results) {
+    <ul class="mini-coins-list-cointainer">
+      @if (isSearching()) {
 
-    <ms-mini-coins-list [coins]="results.coins" [isLoading]="isLoading()" (coinBarClick)="onCoinBarClick($event)" />
+      @for (coin of [1,2,3,4,5,6,7,8,9]; track $index) {
+      <li>
+        <span class="skeleton"></span>
+      </li>
+      }
 
-    } @else {
-    <p class="empty-list">{{message()}}</p>
-    }
+      } @else if (results) {
+
+      @for (coin of results.coins; track coin.id) {
+      <li>
+        <ms-mini-coin-bar [coin]="coin" (coinBarClick)="onCoinBarClick($event)" />
+      </li>
+      }
+
+      } @else {
+      <p class="empty-mini-coins-list">{{message()}}</p>
+      }
+    </ul>
 
   </div>
 </div>

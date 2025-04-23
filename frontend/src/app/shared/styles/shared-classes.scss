@@ -78,6 +78,34 @@ a:hover {
   animation: skeleton-loader .75s linear infinite alternate;
 }
 
+.empty-mini-coins-list {
+  flex: 1;
+  padding-top: 3rem;
+  text-align: center;
+  color: var(--gray);
+}
+
+.mini-coins-list-cointainer {
+  flex: 1;
+  padding: .75rem;
+  overflow: hidden auto;
+
+  li {
+    margin-bottom: .25rem;
+  }
+
+  .skeleton {
+    display: block;
+    width: 100%;
+    height: 2.5rem;
+    border-radius: var(--radius-l);
+  }
+
+  .bi-star {
+    color: var(--gray);
+  }
+}
+
 .overlay {
   width: 100vw;
   height: 100vh;

@@ -2,12 +2,12 @@ import { Component, inject, signal } from '@angular/core';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
-import { MiniCoinsListComponent } from '../../../shared/components/mini-coins-list/mini-coins-list.component';
 import { Router } from '@angular/router';
+import { MiniCoinBarComponent } from '../../../shared/components/mini-coin-bar/mini-coin-bar.component';
 
 @Component({
   selector: 'ms-header-search',
-  imports: [ClickOutsideDirective, SearchBarComponent, EscapePressDirective, MiniCoinsListComponent],
+  imports: [ClickOutsideDirective, SearchBarComponent, EscapePressDirective, MiniCoinBarComponent],
   templateUrl: './header-search.component.html',
   styleUrl: './header-search.component.scss'
 })
@@ -16,7 +16,7 @@ export class HeaderSearchComponent {
 
   searchResults = signal<SearchResults | null>(null);
   isSearchPanelOpen = signal(false);
-  isLoading = signal(false);
+  isSearching = signal(false);
   startMessage = 'Search coins by name or ticker symbol';
   message = signal(this.startMessage);
 
@@ -32,8 +32,9 @@ export class HeaderSearchComponent {
     this.searchResults.set(searchResults);
   }
 
-  onIsLoading(isLoading: boolean): void {
-    this.isLoading.set(isLoading);
+  onIsSearching(isSearching: boolean): void {
+    console.log('isSearching', isSearching)
+    this.isSearching.set(isSearching);
   }
 
   onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {

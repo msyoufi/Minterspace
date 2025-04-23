@@ -1,10 +1,19 @@
 <button class="coin-bar-item" (click)="onCoinBarClick(coin())">
   <div class="left-section">
-    <img [src]="imgURL">
+    <img [src]="imgUrl">
     <span>
       {{coin().name}}
       <span class="coin-symbol">{{coin().symbol}}</span>
     </span>
   </div>
+
+  @let content = icon();
+
+  @if (content) {
+  <ng-container [ngTemplateOutlet]="content" />
+
+  } @else {
   <p class="coin-rank">#{{coin().market_cap_rank}}</p>
+  }
+
 </button>

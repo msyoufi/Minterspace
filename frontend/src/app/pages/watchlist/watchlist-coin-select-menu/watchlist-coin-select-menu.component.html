@@ -1,5 +1,6 @@
 <div class="overlay" (msEscapePress)="closeMenu()">
   <div class="dialog-container" (msClickOutside)="closeMenu()">
+
     <div class="menu-header">
       <p>Select Coins</p>
 
@@ -8,19 +9,40 @@
       </button>
     </div>
 
-    <ms-search-bar (searchResults)="onSearchResults($event)" (isLoading)="onIsLoading($event)" />
+    <ms-search-bar (searchResults)="onSearchResults($event)" (isSearching)="onIsSearching($event)" />
 
-    @if (coins().length) {
-    <ms-mini-coins-list (coinBarClick)="onCoinBarClick($event)" [coins]="coins()" [isLoading]="isLoading()" />
+    <ul class="mini-coins-list-cointainer">
+      @if (isLoading()) {
 
-    } @else {
-    <p class="empty-list">No coins found</p>
-    }
+      @for (coin of [1,2,3,4,5,6,7,8,9]; track $index) {
+      <li>
+        <span class="skeleton"></span>
+      </li>
+      }
+
+      } @else if (coins().length) {
+
+      @for (coin of coins(); track coin.id) {
+
+      <ng-template #icon>
+        @let isInWatchlist = allCoinsIds().includes(coin.id);
+        <i [class]="'bi bi-star' + (isInWatchlist ? '-fill' : '')"></i>
+      </ng-template>
+
+      <li>
+        <ms-mini-coin-bar [coin]="coin" (coinBarClick)="onCoinBarClick($event)" [icon]="icon" />
+      </li>
+      }
+
+      } @else {
+      <p class="empty-mini-coins-list">No coins found</p>
+      }
+    </ul>
 
     @if (selectedCoins().length) {
-    <div class="selected-coins-container">
+    <div class="new-coins-container">
       @for (coin of selectedCoins(); track coin.id) {
-      <button class="icon-button" (click)="onCoinToggleClick(coin.id)">
+      <button class="icon-button" (click)="onCoinRemoveClick(coin.id)">
         <i class='bi bi-x-lg'></i>
         {{coin.symbol}}
       </button>
@@ -28,8 +50,12 @@
     </div>
     }
 
-    <button class="ms-button primary" [disabled]="!selectedCoins().length" (click)="onSaveClick()">
-      Add
+    <button class="ms-button primary" [disabled]="!selectedCoins().length || isSaving()" (click)="onSaveClick()">
+      Save
+      @if(isSaving()){
+      <mat-spinner [diameter]="20" [strokeWidth]="3" />
+      }
     </button>
+
   </div>
 </div>

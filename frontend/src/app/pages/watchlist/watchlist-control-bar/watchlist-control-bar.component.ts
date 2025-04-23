@@ -20,8 +20,8 @@ export class WatchlistControlBarComponent {
   formActionType: 'create' | 'edit' = 'create';
   addCoinsClick = output<void>();
 
-  onWatchlistSelect(watchlistId: number | bigint): void {
-    this.watchlistService.setCurrentWatchlistById(watchlistId);
+  onWatchlistSelect(watchlist: Watchlist): void {
+    this.watchlistService.currentWatchlist$.set(watchlist);
     this.closeSelectMenu();
   }
 

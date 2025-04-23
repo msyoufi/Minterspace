@@ -131,11 +131,6 @@ export class WatchlistService {
     this.currentWatchlist$.set(current);
   }
 
-  public setCurrentWatchlistById(id: number | bigint) {
-    const watchlist = this.watchlists$().find(wl => wl.id === id) ?? null;
-    this.currentWatchlist$.set(watchlist);
-  }
-
   private handleError(err: unknown): void {
     console.log(err);
   }
