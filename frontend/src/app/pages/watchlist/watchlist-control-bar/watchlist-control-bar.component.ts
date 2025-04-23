@@ -38,9 +38,9 @@ export class WatchlistControlBarComponent {
     this.isLoading.set(true);
 
     if (this.formActionType === 'create')
-      this.createWatchlist(name);
+      await this.createWatchlist(name);
     else
-      this.renameWatchlist(name);
+      await this.renameWatchlist(name);
 
     this.isLoading.set(false);
     this.closeNameForm();

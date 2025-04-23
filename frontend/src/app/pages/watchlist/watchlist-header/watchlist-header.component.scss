@@ -1,0 +1,32 @@
+.performers-container {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem 0;
+  gap: .5rem;
+}
+
+.pane {
+  display: flex;
+  justify-content: space-between;
+  min-width: 25rem;
+  gap: .5rem;
+  cursor: pointer;
+}
+
+.skeleton {
+  flex: 1;
+  min-width: 25rem;
+  height: 10rem;
+}
+
+@media (max-width: 450px) {
+
+  .performers-container {
+    flex-direction: column;
+  }
+
+  .pane,
+  .skeleton {
+    min-width: 0;
+  }
+}

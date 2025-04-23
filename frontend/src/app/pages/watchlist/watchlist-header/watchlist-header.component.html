@@ -1,3 +1,20 @@
-<div class="watchlist-header-container">
-  header works
+@let best = bestPerformer();
+@let worst = worstPerformer();
+
+<div class="performers-container">
+
+  @if (isLoading()) {
+  <span class="skeleton"></span>
+  <span class="skeleton"></span>
+
+  } @else if (best && worst) {
+  <ms-performance-pane class="pane" [coin]="best" [routerLink]="'/coins/' + best.id">
+    Best Performer 24H
+  </ms-performance-pane>
+
+  <ms-performance-pane class="pane" [coin]="worst" [routerLink]="'/coins/' + worst.id">
+    Worst Performer 24H
+  </ms-performance-pane>
+
+  }
 </div>

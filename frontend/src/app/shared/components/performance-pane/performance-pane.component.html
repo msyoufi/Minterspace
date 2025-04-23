@@ -1,0 +1,35 @@
+@let c = coin();
+
+<div>
+  <p class="title">
+    <ng-content></ng-content>
+  </p>
+
+  <div class="image-name-container">
+    <img [src]="c.image">
+    {{c.name}}
+  </div>
+
+  <div>
+    <p [class]="'value ' + (valueChange < 0 ? 'red': 'green')">
+      {{
+      valueChange > 0 ? '+' : '-'
+      }}${{
+      valueChange | absolut | number : `1.0-${0.0001 > (valueChange | absolut) ? '10' : '4'}`
+      }}
+    </p>
+
+    <p class="percent">
+      <span [class]="(valueChangePercent > 0 ? 'asc green' : 'desc red')">
+        {{valueChangePercent | absolut | number : '1.1-1'}}%
+      </span>
+      <span class="title">24h</span>
+    </p>
+  </div>
+
+</div>
+
+<div class="sparkline-container">
+  <p class="title">Last 7 Days</p>
+  <ms-sparkline [priceData]="c.sparkline_in_7d.price" />
+</div>

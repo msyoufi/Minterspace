@@ -3,7 +3,7 @@
   <ms-watchlist-control-bar (addCoinsClick)="openSelectMenu()" />
 
   @if (currentCoins().length || loaderBarCount()) {
-  <ms-watchlist-header (addCoinClick)="openSelectMenu()" />
+  <ms-watchlist-header [currentCoins]="currentCoins()" [isLoading]="isLoading()" />
   <ms-coins-list [coins]="currentCoins()" [isLoading]="isLoading()" [loaderBarCount]="loaderBarCount()" />
 
   <button type="button" class="add-coin-bar" (click)="openSelectMenu()">
