@@ -25,6 +25,8 @@ export class WatchlistComponent {
     this.watchlistService.currentWatchlist$()?.coins.length ?? 0
   );
 
+  currentWatchlistId: number | bigint = 0;
+
   constructor() {
     effect(() => this.onWatchlistChange());
   }
@@ -37,10 +39,22 @@ export class WatchlistComponent {
       return;
     }
 
-    this.getCoinsData(watchlist.coins);
+    const currentCoinsCount = this.currentCoins().length;
+    const newCoinsCount = watchlist.coins.length;
+
+    const mustFetch = this.currentWatchlistId !== watchlist.id || newCoinsCount > currentCoinsCount;
+
+    if (mustFetch)
+      this.getCoinsData(watchlist.coins);
+
+    if (newCoinsCount < currentCoinsCount)
+      this.removeDeletedCoins(watchlist.coins);
+
+    this.currentWatchlistId = watchlist.id;
   }
 
   async getCoinsData(coinsIds: string[]): Promise<void> {
+    console.log('fetching watchlist coins')
     this.isLoading.set(true);
 
     const params = {
@@ -52,6 +66,11 @@ export class WatchlistComponent {
 
     this.currentCoins.set(coins);
     this.isLoading.set(false);
+  }
+
+  removeDeletedCoins(newCoinsIds: string[]): void {
+    const newCurrentCoins = this.currentCoins().filter(c => newCoinsIds.includes(c.id));
+    this.currentCoins.set(newCurrentCoins);
   }
 
   openSelectMenu(): void {
