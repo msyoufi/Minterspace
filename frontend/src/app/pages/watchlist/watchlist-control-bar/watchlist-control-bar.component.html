@@ -1,7 +1,7 @@
 @let watchlist = watchlistService.currentWatchlist$();
 
 @if (watchlist) {
-<div class="coin-bar-container" (msClickOutside)="closeSelectMenu()">
+<div class="coin-bar-container">
   <button type="button" class="select-menu-button" (click)="openSelectMenu()">
     @if (watchlist.is_main) { <i class="bi bi-star-fill"></i> }
     {{watchlist.name}}
@@ -21,11 +21,11 @@
     </button>
   </div>
 
-  <ul class="select-menu" [class.show]="isSelectMenuOpen()" (msEscapePress)="closeSelectMenu()">
+  <ul class="select-menu" [class.show]="isSelectMenuOpen()" (msClickOutside)="closeSelectMenu()"
+    (msEscapePress)="closeSelectMenu()">
     @for ( wl of watchlistService.watchlists$(); track wl.id ) {
     <li>
-      <button type="button" class="menu-item" [class.selected]="wl.id === watchlist.id"
-        (click)="onWatchlistSelect(wl)">
+      <button type="button" class="menu-item" [class.selected]="wl.id === watchlist.id" (click)="onWatchlistSelect(wl)">
         @if (wl.is_main) { <i class="bi bi-star-fill"></i> }
         {{wl.name}}
       </button>

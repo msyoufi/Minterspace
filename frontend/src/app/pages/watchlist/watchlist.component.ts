@@ -54,7 +54,6 @@ export class WatchlistComponent {
   }
 
   async getCoinsData(coinsIds: string[]): Promise<void> {
-    console.log('fetching watchlist coins')
     this.isLoading.set(true);
 
     const params = {

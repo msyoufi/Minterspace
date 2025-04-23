@@ -42,7 +42,7 @@
     @if (selectedCoins().length) {
     <div class="new-coins-container">
       @for (coin of selectedCoins(); track coin.id) {
-      <button class="icon-button" (click)="onCoinRemoveClick(coin.id)">
+      <button class="icon-button" (click)="onCoinRemoveClick(coin.id)" [matTooltip]="'Remove ' + coin.symbol">
         <i class='bi bi-x-lg'></i>
         {{coin.symbol}}
       </button>
@@ -51,7 +51,7 @@
     }
 
     <button class="ms-button primary" [disabled]="!selectedCoins().length || isSaving()" (click)="onSaveClick()">
-      Save
+      Add
       @if(isSaving()){
       <mat-spinner [diameter]="20" [strokeWidth]="3" />
       }

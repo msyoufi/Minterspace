@@ -4,6 +4,7 @@ import { ClickOutsideDirective } from '../../../shared/directives/click-outside.
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
 import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
 import { MatTooltip } from '@angular/material/tooltip';
+import { SnackBarService } from '../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'ms-watchlist-control-bar',
@@ -13,6 +14,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 })
 export class WatchlistControlBarComponent {
   watchlistService = inject(WatchlistService);
+  snackbar = inject(SnackBarService);
 
   isSelectMenuOpen = signal(false);
   isNameFormOpen = signal(false);
@@ -35,35 +37,39 @@ export class WatchlistControlBarComponent {
 
     this.isLoading.set(true);
 
-    if (this.formActionType === 'create') {
-      const watchlist = await this.watchlistService.createWatchlist(name);
-
-      if (watchlist)
-        console.log('New watchlist added');
-
-    } else {
-      const id = this.watchlistService.currentWatchlist$()!.id;
-      const watchlist = await this.watchlistService.updateWatchlist(id, { name });
-
-      if (watchlist)
-        console.log('Watchlist renamed');
-    }
+    if (this.formActionType === 'create')
+      this.createWatchlist(name);
+    else
+      this.renameWatchlist(name);
 
     this.isLoading.set(false);
     this.closeNameForm();
   }
 
+  async createWatchlist(name: string): Promise<void> {
+    const watchlist = await this.watchlistService.createWatchlist(name);
+
+    if (watchlist)
+      this.snackbar.show('New Watchlist Created', 'green');
+  }
+
+  async renameWatchlist(name: string): Promise<void> {
+    const id = this.watchlistService.currentWatchlist$()!.id;
+    const watchlist = await this.watchlistService.updateWatchlist(id, { name });
+
+    if (watchlist)
+      this.snackbar.show('Watchlist Renamed', 'green');
+  }
+
   async onDeleteClick(): Promise<void> {
     const watchlist = this.watchlistService.currentWatchlist$();
-    if (!watchlist) return;
-
-    if (watchlist.is_main)
-      return console.log('cannot delete main watchlist');
+    if (!watchlist || watchlist.is_main)
+      return;
 
     const result = await this.watchlistService.deleteWatchlist(watchlist.id);
 
     if (result)
-      console.log('Watchlist deleted');
+      this.snackbar.show('Watchlist Deleted', 'green');
   }
 
   openSelectMenu(): void {

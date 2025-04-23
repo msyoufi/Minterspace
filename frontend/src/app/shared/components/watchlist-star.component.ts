@@ -4,6 +4,7 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatTooltip } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { SnackBarService } from '../services/snack-bar.service';
 
 @Component({
   selector: 'ms-watchlist-star',
@@ -37,6 +38,7 @@ import { AuthService } from '../services/auth.service';
 export class WatchlistStarComponent {
   authService = inject(AuthService);
   watchlistService = inject(WatchlistService);
+  snackbar = inject(SnackBarService);
   router = inject(Router);
 
   coinId = input.required<string>();
@@ -90,5 +92,15 @@ export class WatchlistStarComponent {
     await this.watchlistService.updateWatchlist(watchlist.id, { coins });
 
     this.isLoading.set(false);
+    this.showSuccessMessage();
+  }
+
+  showSuccessMessage(): void {
+    const message = (this.isInWatchlist()
+      ? 'Added To '
+      : 'Removed From '
+    ) + this.contextWatchlist()!.name;
+
+    this.snackbar.show(message, 'green');
   }
 }
