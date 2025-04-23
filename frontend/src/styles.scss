@@ -23,8 +23,10 @@
   --transition: .15s;
   --app-width: 1200px;
 
-  @include mat.progress-spinner-overrides((active-indicator-color: var(--primary-color),
-    ));
+  @include mat.progress-spinner-overrides((active-indicator-color: var(--primary-color)));
+  @include mat.snack-bar-overrides((supporting-text-color: #fff,
+      supporting-text-size: .9rem,
+      supporting-text-weight: 600));
 }
 
 * {
@@ -79,4 +81,23 @@ ul {
 
 ms-mini-coins-list {
   overflow-y: auto;
+}
+
+.snack-bar {
+  text-align: center;
+  border-radius: var(--radius-l);
+  background-color: var(--primary-color);
+
+  .mdc-snackbar__surface {
+    border-radius: var(--radius-l) !important;
+    box-shadow: var(--shadow) !important;
+  }
+
+  &.green {
+    background-color: var(--green);
+  }
+
+  &.red {
+    background-color: var(--red);
+  }
 }
