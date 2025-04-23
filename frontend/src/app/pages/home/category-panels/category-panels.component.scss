@@ -2,37 +2,10 @@
   margin-bottom: 1.5rem;
 }
 
-.category-panels-container {
+.category-panes-container {
   display: flex;
   flex-wrap: wrap;
   gap: .5rem;
-}
-
-.panel {
-  flex: 1;
-  padding: 1rem 1.5rem;
-  line-height: 1.5;
-  border-radius: var(--radius-l);
-  border: 3px solid var(--primary-color);
-}
-
-.percent {
-  margin-left: 1rem;
-
-  span {
-    position: relative;
-    margin-right: .5rem;
-  }
-}
-
-.title {
-  font-size: .9rem;
-  color: var(--gray);
-}
-
-.value {
-  font-size: 1.4rem;
-  font-weight: 600;
 }
 
 .top-coins {
@@ -40,10 +13,6 @@
     display: flex;
     margin-top: .5rem;
     column-gap: .5rem;
-  }
-
-  img {
-    width: 2rem;
   }
 }
 
@@ -65,23 +34,4 @@
 .category-name.skeleton {
   height: 2rem;
   min-width: min(23rem, 60vw);
-}
-
-@media (max-width: 750px) {
-
-  .title,
-  .percent {
-    font-size: .7rem;
-  }
-
-  .value {
-    font-size: 1.1rem;
-    font-weight: 500;
-  }
-
-  .top-coins {
-    img {
-      width: 1.5rem;
-    }
-  }
 }

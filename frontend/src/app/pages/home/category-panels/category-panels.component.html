@@ -5,14 +5,14 @@
 @if (category) {
 <h2 class="category-name">{{category.header}}</h2>
 
-<div class="category-panels-container">
-  <ms-market-cap-panel class="panel" [marketCap]="category.marketCap" [marketCapchange]="category.marketCapchange"
+<div class="category-panes-container">
+  <ms-market-cap-panel class="pane" [marketCap]="category.marketCap" [marketCapchange]="category.marketCapchange"
     [indicatorClass]="category.indicatorClass" />
 
-  <ms-volume-panel class="panel" [volume]="category.volume" />
+  <ms-volume-panel class="pane" [volume]="category.volume" />
 
   @if (gm) {
-  <div class="panel">
+  <div class="pane">
     <p class="title">Dominance</p>
     <div class="dominance-values">
       <span class="title">BTC</span>
@@ -23,7 +23,7 @@
   </div>
 
   } @else if (cg) {
-  <div class="panel top-coins">
+  <div class="pane top-coins">
     <p class="title">Top 3 Coins</p>
     <div>
       @for (url of cg.top_3_coins; track $index){
