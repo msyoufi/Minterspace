@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, OnDestroy, OnInit, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, ElementRef, input, OnDestroy, viewChild } from '@angular/core';
 import { ChartOptions, createChart, DeepPartial, IChartApi, UTCTimestamp, LineSeries } from "lightweight-charts";
 
 @Component({
@@ -15,7 +15,7 @@ import { ChartOptions, createChart, DeepPartial, IChartApi, UTCTimestamp, LineSe
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SparklineComponent implements OnInit, OnDestroy {
+export class SparklineComponent implements OnDestroy {
   priceData = input.required<number[]>();
   chartBoxRef = viewChild.required<ElementRef<HTMLDivElement>>('chartBox');
 
@@ -36,15 +36,22 @@ export class SparklineComponent implements OnInit, OnDestroy {
     }
   };
 
-  ngOnInit(): void {
-    if (!this.priceData().length) return;
-
-    const chartData = this.mapToChartData();
-    this.renderChart(chartData);
+  constructor() {
+    effect(() => this.onPriceDataChange());
   }
 
-  mapToChartData(): ChartDataPoint[] {
-    return this.priceData().map((price, index) => ({
+  onPriceDataChange(): void {
+    const priceData = this.priceData();
+    this.chart?.remove();
+
+    if (!priceData.length) return;
+
+    const chartData = this.mapToChartData(priceData);
+    this.chart = this.renderChart(chartData);
+  }
+
+  mapToChartData(priceData: number[]): ChartDataPoint[] {
+    return priceData.map((price, index) => ({
       time: index as UTCTimestamp,
       value: price
     }));
@@ -54,7 +61,7 @@ export class SparklineComponent implements OnInit, OnDestroy {
     this.chart?.remove();
   }
 
-  renderChart(chartData: ChartDataPoint[]): void {
+  renderChart(chartData: ChartDataPoint[]): IChartApi {
     const chartColor = chartData[0].value > chartData[chartData.length - 1].value
       ? '#fe5e5e'
       : '#28c079';
@@ -68,5 +75,7 @@ export class SparklineComponent implements OnInit, OnDestroy {
 
     lineSeries.setData(chartData);
     chart.timeScale().fitContent();
+
+    return chart;
   }
 }
