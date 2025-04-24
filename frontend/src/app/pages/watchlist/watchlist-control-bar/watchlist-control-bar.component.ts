@@ -58,7 +58,10 @@ export class WatchlistControlBarComponent {
   }
 
   async renameWatchlist(name: string): Promise<void> {
-    const id = this.watchlistService.currentWatchlist$()!.id;
+    const { id, name: currentName } = this.watchlistService.currentWatchlist$()!;
+
+    if (name === currentName) return;
+
     const watchlist = await this.watchlistService.updateWatchlist(id, { name });
 
     if (watchlist)
