@@ -5,6 +5,7 @@ import { EscapePressDirective } from '../../../shared/directives/escape-press.di
 import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
+import { ConfirmDialogService } from '../../../shared/components/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'ms-watchlist-control-bar',
@@ -15,12 +16,15 @@ import { SnackBarService } from '../../../shared/services/snack-bar.service';
 export class WatchlistControlBarComponent {
   watchlistService = inject(WatchlistService);
   snackbar = inject(SnackBarService);
+  confrimDialog = inject(ConfirmDialogService);
 
   isSelectMenuOpen = signal(false);
   isNameFormOpen = signal(false);
   isLoading = signal(false);
-  formActionType: 'create' | 'edit' = 'create';
+
   addCoinsClick = output<void>();
+
+  formActionType: 'create' | 'edit' = 'create';
 
   onWatchlistSelect(watchlist: Watchlist): void {
     this.watchlistService.currentWatchlist$.set(watchlist);
@@ -66,7 +70,18 @@ export class WatchlistControlBarComponent {
     if (!watchlist || watchlist.is_main)
       return;
 
-    const result = await this.watchlistService.deleteWatchlist(watchlist.id);
+    const confrim = await this.confrimDialog.open({
+      title: 'Delete Watchlist',
+      message: `Permanently delete the ${watchlist.name} watchlist?`,
+      actionButton: 'Delete'
+    });
+
+    if (confrim)
+      this.deleteWatchlist(watchlist.id);
+  }
+
+  async deleteWatchlist(watchlistId: number | bigint): Promise<void> {
+    const result = await this.watchlistService.deleteWatchlist(watchlistId);
 
     if (result)
       this.snackbar.show('Watchlist Deleted', 'green');
