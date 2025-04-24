@@ -34,20 +34,17 @@
 
   .portfolio-buttons {
     display: flex;
+    align-items: center;
+    column-gap: .5rem;
 
-    .icon-button {
-      height: 2.2rem;
-      width: 2.2rem;
-      font-size: 1.1rem;
+    i {
+      color: var(--gray);
     }
 
-    .icon-button:hover {
-      background-color: var(--accent1-color);
-    }
-
-    .bi-journal-plus {
+    .icon-button:hover i {
       color: var(--primary-color);
     }
+
   }
 }
 
