@@ -17,8 +17,7 @@
     </button>
 
     @if (!watchlist.is_main) {
-    <button type="button" class="icon-button" (click)="onDeleteClick()" matTooltip="Delete Watchlist"
-      [disabled]="watchlist.is_main">
+    <button type="button" class="icon-button" (click)="onDeleteClick()" matTooltip="Delete Watchlist">
       <i class="bi bi-trash3"></i>
     </button>
     }
