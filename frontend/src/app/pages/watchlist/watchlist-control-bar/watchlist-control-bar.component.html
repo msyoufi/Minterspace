@@ -15,10 +15,13 @@
     <button type="button" class="icon-button" (click)="openNameForm('edit')" matTooltip="Rename Watchlist">
       <i class="bi bi-pencil-square"></i>
     </button>
+
+    @if (!watchlist.is_main) {
     <button type="button" class="icon-button" (click)="onDeleteClick()" matTooltip="Delete Watchlist"
       [disabled]="watchlist.is_main">
       <i class="bi bi-trash3"></i>
     </button>
+    }
   </div>
 
   <ul class="select-menu" [class.show]="isSelectMenuOpen()" (msClickOutside)="closeSelectMenu()"
