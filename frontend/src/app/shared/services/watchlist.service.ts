@@ -1,7 +1,8 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { firstValueFrom } from 'rxjs';
+import { SnackBarService } from './snack-bar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { firstValueFrom } from 'rxjs';
 export class WatchlistService {
   private authService = inject(AuthService);
   private http = inject(HttpClient);
+  private snackbar = inject(SnackBarService);
 
   private BASE_URL = 'http://127.0.0.1:8000/api/watchlist/';
 
@@ -31,13 +33,13 @@ export class WatchlistService {
   }
 
   async getAllWatchlists(): Promise<void> {
-    const watchlists = await this.fetchFromBackend();
+    const watchlists = await this.fetch();
     const mainWatchlist = watchlists.find(wl => wl.is_main) ?? null;
 
     this.setWatchlists(watchlists, mainWatchlist);
   }
 
-  private async fetchFromBackend(): Promise<Watchlist[]> {
+  private async fetch(): Promise<Watchlist[]> {
     try {
       const response$ = this.http.get<Watchlist[]>(this.BASE_URL);
       return await firstValueFrom(response$);
@@ -49,7 +51,7 @@ export class WatchlistService {
   }
 
   async createWatchlist(name: string, is_main = false): Promise<Watchlist | null> {
-    const createdWatchlist = await this.createInBackend({ name, is_main });
+    const createdWatchlist = await this.create({ name, is_main });
     if (!createdWatchlist) return null;
 
     const newWatchlists = [...this.watchlists$(), createdWatchlist];
@@ -58,7 +60,7 @@ export class WatchlistService {
     return createdWatchlist;
   }
 
-  private async createInBackend(watchlistData: Omit<Watchlist, 'coins' | 'id'>): Promise<Watchlist | null> {
+  private async create(watchlistData: Omit<Watchlist, 'coins' | 'id'>): Promise<Watchlist | null> {
     try {
       const response$ = this.http.post<Watchlist>(this.BASE_URL, watchlistData);
       return await firstValueFrom(response$);
@@ -70,12 +72,10 @@ export class WatchlistService {
   }
 
   async updateWatchlist(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Watchlist | null> {
-    if (!changes.coins && !changes.name) {
-      console.log('No changes were provided for an update');
+    if (!changes.coins && !changes.name)
       return null;
-    }
 
-    const updatedWatchlist = await this.updateInBackend(watchlistId, changes);
+    const updatedWatchlist = await this.update(watchlistId, changes);
     if (!updatedWatchlist) return null;
 
     const newWatchlists = this.watchlists$().map(wl =>
@@ -87,7 +87,7 @@ export class WatchlistService {
     return updatedWatchlist;
   }
 
-  private async updateInBackend(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Watchlist | null> {
+  private async update(watchlistId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Watchlist | null> {
     try {
       const response$ = this.http.patch<Watchlist>(this.BASE_URL + watchlistId, changes);
       return await firstValueFrom(response$);
@@ -99,12 +99,10 @@ export class WatchlistService {
   }
 
   async deleteWatchlist(watchlistId: number | bigint): Promise<boolean> {
-    if (watchlistId === this.mainWatchlist()?.id) {
-      console.log('Cannot delete the main watchlist');
+    if (watchlistId === this.mainWatchlist()?.id)
       return false;
-    }
 
-    const result = await this.deleteInBackend(watchlistId);
+    const result = await this.delete(watchlistId);
     if (!result) return false;
 
     const newWatchlists = this.watchlists$().filter(wl => wl.id !== watchlistId);
@@ -113,7 +111,7 @@ export class WatchlistService {
     return true;
   }
 
-  private async deleteInBackend(watchlistId: number | bigint): Promise<boolean> {
+  private async delete(watchlistId: number | bigint): Promise<boolean> {
     try {
       const response$ = this.http.delete<null>(this.BASE_URL + watchlistId);
       await firstValueFrom(response$);
@@ -132,6 +130,32 @@ export class WatchlistService {
   }
 
   private handleError(err: unknown): void {
-    console.log(err);
+    let message = 'An unexpected error occurred.';
+
+    if (err instanceof HttpErrorResponse) {
+      const error = err.error;
+
+      if (typeof error?.detail === 'string') {
+        message = error.detail;
+
+      } else if (typeof error === 'object') {
+        const firstError = Object.values(error).flat()[0];
+
+        message = typeof firstError === 'string'
+          ? firstError
+          : `HTTP Error: ${err.status} - ${err.statusText}`;
+
+      } else if (typeof error === 'string') {
+        message = error;
+
+      } else {
+        message = `HTTP Error: ${err.status} - ${err.statusText}`;
+      }
+
+    } else if (err instanceof Error) {
+      message = err.message;
+    }
+
+    this.snackbar.show(message, 'red', 5000);
   }
 }
