@@ -4,6 +4,7 @@ import { routes } from './app.routes';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './shared/interceptors/auth.interceptor';
 import { AuthService } from './shared/services/auth.service';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,7 +18,15 @@ export const appConfig: ApplicationConfig = {
       withFetch(),
       withInterceptors([authInterceptor])
     ),
-    provideAppInitializer(() => awaitAuthentication())
+    provideAppInitializer(() => awaitAuthentication()),
+    {
+      provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
+      useValue: {
+        disableTooltipInteractivity: true,
+        touchGestures: 'off',
+        position: 'above'
+      }
+    },
   ]
 };
 

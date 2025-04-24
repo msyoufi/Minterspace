@@ -26,7 +26,13 @@
   @include mat.progress-spinner-overrides((active-indicator-color: var(--primary-color)));
   @include mat.snack-bar-overrides((supporting-text-color: #fff,
       supporting-text-size: .9rem,
-      supporting-text-weight: 600));
+      supporting-text-weight: 600,
+    ));
+  @include mat.tooltip-overrides((container-color: gray,
+      supporting-text-color: #fff,
+      supporting-text-size: .75rem,
+      supporting-text-weight: 600,
+    ));
 }
 
 * {
@@ -100,4 +106,8 @@ ms-mini-coins-list {
   &.red {
     background-color: var(--red);
   }
+}
+
+.mdc-tooltip__surface {
+  border-radius: 5px !important;
 }
