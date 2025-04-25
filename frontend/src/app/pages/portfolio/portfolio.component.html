@@ -1,8 +1,7 @@
-<div class="porfolio-component-container">
-
+<div class="component-container-with-padding">
   <ms-portfolio-control-bar />
 
-  @if (true) {
+  @if (false) {
 
   <div class="portfolio-charts-container">
     <ms-portfolio-stats-panes />
@@ -16,7 +15,7 @@
   </button>
 
   } @else {
-  <div class="empty-porfolio-container">
+  <div class="empty-watchlist_portfolio-container">
     <div>
       <h2>Start Tracking Your Favorit Coins <br> In Your Watchlist Now.</h2>
 
@@ -25,7 +24,7 @@
       </button>
     </div>
 
-    <ms-emtpy-portfolio-svg />
+    <ms-emtpy-portfolio-svg class="placeholder-svg" />
   </div>
   }
 </div>

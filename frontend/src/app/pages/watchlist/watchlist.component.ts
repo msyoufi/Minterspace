@@ -11,7 +11,7 @@ import { EmptyWatchlistSVGComponent } from './empty-watchlist-svg/empty-watchlis
   selector: 'ms-watchlist',
   imports: [CoinsListComponent, WatchlistHeaderComponent, WatchlistCoinSelectMenuComponent, WatchlistControlBarComponent, EmptyWatchlistSVGComponent],
   templateUrl: './watchlist.component.html',
-  styleUrl: './watchlist.component.scss'
+  styles: ''
 })
 export class WatchlistComponent {
   watchlistService = inject(WatchlistService);

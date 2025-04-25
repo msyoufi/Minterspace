@@ -1,4 +1,4 @@
-<div class="watchlist-component-container">
+<div class="component-container-with-padding">
 
   <ms-watchlist-control-bar (addCoinsClick)="openSelectMenu()" />
 
@@ -11,7 +11,7 @@
   </button>
 
   } @else {
-  <div class="empty-watchlist-container">
+  <div class="empty-watchlist_portfolio-container">
     <div>
       <h2>Start Tracking Your Favorit Coins <br> In Your Watchlist Now.</h2>
 
@@ -20,7 +20,7 @@
       </button>
     </div>
 
-    <ms-empty-watchlist-svg />
+    <ms-empty-watchlist-svg class="placeholder-svg" />
   </div>
   }
 </div>
