@@ -23,7 +23,7 @@ export class PortfolioService {
   );
 
   constructor() {
-    // effect(() => this.getUserPortfolios());
+    effect(() => this.getUserPortfolios());
   }
 
   getUserPortfolios(): void {
@@ -35,6 +35,8 @@ export class PortfolioService {
   async getAllPortfolios(): Promise<void> {
     const portfolios = await this.fetch();
     const mainPortfolio = portfolios.find(pf => pf.is_main) ?? null;
+
+    console.log(portfolios)
 
     this.setPortfolios(portfolios, mainPortfolio);
   }

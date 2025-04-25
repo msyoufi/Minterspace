@@ -1,4 +1,7 @@
 from django.urls import path
-from . import views
+from .views import portfolio_view
 
-urlpatterns = []
+urlpatterns = [
+    path("", portfolio_view),
+    path("<int:id>", portfolio_view),
+]
