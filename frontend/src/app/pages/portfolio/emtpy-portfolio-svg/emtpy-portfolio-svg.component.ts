@@ -4,7 +4,7 @@ import { Component } from '@angular/core';
   selector: 'ms-emtpy-portfolio-svg',
   imports: [],
   templateUrl: './emtpy-portfolio-svg.component.html',
-  styleUrl: './emtpy-portfolio-svg.component.scss'
+  styles: ''
 })
 export class EmtpyPortfolioSVGComponent {
 
