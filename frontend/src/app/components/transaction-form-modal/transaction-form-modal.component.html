@@ -1,1 +1,82 @@
-<p>transaction-form-modal works!</p>
+@let coin = transactionModalService.selectedCoin();
+
+<div class="overlay" (msEscapePress)="closeModal()">
+  <div class="dialog-container" (msClickOutside)="closeModal()">
+
+    <div class="modal-header">
+      <p>Add Transaction</p>
+
+      <button class="close-button" (click)="closeModal()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="coin-bar">
+        <div class="coin-data">
+
+          @if (coin) {
+          <img [src]="coin.image">
+          <span>
+            {{coin.name}}
+            <span class="coin-symbol">{{coin.symbol | uppercase}}</span>
+          </span>
+
+          } @else {
+          <span class="circle"></span>
+          <span class="skeleton"></span>
+          }
+
+        </div>
+
+        <div class="radios-container">
+          <label for="buy" class="radio-label" [class.selected]="form.get('type')?.value=== 'buy'">BUY</label>
+          <input type="radio" id="buy" value="buy" formControlName="type">
+
+          <label for="sell" class="radio-label" [class.selected]="form.get('type')?.value=== 'sell'">SELL</label>
+          <input type="radio" id="sell" value="sell" formControlName="type">
+        </div>
+      </div>
+
+      <div class="control-field">
+        <input type="number" class="ms-input" min="0" id="quantity" formControlName="quantity">
+        <label for="quantity" [class.top]="form.get('quantity')?.value">
+          Quantity
+        </label>
+      </div>
+
+      <div class="control-field">
+        <input type="number" class="ms-input" min="0" id="price" formControlName="pricePerCoin">
+        <label for="price" [class.top]="form.get('pricePerCoin')?.value">
+          Price Per Coin
+        </label>
+      </div>
+
+      <div class="date-time-input-wrapper">
+        <div class="control-field">
+          <input type="date" class="ms-input" id="date" formControlName="date">
+          <label class="top" for="date">Date</label>
+        </div>
+        <div class="control-field">
+          <input type="time" class="ms-input" id="time" formControlName="time">
+          <label class="top" for="time">Time</label>
+        </div>
+      </div>
+
+      <div class="total-pane">
+        <p>Total</p>
+        <p>
+          $ {{totalCost() | number : `1.2-${1 > totalCost() ? '12' : '2' }` }}
+        </p>
+      </div>
+
+      <button type="submit" class="ms-button primary" [disabled]="isLoading() || form.invalid">
+        Add Transaction
+        @if (isLoading()) {
+        <mat-spinner [diameter]="20" [strokeWidth]="3" />
+        }
+      </button>
+
+    </form>
+  </div>
+</div>

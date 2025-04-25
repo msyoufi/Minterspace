@@ -1,16 +1,31 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
+import { CoingeckoService } from './coingecko.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionModalService {
-  public isTransactionModalOpen$ = signal<boolean>(false);
+  private coinService = inject(CoingeckoService);
 
-  openTransactionModal(coinId: string): void {
-    this.isTransactionModalOpen$.set(true);
+  public isModalOpen$ = signal<boolean>(false);
+  public selectedCoin = signal<CoinBasic | null>(null);
+
+  openModal(coinId: string): void {
+    this.getCoinData(coinId);
+    this.isModalOpen$.set(true);
   }
 
-  closeTransactionModal(): void {
-    this.isTransactionModalOpen$.set(false);
+  closeModal(): void {
+    this.isModalOpen$.set(false);
+    this.selectedCoin.set(null);
+  }
+
+  async getCoinData(coinId: string): Promise<void> {
+    const params = { ids: coinId };
+
+    const coin = await this.coinService.getCoinsList(params);
+    this.selectedCoin.set(coin[0] ?? null);
+
+    console.log(coin);
   }
 }

@@ -11,4 +11,10 @@ export default class MsValidators {
 
     return Object.keys(errors).length ? errors : null;
   }
+
+  static greaterThanZero(control: AbstractControl): ValidationErrors | null {
+    return control.value > 0
+      ? null
+      : { greaterThanZero: true };
+  }
 }

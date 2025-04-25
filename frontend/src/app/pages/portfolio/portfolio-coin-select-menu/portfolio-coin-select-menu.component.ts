@@ -41,7 +41,7 @@ export class PortfolioCoinSelectMenuComponent implements OnInit {
   }
 
   onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {
-    this.transactionModalService.openTransactionModal(coin.id);
+    this.transactionModalService.openModal(coin.id);
     this.closeMenu();
   }
 

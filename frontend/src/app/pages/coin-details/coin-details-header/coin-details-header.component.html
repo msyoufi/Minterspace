@@ -18,7 +18,7 @@
 
         <div class="portfolio-buttons">
           <ms-watchlist-star [coinId]="cn.id" />
-          <button class="icon-button">
+          <button class="icon-button" matTooltip="Add To Main Portfolio" (click)="openTransactionModal()">
             <i class="bi bi-pie-chart"></i>
           </button>
         </div>
