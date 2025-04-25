@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, output, signal } from '@angular/core';
 import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
 import { PortfolioService } from '../../../shared/services/portfolio.service';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
@@ -24,6 +24,8 @@ export class PortfolioControlBarComponent {
   isNameFormOpen = signal(false);
   isLoading = signal(false);
 
+  addAssetClick = output<void>();
+
   nameFormActionType: 'create' | 'edit' = 'create';
 
   onPortfolioSelect(portfolioId: number | bigint): void {
@@ -32,7 +34,7 @@ export class PortfolioControlBarComponent {
   }
 
   onAddAssetClick(): void {
-
+    this.addAssetClick.emit();
   }
 
   async onNameFormSubmit(name: string): Promise<void> {

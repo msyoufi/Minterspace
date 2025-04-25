@@ -1,1 +1,41 @@
-<p>portfolio-coin-select-menu works!</p>
+<div class="overlay" (msEscapePress)="closeMenu()">
+  <div class="dialog-container" (msClickOutside)="closeMenu()">
+
+    <div class="menu-header">
+      <p>Select Coin</p>
+
+      <button class="close-button" (click)="closeMenu()">
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+
+    <ms-search-bar (searchResults)="onSearchResults($event)" (isSearching)="onIsSearching($event)" />
+
+    <ul class="mini-coins-list-cointainer">
+      @if (isLoading()) {
+
+      @for (coin of [1,2,3,4,5,6,7,8,9]; track $index) {
+      <li>
+        <span class="skeleton"></span>
+      </li>
+      }
+
+      } @else if (coins().length) {
+
+      @for (coin of coins(); track coin.id) {
+
+      <ng-template #icon>
+        <i class="bi bi-chevron-right"></i>
+      </ng-template>
+
+      <li>
+        <ms-mini-coin-bar [coin]="coin" (coinBarClick)="onCoinBarClick($event)" [icon]="icon" />
+      </li>
+      }
+
+      } @else {
+      <p class="empty-mini-coins-list">No coins found</p>
+      }
+    </ul>
+  </div>
+</div>

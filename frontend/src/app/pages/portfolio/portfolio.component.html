@@ -1,5 +1,5 @@
 <div class="component-container-with-padding">
-  <ms-portfolio-control-bar />
+  <ms-portfolio-control-bar (addAssetClick)="openSelectMenu()" />
 
   @if (false) {
 
@@ -19,7 +19,7 @@
     <div>
       <h2>Start Tracking Profit and Losses <br> Of Your Portoflio Now.</h2>
 
-      <button type="button" class="ms-button primary">
+      <button type="button" class="ms-button primary" (click)="openSelectMenu()">
         Add Asset +
       </button>
     </div>
@@ -30,3 +30,7 @@
 </div>
 
 <router-outlet />
+
+@if (isCoinSelectMenuOpen()) {
+<ms-portfolio-coin-select-menu (selectMenuClose)="onSelectMenuClose()" />
+}
