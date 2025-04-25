@@ -1,1 +1,50 @@
-<p>portfolio-control-bar works!</p>
+@let portfolio= portfolioService.currentPortfolio$();
+
+@if (portfolio) {
+<div class="coin-bar-container">
+  <button type="button" class="select-menu-button" (click)="openSelectMenu()">
+    @if (portfolio.is_main) { <i class="bi bi-star-fill"></i> }
+    {{portfolio.name}}
+    <i [class]='"bi bi-chevron-" + (isSelectMenuOpen()? "up" : "down")'></i>
+  </button>
+
+  <div class="control-buttons-container">
+    <button type="button" class="icon-button" (click)="onAddAssetClick()" matTooltip="Add Asset">
+      <i class="bi bi-plus-circle"></i>
+    </button>
+    <button type="button" class="icon-button" (click)="openNameForm('edit')" matTooltip="Rename Portfolio">
+      <i class="bi bi-pencil-square"></i>
+    </button>
+
+    @if (!portfolio.is_main) {
+    <button type="button" class="icon-button" (click)="onDeleteClick()" matTooltip="Delete Portfolio">
+      <i class="bi bi-trash3"></i>
+    </button>
+    }
+  </div>
+
+  <ul class="select-menu" [class.show]="isSelectMenuOpen()" (msClickOutside)="closeSelectMenu()"
+    (msEscapePress)="closeSelectMenu()">
+    @for ( pf of portfolioService.portfolios$(); track pf.id ) {
+    <li>
+      <button type="button" class="menu-item" [class.selected]="pf.id === portfolio.id"
+        (click)="onPortfolioSelect(pf.id)">
+        @if (pf.is_main) { <i class="bi bi-star-fill"></i> }
+        {{pf.name}}
+      </button>
+    </li>
+    }
+    <li>
+      <button type="button" class="menu-item" (click)="openNameForm('create')">
+        Add a new portfolio +
+      </button>
+    </li>
+  </ul>
+
+</div>
+}
+
+@if (isNameFormOpen()) {
+<ms-name-input-pane [isLoading]="isLoading()" [formActionType]="nameFormActionType" [object]="'portfolio'"
+  (paneClose)="closeNameForm()" (nameSubmit)="onNameFormSubmit($event)" />
+}
