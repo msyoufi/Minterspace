@@ -1,7 +1,7 @@
 @let watchlist = watchlistService.currentWatchlist$();
 
 @if (watchlist) {
-<div class="coin-bar-container">
+<div class="control-bar-container">
   <button type="button" class="select-menu-button" (click)="openSelectMenu()">
     @if (watchlist.is_main) { <i class="bi bi-star-fill"></i> }
     {{watchlist.name}}

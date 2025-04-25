@@ -138,32 +138,6 @@ a:hover {
   }
 }
 
-.component-container-with-padding {
-  padding: .25rem;
-}
-
-.empty-watchlist_portfolio-container {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin-top: 2rem;
-  gap: 1rem;
-
-  h2 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 2rem;
-  }
-
-  button {
-    width: 100%;
-  }
-
-  .placeholder-svg {
-    width: 30%;
-  }
-}
-
 @media (max-width: 750px) {
   .pane {
 

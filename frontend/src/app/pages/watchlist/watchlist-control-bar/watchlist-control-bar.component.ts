@@ -11,7 +11,7 @@ import { ConfirmDialogService } from '../../../shared/components/confirm-dialog/
   selector: 'ms-watchlist-control-bar',
   imports: [ClickOutsideDirective, EscapePressDirective, NameInputPaneComponent, MatTooltip],
   templateUrl: './watchlist-control-bar.component.html',
-  styleUrl: './watchlist-control-bar.component.scss'
+  styles: ''
 })
 export class WatchlistControlBarComponent {
   watchlistService = inject(WatchlistService);

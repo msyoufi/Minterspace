@@ -6,12 +6,13 @@ import { ConfirmDialogService } from '../../../shared/components/confirm-dialog/
 import { TransactionModalService } from '../../../shared/services/transaction-modal.service';
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
   selector: 'ms-portfolio-control-bar',
-  imports: [NameInputPaneComponent, EscapePressDirective, ClickOutsideDirective],
+  imports: [NameInputPaneComponent, EscapePressDirective, ClickOutsideDirective, MatTooltip],
   templateUrl: './portfolio-control-bar.component.html',
-  styleUrl: './portfolio-control-bar.component.scss'
+  styles: ''
 })
 export class PortfolioControlBarComponent {
   portfolioService = inject(PortfolioService);

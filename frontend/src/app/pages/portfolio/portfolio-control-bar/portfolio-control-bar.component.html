@@ -1,7 +1,7 @@
 @let portfolio= portfolioService.currentPortfolio$();
 
 @if (portfolio) {
-<div class="coin-bar-container">
+<div class="control-bar-container">
   <button type="button" class="select-menu-button" (click)="openSelectMenu()">
     @if (portfolio.is_main) { <i class="bi bi-star-fill"></i> }
     {{portfolio.name}}
@@ -45,6 +45,6 @@
 }
 
 @if (isNameFormOpen()) {
-<ms-name-input-pane [isLoading]="isLoading()" [formActionType]="nameFormActionType" [object]="'portfolio'"
+<ms-name-input-pane [isLoading]="isLoading()" [formActionType]="nameFormActionType" [object]="'Portfolio'"
   (paneClose)="closeNameForm()" (nameSubmit)="onNameFormSubmit($event)" />
 }
