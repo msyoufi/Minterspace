@@ -13,3 +13,7 @@
 @if (authService.isAuthModalOpen$()) {
 <ms-auth-modal />
 }
+
+@if (transactionModalService.isTransactionModalOpen$()) {
+<ms-transaction-form-modal />
+}

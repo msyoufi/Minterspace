@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, DestroyRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, filter, firstValueFrom, Observable, Subject, take, tap, throwError, timeout } from 'rxjs';
+import { BehaviorSubject, filter, firstValueFrom, Observable, take, tap, throwError, timeout } from 'rxjs';
 
 interface RegisterResponse {
   user: User,

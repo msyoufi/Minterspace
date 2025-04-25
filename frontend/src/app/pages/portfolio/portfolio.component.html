@@ -1,1 +1,33 @@
-<p>portfolio works!</p>
+<div class="porfolio-component-container">
+
+  <ms-portfolio-control-bar />
+
+  @if (true) {
+
+  <div class="portfolio-charts-container">
+    <ms-portfolio-stats-panes />
+    <ms-asset-allocation-chart />
+  </div>
+
+  <ms-assets-list />
+
+  <button type="button" class="add-coin-bar">
+    Add Asset +
+  </button>
+
+  } @else {
+  <div class="empty-porfolio-container">
+    <div>
+      <h2>Start Tracking Your Favorit Coins <br> In Your Watchlist Now.</h2>
+
+      <button type="button" class="ms-button primary">
+        Add Asset +
+      </button>
+    </div>
+
+    <ms-emtpy-portfolio-svg />
+  </div>
+  }
+</div>
+
+<router-outlet />

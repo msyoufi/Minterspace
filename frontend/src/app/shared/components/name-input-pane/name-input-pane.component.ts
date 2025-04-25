@@ -1,6 +1,6 @@
 import { Component, ElementRef, input, OnInit, output, viewChild } from '@angular/core';
-import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
-import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
+import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { EscapePressDirective } from '../../directives/escape-press.directive';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
