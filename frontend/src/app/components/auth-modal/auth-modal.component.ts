@@ -9,6 +9,7 @@ import MsValidators from '../../shared/utils/ms.validators';
 import { AuthService } from '../../shared/services/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { WatchlistService } from '../../shared/services/watchlist.service';
+import { PortfolioService } from '../../shared/services/portfolio.service';
 
 interface AuthFormGroup {
   email: FormControl<string | null>,
@@ -25,6 +26,7 @@ interface AuthFormGroup {
 export class AuthModalComponent {
   authService = inject(AuthService);
   watchlistService = inject(WatchlistService);
+  portfolioService = inject(PortfolioService);
   router = inject(Router);
 
   form = new FormGroup<AuthFormGroup>({
@@ -51,7 +53,6 @@ export class AuthModalComponent {
 
     this.router.navigateByUrl(this.authService.forwardURL);
     this.authService.closeAuthModal();
-    console.log('Success');
   }
 
   async authenticateUser(email: string, password: string): Promise<boolean> {
@@ -75,11 +76,10 @@ export class AuthModalComponent {
 
   async createUserAccount(email: string, password: string): Promise<void> {
     await this.authService.register(email, password);
-    // Only the first watchlist on account creation musst be set as main watchlist.
-    const watchlist = await this.watchlistService.createWatchlist('Main', true);
 
-    if (watchlist && !watchlist.is_main)
-      console.log('Watchlist created');
+    // Only the first watchlist and portfolio on account creation musst be set to main.
+    await this.watchlistService.createWatchlist('Main', true);
+    await this.portfolioService.createPortfolio('Main', true);
   }
 
   handleAuthErrors(err: unknown): void {

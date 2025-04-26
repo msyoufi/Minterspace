@@ -38,8 +38,6 @@ export class PortfolioService {
     const portfolios = await this.fetchMetaData();
     const mainPortfolio = portfolios.find(pf => pf.is_main) ?? null;
 
-    console.log(portfolios)
-
     this.setPortfolios(portfolios, mainPortfolio);
   }
 
@@ -58,15 +56,15 @@ export class PortfolioService {
     const portfolioId = this.currentPortfolio$()?.id;
     if (!portfolioId) return;
 
-    const portfolioData = await this.fetchData(portfolioId);
+    const portfolioData = await this.fetchPortoflioData(portfolioId);
     console.log(portfolioData)
 
     this.currentPortfolioData$.set(portfolioData);
   }
 
-  private async fetchData(portfolioId: number | bigint): Promise<PortfolioData | null> {
+  private async fetchPortoflioData(portfolioId: number | bigint): Promise<PortfolioData | null> {
     try {
-      const response$ = this.http.get<PortfolioData>(this.BASE_URL);// TODO
+      const response$ = this.http.get<PortfolioData>(this.BASE_URL + 'data/' + portfolioId);
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
@@ -75,79 +73,76 @@ export class PortfolioService {
     }
   }
 
-  // async createPortfolio(name: string, is_main = false): Promise<Portfolio | null> {
-  //   const createdPortfolio = await this.create({ name, is_main });
-  //   if (!createdPortfolio) return null;
+  async createPortfolio(name: string, is_main = false): Promise<Portfolio | null> {
+    const createdPortfolio = await this.create({ name, is_main });
+    if (!createdPortfolio) return null;
 
-  //   const newPortfolios = [...this.Portfolios$(), createdPortfolio];
-  //   this.setPortfolios(newPortfolios, createdPortfolio);
+    const newPortfolios = [...this.portfolios$(), createdPortfolio];
+    this.setPortfolios(newPortfolios, createdPortfolio);
 
-  //   return createdPortfolio;
-  // }
+    return createdPortfolio;
+  }
 
-  // private async create(PortfolioData: Omit<Portfolio, 'coins' | 'id'>): Promise<Portfolio | null> {
-  //   try {
-  //     const response$ = this.http.post<Portfolio>(this.BASE_URL, PortfolioData);
-  //     return await firstValueFrom(response$);
+  private async create(portfolioData: Omit<Portfolio, 'id'>): Promise<Portfolio | null> {
+    try {
+      const response$ = this.http.post<Portfolio>(this.BASE_URL, portfolioData);
+      return await firstValueFrom(response$);
 
-  //   } catch (err: unknown) {
-  //     this.handleError(err);
-  //     return null;
-  //   }
-  // }
+    } catch (err: unknown) {
+      this.handleError(err);
+      return null;
+    }
+  }
 
-  // async updatePortfolio(PortfolioId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Portfolio | null> {
-  //   if (!changes.coins && !changes.name)
-  //     return null;
+  async updatePortfolio(portfolioId: number | bigint, changes: { name: string }): Promise<Portfolio | null> {
+    const updatedPortfolio = await this.update(portfolioId, changes);
+    if (!updatedPortfolio) return null;
 
-  //   const updatedPortfolio = await this.update(PortfolioId, changes);
-  //   if (!updatedPortfolio) return null;
+    const newPortfolios = this.portfolios$().map(pf =>
+      pf.id === portfolioId ? updatedPortfolio : pf
+    );
 
-  //   const newPortfolios = this.Portfolios$().map(wl =>
-  //     wl.id === PortfolioId ? updatedPortfolio : wl
-  //   );
+    this.setPortfolios(newPortfolios, updatedPortfolio);
 
-  //   this.setPortfolios(newPortfolios, updatedPortfolio);
+    return updatedPortfolio;
+  }
 
-  //   return updatedPortfolio;
-  // }
+  private async update(portfolioId: number | bigint, changes: { name: string }): Promise<Portfolio | null> {
+    try {
+      const response$ = this.http.patch<Portfolio>(this.BASE_URL + portfolioId, changes);
+      return await firstValueFrom(response$);
 
-  // private async update(PortfolioId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Portfolio | null> {
-  //   try {
-  //     const response$ = this.http.patch<Portfolio>(this.BASE_URL + PortfolioId, changes);
-  //     return await firstValueFrom(response$);
+    } catch (err: unknown) {
+      this.handleError(err);
+      return null;
+    }
+  }
 
-  //   } catch (err: unknown) {
-  //     this.handleError(err);
-  //     return null;
-  //   }
-  // }
+  async deletePortfolio(portfolioId: number | bigint): Promise<boolean> {
+    if (portfolioId === this.mainPortfolio()?.id)
+      return false;
 
-  // async deletePortfolio(PortfolioId: number | bigint): Promise<boolean> {
-  //   if (PortfolioId === this.mainPortfolio()?.id)
-  //     return false;
+    const result = await this.delete(portfolioId);
+    if (!result) return false;
 
-  //   const result = await this.delete(PortfolioId);
-  //   if (!result) return false;
+    const newPortfolios = this.portfolios$().filter(pf => pf.id !== portfolioId);
+    this.setPortfolios(newPortfolios, this.mainPortfolio());
 
-  //   const newPortfolios = this.Portfolios$().filter(wl => wl.id !== PortfolioId);
-  //   this.setPortfolios(newPortfolios, this.mainPortfolio());
+    return true;
+  }
 
-  //   return true;
-  // }
+  private async delete(portfolioId: number | bigint): Promise<boolean> {
+    try {
+      const response$ = this.http.delete<null>(this.BASE_URL + portfolioId);
+      await firstValueFrom(response$);
 
-  // private async delete(PortfolioId: number | bigint): Promise<boolean> {
-  //   try {
-  //     const response$ = this.http.delete<null>(this.BASE_URL + PortfolioId);
-  //     await firstValueFrom(response$);
+      return true;
 
-  //     return true;
-
-  //   } catch (err: unknown) {
-  //     this.handleError(err);
-  //     return false;
-  //   }
-  // }
+    } catch (err: unknown) {
+      this.handleError(err);
+      return false;
+    }
+  }
 
   private setPortfolios(all: Portfolio[], current: Portfolio | null): void {
     this.portfolios$.set(all);

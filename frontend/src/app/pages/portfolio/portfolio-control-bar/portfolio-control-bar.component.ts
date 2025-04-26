@@ -55,10 +55,10 @@ export class PortfolioControlBarComponent {
   }
 
   async createPortfolio(name: string): Promise<void> {
-    // const portfolio = await this.portfolioService.createPortfolio(name);
+    const portfolio = await this.portfolioService.createPortfolio(name);
 
-    // if (portfolio)
-    //   this.snackbar.show('New Portfolio Created', 'green');
+    if (portfolio)
+      this.snackbar.show('New Portfolio Created', 'green');
   }
 
   async renamePortfolio(name: string): Promise<void> {
@@ -66,10 +66,10 @@ export class PortfolioControlBarComponent {
 
     if (name === currentName) return;
 
-    // const portfolio = await this.portfolioService.updatePortfolio(id, { name });
+    const portfolio = await this.portfolioService.updatePortfolio(id, { name });
 
-    // if (portfolio)
-    //   this.snackbar.show('Portfolio Renamed', 'green');
+    if (portfolio)
+      this.snackbar.show('Portfolio Renamed', 'green');
   }
 
   async onDeleteClick(): Promise<void> {
@@ -88,10 +88,10 @@ export class PortfolioControlBarComponent {
   }
 
   async deletePortfolio(portfolioId: number | bigint): Promise<void> {
-    // const result = await this.portfolioService.deletePortfolio(portfolioId);
+    const result = await this.portfolioService.deletePortfolio(portfolioId);
 
-    // if (result)
-    //   this.snackbar.show('Portfolio Deleted', 'green');
+    if (result)
+      this.snackbar.show('Portfolio Deleted', 'green');
   }
 
   openSelectMenu(): void {

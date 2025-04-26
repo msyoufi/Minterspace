@@ -23,7 +23,7 @@ class Transaction(models.Model):
     coin_id = models.CharField(max_length=64)
     type = models.CharField(max_length=4, choices=[("buy", "Buy"), ("sell", "Sell")])
     quantity = models.FloatField()
-    pricePerCoin = models.FloatField()
+    coin_price_usd = models.FloatField()
     date = models.DateTimeField()
 
     def __str__(self):
