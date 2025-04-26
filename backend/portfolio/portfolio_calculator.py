@@ -15,6 +15,7 @@ params = {
 }
 
 
+# Entry point function
 def calculate_portfolio_data(transactions):
     if not len(transactions):
         return None
@@ -71,6 +72,7 @@ def calculate_portfolio_data(transactions):
     }
 
 
+# Helper functions
 def group_transactions_by_coin(transactions):
     grouped = {}
 

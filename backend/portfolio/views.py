@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import PortfolioSerializer, TransactionSerializer
 from .models import Portfolio, Transaction
 from django.shortcuts import get_object_or_404
-from .helpers import calculate_portfolio_data
+from .portfolio_calculator import calculate_portfolio_data
 
 
 @api_view(["GET", "POST", "PATCH", "DELETE"])
