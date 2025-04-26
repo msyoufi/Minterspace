@@ -24,7 +24,7 @@ interface PortfolioData {
   stats: PortfolioStats,
   allocation_chart: AllocationChartDataPoint[],
   assets: Asset[],
-  transactionsByCoin: TransactionsByCoin
+  transactionsByCoinId: Record<string, Transaction[]> // the string holds the coin_id
 }
 
 interface PortfolioStats {
@@ -56,13 +56,9 @@ interface Asset {
   profit_loss_percentage: number
 }
 
-interface TransactionsByCoin {
-  coin_id: string,
-  transactions: Transaction[]
-}
-
 interface Transaction {
   id: number | bigint,
+  portfolio_id: number | bigint,
   coin_id: string,
   type: 'buy' | 'sell',
   quantity: number,

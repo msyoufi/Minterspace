@@ -4,6 +4,7 @@ from rest_framework.decorators import api_view, permission_classes
 from .serializers import PortfolioSerializer, TransactionSerializer
 from .models import Portfolio, Transaction
 from django.shortcuts import get_object_or_404
+from .helpers import calculate_portfolio_data
 
 
 @api_view(["GET", "POST", "PATCH", "DELETE"])
@@ -69,9 +70,10 @@ def portfolio_data_view(request, portfolio_id=None):
     if portfolio_id is None:
         return Response({"error": "portfolio_id must be provided"}, status=400)
 
-    transactions = Transaction.objects.filter(portfolio=portfolio_id)
+    transactions = Transaction.objects.filter(portfolio=portfolio_id).values()
+    portfolio_data = calculate_portfolio_data(transactions)
 
-    return Response({}, status=200)
+    return Response(portfolio_data, status=200)
 
 
 # TODO
