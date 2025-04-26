@@ -42,7 +42,7 @@ interface AllocationChartDataPoint {
 
 interface Asset {
   coin_id: string,
-  portfolio_id: string,
+  portfolio_id: number | bigint,
   name: string,
   symbol: string,
   image: string,
