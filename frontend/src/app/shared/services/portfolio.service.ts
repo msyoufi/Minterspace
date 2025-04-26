@@ -16,6 +16,7 @@ export class PortfolioService {
 
   public portfolios$ = signal<Portfolio[]>([]);
   public currentPortfolio$ = signal<Portfolio | null>(null);
+  public currentPortfolioData$ = signal<PortfolioData | null>(null);
 
   // The main Portfolio is created on accout creation and cannot be deleted by the user
   public mainPortfolio = computed(() =>
@@ -24,6 +25,7 @@ export class PortfolioService {
 
   constructor() {
     effect(() => this.getUserPortfolios());
+    effect(() => this.getPortfolioData());
   }
 
   getUserPortfolios(): void {
@@ -33,7 +35,7 @@ export class PortfolioService {
   }
 
   async getAllPortfolios(): Promise<void> {
-    const portfolios = await this.fetch();
+    const portfolios = await this.fetchMetaData();
     const mainPortfolio = portfolios.find(pf => pf.is_main) ?? null;
 
     console.log(portfolios)
@@ -41,7 +43,7 @@ export class PortfolioService {
     this.setPortfolios(portfolios, mainPortfolio);
   }
 
-  private async fetch(): Promise<Portfolio[]> {
+  private async fetchMetaData(): Promise<Portfolio[]> {
     try {
       const response$ = this.http.get<Portfolio[]>(this.BASE_URL);
       return await firstValueFrom(response$);
@@ -49,6 +51,27 @@ export class PortfolioService {
     } catch (err: unknown) {
       this.handleError(err);
       return [];
+    }
+  }
+
+  async getPortfolioData(): Promise<void> {
+    const portfolioId = this.currentPortfolio$()?.id;
+    if (!portfolioId) return;
+
+    const portfolioData = await this.fetchData(portfolioId);
+    console.log(portfolioData)
+
+    this.currentPortfolioData$.set(portfolioData);
+  }
+
+  private async fetchData(portfolioId: number | bigint): Promise<PortfolioData | null> {
+    try {
+      const response$ = this.http.get<PortfolioData>(this.BASE_URL);// TODO
+      return await firstValueFrom(response$);
+
+    } catch (err: unknown) {
+      this.handleError(err);
+      return null;
     }
   }
 

@@ -126,18 +126,6 @@ interface CoinDetails {
   last_updated: string
 }
 
-const sortKeys = {
-  market_cap_rank: '',
-  name: '',
-  current_price: '',
-  price_change_percentage_24h: '',
-  market_cap: '',
-  total_volume: '',
-  circulating_supply: ''
-} as const;
-
-type SortKey = keyof typeof sortKeys;
-
 interface CoinCategory {
   id: string,
   name: string,
@@ -150,23 +138,10 @@ interface CoinCategory {
   updated_at: string | null
 };
 
-interface CategoryData {
-  header: string,
-  marketCap: number,
-  marketCapchange: number,
-  volume: number,
-  indicatorClass: string
-};
-
 interface CoinCharts {
   prices: number[][],
   market_caps: number[][],
   total_volumes: number[][]
-};
-
-interface ChartDataPoint {
-  time: UTCTimestamp,
-  value: number
 };
 
 interface SearchResults {
@@ -232,7 +207,7 @@ interface CoinTrending {
   data: {
     price: number,
     price_btc: string,
-    price_change_percentage_24h: { [key: sting]: number }
+    price_change_percentage_24h: { [key: string]: number }
     market_cap: string,
     market_cap_btc: string,
     total_volume: string,
@@ -275,7 +250,7 @@ interface CategoryTrending {
     market_cap_btc: number,
     total_volume: number,
     total_volume_btc: number,
-    market_cap_change_percentage_24h: { [key: sting]: number },
+    market_cap_change_percentage_24h: { [key: string]: number },
     sparkline: string
   }
 }

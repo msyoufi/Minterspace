@@ -3,3 +3,28 @@ interface DialogData {
   message: string,
   actionButton: string
 }
+
+interface ChartDataPoint {
+  time: UTCTimestamp,
+  value: number
+};
+
+interface CategoryData {
+  header: string,
+  marketCap: number,
+  marketCapchange: number,
+  volume: number,
+  indicatorClass: string
+};
+
+const sortKeys = {
+  market_cap_rank: '',
+  name: '',
+  current_price: '',
+  price_change_percentage_24h: '',
+  market_cap: '',
+  total_volume: '',
+  circulating_supply: ''
+} as const;
+
+type SortKey = keyof typeof sortKeys;
