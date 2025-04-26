@@ -30,7 +30,7 @@ def watchlist_view(request, watchlist_id=None):
 
     if request.method == "DELETE":
         watchlist.delete()
-        return Response(status=202)
+        return Response(status=204)
 
 
 def get_all_watchlists(user):
@@ -59,4 +59,4 @@ def update_watchlist(user, watchlist, data):
 
     serializer.save(user=user)
 
-    return Response(serializer.data, status=201)
+    return Response(serializer.data, status=200)

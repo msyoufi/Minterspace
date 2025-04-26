@@ -31,7 +31,7 @@ def portfolio_view(request, portfolio_id=None):
 
     if request.method == "DELETE":
         portfolio.delete()
-        return Response(status=202)
+        return Response(status=204)
 
 
 def get_all_portfolios(user):
@@ -49,7 +49,7 @@ def create_portfolio(user, data):
 
     serializer.save(user=user)
 
-    return Response(serializer.data, status=200)
+    return Response(serializer.data, status=201)
 
 
 def update_portfolio(user, portfolio, data):
@@ -63,7 +63,6 @@ def update_portfolio(user, portfolio, data):
     return Response(serializer.data, status=200)
 
 
-# TODO
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def portfolio_data_view(request, portfolio_id=None):
@@ -94,7 +93,7 @@ def transaction_view(request, transaction_id=None):
 
 
 def create_transaction(data):
-    return Response(status=200)
+    return Response(status=201)
 
 
 def update_transaction(transaction_id, data):
@@ -102,4 +101,4 @@ def update_transaction(transaction_id, data):
 
 
 def delete_transaction(transaction_id):
-    return Response(status=200)
+    return Response(status=204)
