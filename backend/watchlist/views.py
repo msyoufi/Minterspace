@@ -8,7 +8,7 @@ from django.shortcuts import get_object_or_404
 
 @api_view(["GET", "POST", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
-def watchlist_view(request, id=None):
+def watchlist_view(request, watchlist_id=None):
     user = request.user
 
     if request.method == "GET":
@@ -17,11 +17,20 @@ def watchlist_view(request, id=None):
     if request.method == "POST":
         return create_watchlist(user, request.data)
 
+    if watchlist_id is None:
+        return Response({"error": "watchlist_id must be provided"}, status=400)
+
+    watchlist = get_object_or_404(Watchlist, pk=watchlist_id)
+
+    if watchlist.user != user:
+        return Response(status=403)
+
     if request.method == "PATCH":
-        return update_watchlist(user, id, request.data)
+        return update_watchlist(user, watchlist, request.data)
 
     if request.method == "DELETE":
-        return delete_watchlist(user, id)
+        watchlist.delete()
+        return Response(status=202)
 
 
 def get_all_watchlists(user):
@@ -42,18 +51,7 @@ def create_watchlist(user, data):
     return Response(serializer.data, status=201)
 
 
-def update_watchlist(user, watchlist_id, data):
-    if watchlist_id is None:
-        return Response({"error": "watchlist_id must be provided"}, status=400)
-
-    watchlist = get_object_or_404(Watchlist, pk=watchlist_id)
-
-    if watchlist.user != user:
-        return Response(
-            {"error": "You do not have permission to perform this action."},
-            status=403,
-        )
-
+def update_watchlist(user, watchlist, data):
     serializer = WatchlistSerializer(watchlist, data=data, partial=True)
 
     if not serializer.is_valid():
@@ -62,20 +60,3 @@ def update_watchlist(user, watchlist_id, data):
     serializer.save(user=user)
 
     return Response(serializer.data, status=201)
-
-
-def delete_watchlist(user, watchlist_id):
-    if watchlist_id is None:
-        return Response({"error": "watchlist_id must be provided"}, status=400)
-
-    watchlist = get_object_or_404(Watchlist, pk=watchlist_id)
-
-    if watchlist.user != user:
-        return Response(
-            {"error": "You do not have permission to perform this action."},
-            status=403,
-        )
-
-    watchlist.delete()
-
-    return Response(status=202)

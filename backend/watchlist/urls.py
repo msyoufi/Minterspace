@@ -3,5 +3,5 @@ from .views import watchlist_view
 
 urlpatterns = [
     path("", watchlist_view),
-    path("<int:id>", watchlist_view),
+    path("<int:watchlist_id>", watchlist_view),
 ]
