@@ -8,14 +8,17 @@ import { Component, input, output } from '@angular/core';
       {{content()}}
     </button>
   `,
-  styleUrls: [
-    './labels-bar.component.scss',
-    '../coins-list.component.scss'
-  ]
+  styles: `
+    button {
+      position: relative;
 
+      &:hover {
+        text-decoration: underline;
+      }
+    }`
 })
 export class LabelButtonComponent {
   content = input.required<string>();
-  className = input<string>('');
+  className = input<'asc' | 'desc' | ''>('');
   changeSortKey = output<void>();
 }

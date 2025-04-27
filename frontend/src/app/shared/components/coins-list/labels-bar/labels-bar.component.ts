@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { LabelButtonComponent } from "./label-button.component";
+import { LabelButtonComponent } from "../../label-button.component";
 
 @Component({
   selector: 'ms-labels-bar',

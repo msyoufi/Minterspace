@@ -5,15 +5,3 @@
   background-color: var(--background-color);
   z-index: 5;
 }
-
-button {
-  background-color: transparent;
-  border: none;
-  color: var(--text-color);
-  position: relative;
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
