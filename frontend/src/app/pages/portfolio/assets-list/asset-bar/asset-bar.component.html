@@ -1,1 +1,71 @@
-<p>asset-bar works!</p>
+@let ast = asset();
+
+<li>
+  <a [routerLink]="ast.coin_id" class="asset-bar asset-grid-bar">
+
+    <div>
+      <img [src]="ast.image" />
+      <p>
+        {{ast.name}}
+        <span class="coin-symbol">
+          {{ast.symbol | uppercase}}
+        </span>
+      </p>
+    </div>
+
+    <span>{{ast.current_price | number : '1.0-12'}}</span>
+
+    <p>
+      <span [class]="ast.price_change_percentage_24h > 0 ? 'asc green' : 'desc red'">
+        {{ast.price_change_percentage_24h | absolut | number:'1.1-1'}}%
+      </span>
+    </p>
+
+    <ms-sparkline [priceData]="ast.sparkline" />
+
+    <div class="holdings">
+      <span>
+        ${{
+        ast.current_value | number : `1.0-${1 > (ast.current_value | absolut) ? '12' : '2'}`
+        }}
+      </span>
+
+      <span>
+        {{ast.current_quantity | number : '1.0-5'}}
+        <span class="coin-symbol">{{ast.symbol | uppercase}}</span>
+      </span>
+    </div>
+
+    <span>
+      ${{
+      ast.avrg_buy_price | number : `1.0-${1 > ast.avrg_buy_price ? '12' : '2'}`
+      }}
+    </span>
+
+    <div class="profit-loss">
+      @let profit = ast.profit_loss;
+
+      <span [class]="profit > 0 ? 'green': 'red'">
+        {{
+        profit > 0 ? '+' : '-'
+        }}${{
+        profit | absolut | number : `1.0-${0.01 > (profit | absolut) ? '12' : '2'}`
+        }}
+      </span>
+
+      <span [class]="ast.profit_loss_percentage > 0 ? 'asc green' : 'desc red'">
+        {{ast.profit_loss_percentage | absolut | number : '1.1-1'}}%
+      </span>
+    </div>
+
+    <div class="action-buttons-container">
+      <span (click)="onAddClick($event)">
+        <i class='bi bi-plus-circle' matTooltip="Add Transaction"></i>
+      </span>
+      <span (click)="onRemoveClick($event)">
+        <i class='bi bi-trash3' matTooltip="Remove Asset"></i>
+      </span>
+    </div>
+
+  </a>
+</li>

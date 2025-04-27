@@ -1,0 +1,11 @@
+<div class='asset-grid-bar labels-bar'>
+  @for (label of labels; track $index) {
+
+  @let className = currentSortKey() && currentSortKey() === label.sortKey
+  ? (isAscOrder() ? 'asc' : 'desc')
+  : '';
+
+  <ms-label-button [content]="label.content" (labelClick)="onSortLabelClick(label.sortKey)" [className]="className"
+    [sortKey]="label.sortKey" />
+  }
+</div>

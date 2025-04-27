@@ -1,1 +1,14 @@
-<p>assets-list works!</p>
+<ms-assets-labels-bar (sortLabelClick)="onSortLabelClick($event)" [currentSortKey]="sortKey()"
+  [isAscOrder]="isAscOrder()" />
+
+<ul>
+  @for (asset of assets(); track asset.coin_id) {
+  <ms-asset-bar [asset]="asset" />
+  }
+
+  <li>
+    <button type="button" class="add-coin-bar">
+      Add Asset +
+    </button>
+  </li>
+</ul>
