@@ -28,10 +28,12 @@ import { SparklineComponent } from '../sparkline.component';
 `
 })
 export class PerformancePaneComponent {
-  coin = input.required<CoinBasic>();
+  coin = input.required<CoinBasic | Asset>();
+  withSparkline = input<boolean>(false);
 
   valueChange: number = 0;
   valueChangePercent: number = 0;
+  sparkline: number[] = [];
 
   constructor() {
     effect(() => this.onCoinChange());
@@ -41,7 +43,19 @@ export class PerformancePaneComponent {
     const coin = this.coin();
     if (!coin) return;
 
-    this.valueChange = coin.price_change_24h;
-    this.valueChangePercent = coin.price_change_percentage_24h;
+    if ('coin_id' in coin) {
+      this.valueChange = coin.profit_loss;
+      this.valueChangePercent = coin.profit_loss_percentage;
+
+      if (this.withSparkline())
+        this.sparkline = coin.sparkline;
+
+    } else {
+      this.valueChange = coin.price_change_24h;
+      this.valueChangePercent = coin.price_change_percentage_24h;
+
+      if (this.withSparkline())
+        this.sparkline = coin.sparkline_in_7d.price;
+    }
   }
 }

@@ -29,7 +29,9 @@
 
 </div>
 
+@if (withSparkline()) {
 <div class="sparkline-container">
   <p class="title">Last 7 Days</p>
-  <ms-sparkline [priceData]="c.sparkline_in_7d.price" />
+  <ms-sparkline [priceData]="sparkline" />
 </div>
+}

@@ -8,11 +8,11 @@
   <span class="skeleton"></span>
 
   } @else if (best && worst) {
-  <ms-performance-pane class="pane" [coin]="best" [routerLink]="'/coins/' + best.id">
+  <ms-performance-pane class="pane" [coin]="best" [withSparkline]="true" [routerLink]="'/coins/' + best.id">
     Best Performer 24H
   </ms-performance-pane>
 
-  <ms-performance-pane class="pane" [coin]="worst" [routerLink]="'/coins/' + worst.id">
+  <ms-performance-pane class="pane" [coin]="worst" [withSparkline]="true" [routerLink]="'/coins/' + worst.id">
     Worst Performer 24H
   </ms-performance-pane>
 
