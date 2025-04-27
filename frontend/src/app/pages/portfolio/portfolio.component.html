@@ -1,11 +1,15 @@
 <div class="component-container-with-padding">
   <ms-portfolio-control-bar (addAssetClick)="openSelectMenu()" />
 
-  @if (true) {
+  @if (portfolioService.currentPortfolioData$()) {
 
-  <div class="portfolio-charts-container">
+  <div class="portfolio-header">
     <ms-portfolio-stats-panes />
-    <ms-asset-allocation-chart />
+
+    <div class="chart-wrapper">
+      <p>Asset Allocation</p>
+      <ms-asset-allocation-chart />
+    </div>
   </div>
 
   <ms-assets-list />

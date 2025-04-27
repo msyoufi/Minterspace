@@ -1,6 +1,7 @@
 .stats-container {
-  width: 50%;
-  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .gainer-container {
