@@ -1,0 +1,27 @@
+.stats-container {
+  width: 50%;
+  padding: 2rem 0;
+}
+
+.gainer-container {
+  display: flex;
+  gap: .5rem;
+}
+
+.pane {
+  display: flex;
+  cursor: pointer;
+}
+
+.totals-pane {
+  padding: 0;
+  border: none;
+  cursor: default;
+}
+
+.total-value-container {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 1rem 1.5rem;
+}

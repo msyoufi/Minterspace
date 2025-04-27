@@ -1,1 +1,30 @@
-<p>portfolio-stats-panes works!</p>
+@let st = stats();
+@let top = topGainer();
+@let worst = worstGainer();
+
+<div class="stats-container">
+
+  @if (!stats()) {
+  <span class="skeleton"></span>
+
+  <div class="gainer-container">
+    <span class="skeleton"></span>
+    <span class="skeleton"></span>
+  </div>
+
+
+  } @else if (st) {
+  <ms-totals-pane class="pane totals-pane" [total_balance]="st.total_balance" [total_profit_loss]="st.total_profit_loss"
+    [total_profit_loss_percentage]="st.total_profit_loss_percentage" />
+
+  <div class="gainer-container">
+    <ms-performance-pane class="pane" [coin]="top!" [routerLink]="top!.coin_id">
+      Top Gainer
+    </ms-performance-pane>
+
+    <ms-performance-pane class="pane" [coin]="worst!" [routerLink]="worst!.coin_id">
+      Worst Performer
+    </ms-performance-pane>
+  </div>
+  }
+</div>

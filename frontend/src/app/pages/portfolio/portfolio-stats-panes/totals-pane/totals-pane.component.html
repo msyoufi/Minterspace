@@ -1,0 +1,25 @@
+@let profit = total_profit_loss();
+
+<div class="total-value-container">
+  <span class="title">Total Balance</span>
+  <span class="value">
+    <span>$</span>{{total_balance() | number : '1.0-2'}}
+  </span>
+</div>
+
+<div class="total-value-container">
+  <span class="title">Total Profit/Loss</span>
+  <span class="value" [class]="profit > 0 ? 'green' : 'red'">
+    {{
+    profit > 0 ? '+' : '-'
+    }}${{
+    profit | absolut | number : `1.0-${0.01 > (profit | absolut) ? '12' : '2'}`
+    }}
+  </span>
+
+  <p class="percent">
+    <span [class]="total_profit_loss_percentage() > 0 ? 'asc green' : 'desc red'">
+      ${{total_profit_loss_percentage() | absolut | number:'1.1-1'}}%
+    </span>
+  </p>
+</div>
