@@ -5,13 +5,10 @@ import { LabelButtonComponent } from "../../label-button.component";
   selector: 'ms-labels-bar',
   imports: [LabelButtonComponent],
   templateUrl: './labels-bar.component.html',
-  styleUrls: [
-    './labels-bar.component.scss',
-    '../coins-list.component.scss'
-  ]
+  styleUrl: '../coins-list.component.scss'
 })
 export class LabelsBarComponent {
-  currentSortKey = input.required<CoinSortKey | null>();
+  currentSortKey = input.required<CoinSortKey>();
   isAscOrder = input.required<boolean>();
 
   sortLabelClick = output<CoinSortKey>();
