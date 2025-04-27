@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, input } from '@angular/core';
-import { AbsolutPipe } from '../../../../shared/pipes/absolut.pipe';
+import { AbsolutPipe } from '../../../../../shared/pipes/absolut.pipe';
 
 @Component({
   selector: 'ms-totals-pane',

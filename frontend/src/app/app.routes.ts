@@ -6,6 +6,7 @@ import { authGuard } from './auth.guard';
 import { WatchlistComponent } from './pages/watchlist/watchlist.component';
 import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { AssetDetailsComponent } from './pages/portfolio/asset-details/asset-details.component';
+import { PortfolioOverviewComponent } from './pages/portfolio/portfolio-overview/portfolio-overview.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,6 +14,7 @@ export const routes: Routes = [
   { path: 'watchlist', component: WatchlistComponent, canActivate: [authGuard] },
   {
     path: 'portfolio', component: PortfolioComponent, canActivate: [authGuard], children: [
+      { path: '', component: PortfolioOverviewComponent, pathMatch: 'full' },
       { path: ':id', component: AssetDetailsComponent }
     ]
   },

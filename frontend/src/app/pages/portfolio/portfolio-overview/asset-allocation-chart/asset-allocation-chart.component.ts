@@ -1,6 +1,6 @@
 import { Component, effect, ElementRef, inject, OnDestroy, viewChild } from '@angular/core';
 import { ECharts, EChartsOption, init } from 'echarts';
-import { PortfolioService } from '../../../shared/services/portfolio.service';
+import { PortfolioService } from '../../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'ms-asset-allocation-chart',

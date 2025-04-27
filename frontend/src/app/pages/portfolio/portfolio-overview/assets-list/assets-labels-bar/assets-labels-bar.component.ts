@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { LabelButtonComponent } from '../../../../shared/components/label-button.component';
+import { LabelButtonComponent } from '../../../../../shared/components/label-button.component';
 
 @Component({
   selector: 'ms-assets-labels-bar',

@@ -1,5 +1,5 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { PortfolioService } from '../../../shared/services/portfolio.service';
+import { PortfolioService } from '../../../../shared/services/portfolio.service';
 import { AssetBarComponent } from './asset-bar/asset-bar.component';
 import { AssetsLabelsBarComponent } from './assets-labels-bar/assets-labels-bar.component';
 

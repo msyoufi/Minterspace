@@ -1,0 +1,33 @@
+<ms-portfolio-control-bar (addAssetClick)="openSelectMenu()" />
+
+@if (portfolioService.currentPortfolioData$()) {
+
+<div class="portfolio-header">
+  <ms-portfolio-stats-panes />
+
+  <div class="chart-wrapper">
+    <p>Asset Allocation</p>
+    <ms-asset-allocation-chart />
+  </div>
+</div>
+
+<ms-assets-list />
+
+} @else {
+<div class="empty-watchlist_portfolio-container">
+  <div>
+    <h2>Start Tracking Profit and Losses <br> Of Your Portoflio Now.</h2>
+
+    <button type="button" class="ms-button primary" (click)="openSelectMenu()">
+      Add Asset +
+    </button>
+  </div>
+
+  <ms-emtpy-portfolio-svg class="placeholder-svg" />
+</div>
+}
+
+
+@if (isCoinSelectMenuOpen()) {
+<ms-portfolio-coin-select-menu (selectMenuClose)="onSelectMenuClose()" />
+}

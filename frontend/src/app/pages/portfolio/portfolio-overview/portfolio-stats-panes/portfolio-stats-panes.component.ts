@@ -1,6 +1,6 @@
 import { Component, effect, inject, signal } from '@angular/core';
-import { PortfolioService } from '../../../shared/services/portfolio.service';
-import { PerformancePaneComponent } from '../../../shared/components/performance-pane/performance-pane.component';
+import { PortfolioService } from '../../../../shared/services/portfolio.service';
+import { PerformancePaneComponent } from '../../../../shared/components/performance-pane/performance-pane.component';
 import { RouterLink } from '@angular/router';
 import { TotalsPaneComponent } from './totals-pane/totals-pane.component';
 

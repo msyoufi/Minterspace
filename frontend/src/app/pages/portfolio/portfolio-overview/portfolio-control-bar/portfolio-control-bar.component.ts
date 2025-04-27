@@ -1,11 +1,11 @@
 import { Component, inject, output, signal } from '@angular/core';
-import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
-import { PortfolioService } from '../../../shared/services/portfolio.service';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
-import { ConfirmDialogService } from '../../../shared/components/confirm-dialog/confirm-dialog.service';
-import { TransactionModalService } from '../../../shared/services/transaction-modal.service';
-import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
-import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
+import { NameInputPaneComponent } from '../../../../shared/components/name-input-pane/name-input-pane.component';
+import { PortfolioService } from '../../../../shared/services/portfolio.service';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
+import { ConfirmDialogService } from '../../../../shared/components/confirm-dialog/confirm-dialog.service';
+import { TransactionModalService } from '../../../../shared/services/transaction-modal.service';
+import { EscapePressDirective } from '../../../../shared/directives/escape-press.directive';
+import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
 import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({

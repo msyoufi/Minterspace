@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { AbsolutPipe } from '../../../../shared/pipes/absolut.pipe';
-import { SparklineComponent } from '../../../../shared/components/sparkline.component';
+import { AbsolutPipe } from '../../../../../shared/pipes/absolut.pipe';
+import { SparklineComponent } from '../../../../../shared/components/sparkline.component';
 import { MatTooltip } from '@angular/material/tooltip';
-import { PortfolioService } from '../../../../shared/services/portfolio.service';
-import { ConfirmDialogService } from '../../../../shared/components/confirm-dialog/confirm-dialog.service';
+import { PortfolioService } from '../../../../../shared/services/portfolio.service';
+import { ConfirmDialogService } from '../../../../../shared/components/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'ms-asset-bar',

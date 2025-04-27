@@ -1,11 +1,11 @@
 import { Component, inject, OnInit, output, signal } from '@angular/core';
-import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
-import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
-import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
-import { MiniCoinBarComponent } from '../../../shared/components/mini-coin-bar/mini-coin-bar.component';
-import { SnackBarService } from '../../../shared/services/snack-bar.service';
-import { TransactionModalService } from '../../../shared/services/transaction-modal.service';
-import { CoingeckoService } from '../../../shared/services/coingecko.service';
+import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
+import { EscapePressDirective } from '../../../../shared/directives/escape-press.directive';
+import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
+import { MiniCoinBarComponent } from '../../../../shared/components/mini-coin-bar/mini-coin-bar.component';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
+import { TransactionModalService } from '../../../../shared/services/transaction-modal.service';
+import { CoingeckoService } from '../../../../shared/services/coingecko.service';
 
 @Component({
   selector: 'ms-portfolio-coin-select-menu',
