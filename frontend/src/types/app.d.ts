@@ -34,7 +34,7 @@ const assetSortKeys = {
   name: '',
   current_price: '',
   price_change_percentage_24h: '',
-  current_quantity: '',
+  current_value: '',
   avrg_buy_price: '',
   profit_loss: '',
   '': ''
