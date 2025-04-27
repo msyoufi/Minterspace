@@ -11,16 +11,16 @@ import { LabelButtonComponent } from "../../label-button.component";
   ]
 })
 export class LabelsBarComponent {
-  currentSortKey = input.required<SortKey | null>();
+  currentSortKey = input.required<CoinSortKey | null>();
   isAscOrder = input.required<boolean>();
 
-  changeSortKey = output<SortKey>();
+  sortLabelClick = output<CoinSortKey>();
 
-  onSortKeyChange(sortKey: SortKey): void {
-    this.changeSortKey.emit(sortKey);
+  onSortLabelClick(sortKey: CoinSortKey): void {
+    this.sortLabelClick.emit(sortKey);
   }
 
-  labels: { content: string, sortKey: SortKey }[] = [
+  labels: { content: string, sortKey: CoinSortKey }[] = [
     {
       content: '#',
       sortKey: 'market_cap_rank'
@@ -42,6 +42,9 @@ export class LabelsBarComponent {
     }, {
       content: 'Circulating Supply',
       sortKey: 'circulating_supply'
-    },
+    }, {
+      content: 'Last 7 Days',
+      sortKey: ''
+    }
   ];
 }

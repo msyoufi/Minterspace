@@ -4,7 +4,7 @@ import { Component, input, output } from '@angular/core';
   selector: 'ms-label-button',
   imports: [],
   template: `
-    <button (click)="changeSortKey.emit()" [class]="className()">
+    <button (click)="labelClick.emit()" [class]="className()" [class.disabled]="!sortKey()">
       {{content()}}
     </button>
   `,
@@ -15,10 +15,15 @@ import { Component, input, output } from '@angular/core';
       &:hover {
         text-decoration: underline;
       }
+
+      &.disabled {
+        pointer-events: none;
+      }
     }`
 })
 export class LabelButtonComponent {
   content = input.required<string>();
+  sortKey = input.required<CoinSortKey | AssetSortKey>();
   className = input<'asc' | 'desc' | ''>('');
-  changeSortKey = output<void>();
+  labelClick = output<void>();
 }

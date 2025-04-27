@@ -1,17 +1,17 @@
-<ms-labels-bar (changeSortKey)="onSortKeyChange($event)" [currentSortKey]="sortKey()" [isAscOrder]="isAscOrder()" />
+<ms-labels-bar (sortLabelClick)="onSortLabelClick($event)" [currentSortKey]="sortKey()" [isAscOrder]="isAscOrder()" />
 
 <ul>
   @if (isLoading()) {
 
-    @for (loader of loaderArr(); track $index) {
-    <ms-coin-bar-loader />
-    }
+  @for (loader of loaderArr(); track $index) {
+  <ms-coin-bar-loader />
+  }
 
   } @else {
 
-    @for (coin of sortedCoins(); track coin.id) {
-    <ms-coin-bar [coin]="coin" />
-    }
+  @for (coin of coins(); track coin.id) {
+  <ms-coin-bar [coin]="coin" />
+  }
 
   }
 </ul>

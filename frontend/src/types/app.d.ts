@@ -17,14 +17,27 @@ interface CategoryData {
   indicatorClass: string
 };
 
-const sortKeys = {
+const coinSortKeys = {
   market_cap_rank: '',
   name: '',
   current_price: '',
   price_change_percentage_24h: '',
   market_cap: '',
   total_volume: '',
-  circulating_supply: ''
+  circulating_supply: '',
+  '': ''
 } as const;
 
-type SortKey = keyof typeof sortKeys;
+type CoinSortKey = keyof typeof coinSortKeys;
+
+const assetSortKeys = {
+  name: '',
+  current_price: '',
+  price_change_percentage_24h: '',
+  current_quantity: '',
+  avrg_buy_price: '',
+  profit_loss: '',
+  '': ''
+} as const;
+
+type AssetSortKey = keyof typeof assetSortKeys;

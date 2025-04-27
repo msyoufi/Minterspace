@@ -1,4 +1,4 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, effect, input, signal } from '@angular/core';
 import { CoinBarComponent } from "./coin-bar/coin-bar.component";
 import { LabelsBarComponent } from './labels-bar/labels-bar.component';
 import { CoinBarLoaderComponent } from "./coin-bar/coin-bar-loader/coin-bar-loader.component";
@@ -11,43 +11,39 @@ import { CoinBarLoaderComponent } from "./coin-bar/coin-bar-loader/coin-bar-load
 })
 export class CoinsListComponent {
   coins = input.required<CoinBasic[]>();
-  sortedCoins = computed(() => this.sortCoins());
-
   isLoading = input.required<boolean>();
   loaderBarCount = input.required<number | string>();
   loaderArr = computed(() => Array.from({ length: Number(this.loaderBarCount()) }));
 
-  sortKey = signal<SortKey | null>(null);
+  sortKey = signal<CoinSortKey>('');
   isAscOrder = signal<boolean>(true);
 
-  sortCoins(): CoinBasic[] {
+  constructor() {
+    effect(() => this.sortCoins())
+  }
+
+  sortCoins(): void {
     const sortKey = this.sortKey();
-
-    if (!sortKey)
-      return this.coins();
-
-    let sortedCoins: CoinBasic[] = [];
+    if (!sortKey) return;
 
     if (sortKey === 'name') {
-      sortedCoins = this.isAscOrder()
+      this.isAscOrder()
         ? this.coins().sort((a, b) => a[sortKey].localeCompare(b[sortKey]))
         : this.coins().sort((a, b) => b[sortKey].localeCompare(a[sortKey]));
 
     } else {
-      sortedCoins = this.isAscOrder()
+      this.isAscOrder()
         ? this.coins().sort((a, b) => a[sortKey] - b[sortKey])
         : this.coins().sort((a, b) => b[sortKey] - a[sortKey]);
     }
-
-    return sortedCoins;
   }
 
-  onSortKeyChange(newSortKey: SortKey): void {
-    const isNewAscOrder = newSortKey === this.sortKey() && this.isAscOrder()
+  onSortLabelClick(sortKey: CoinSortKey): void {
+    const isNewAscOrder = sortKey === this.sortKey() && this.isAscOrder()
       ? false
       : true;
 
-    this.sortKey.set(newSortKey);
+    this.sortKey.set(sortKey);
     this.isAscOrder.set(isNewAscOrder)
   }
 }

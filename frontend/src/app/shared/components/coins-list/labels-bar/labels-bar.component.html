@@ -7,10 +7,7 @@
   ? (isAscOrder() ? 'asc' : 'desc')
   : '';
 
-  <ms-label-button [content]="label.content" (changeSortKey)="onSortKeyChange(label.sortKey)" [className]="className" />
+  <ms-label-button [content]="label.content" (labelClick)="onSortLabelClick(label.sortKey)" [className]="className"
+    [sortKey]="label.sortKey" />
   }
-
-  <span>
-    <span>Last 7 Days</span>
-  </span>
 </div>
