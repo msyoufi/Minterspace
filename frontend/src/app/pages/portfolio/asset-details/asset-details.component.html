@@ -1,8 +1,19 @@
 @let ast = asset();
 
+@if (ast) {
+<div class="control-bar-container">
+  <a routerLink="/portfolio" matTooltip="Back">
+    <i class="bi bi-arrow-left"></i>
+  </a>
+
+  <button type="button" class="icon-button" matTooltip="Add Transaction"
+    (click)="transactionModal.openModal(ast.coin_id)">
+    <i class="bi bi-plus-circle"></i>
+  </button>
+</div>
+
 <div class="component-container-with-padding">
-  @if (ast) {
   <ms-asset-panes [asset]="ast" />
   <ms-transactions-list [transactions]="transactions()" [assetSymbol]="ast.symbol" />
-  }
 </div>
+}

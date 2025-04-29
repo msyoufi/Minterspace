@@ -1,3 +1,11 @@
+.control-bar-container {
+  padding: .9rem 1.5rem;
+
+  .icon-button i {
+    font-size: 1rem;
+  }
+}
+
 .component-container-with-padding {
   display: flex;
   padding-top: 2rem;

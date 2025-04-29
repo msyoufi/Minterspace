@@ -2,15 +2,19 @@ import { Component, effect, inject, Input, signal } from '@angular/core';
 import { PortfolioService } from '../../../shared/services/portfolio.service';
 import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 import { AssetPanesComponent } from './asset-panes/asset-panes.component';
+import { TransactionModalService } from '../../../shared/services/transaction-modal.service';
+import { MatTooltip } from '@angular/material/tooltip';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ms-asset-details',
-  imports: [TransactionsListComponent, AssetPanesComponent],
+  imports: [TransactionsListComponent, AssetPanesComponent, RouterLink, MatTooltip],
   templateUrl: './asset-details.component.html',
   styleUrl: './asset-details.component.scss'
 })
 export class AssetDetailsComponent {
   portfolioService = inject(PortfolioService);
+  transactionModal = inject(TransactionModalService);
 
   coinId = signal<string>('');
   asset = signal<Asset | null>(null);
