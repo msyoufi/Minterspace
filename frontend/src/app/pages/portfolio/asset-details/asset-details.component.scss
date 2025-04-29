@@ -1,0 +1,10 @@
+.component-container-with-padding {
+  display: flex;
+  padding-top: 2rem;
+  gap: 1rem;
+}
+
+ms-transactions-list,
+ms-asset-panes {
+  width: 50%;
+}

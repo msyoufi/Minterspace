@@ -1,0 +1,23 @@
+.transaction-grid {
+  display: grid;
+  grid-template-columns: 10rem auto 30% 2.5rem;
+  padding: 0 .25rem;
+  align-items: center;
+  text-align: right;
+  font-size: .9rem;
+  border-bottom: 1px solid var(--border-color);
+
+  ms-label-button:nth-child(1),
+  div:nth-child(1) {
+    text-align: left;
+  }
+}
+
+.transaction-bar {
+  height: 4rem;
+  font-weight: 500;
+
+  button:nth-child(4) {
+    justify-self: right;
+  }
+}

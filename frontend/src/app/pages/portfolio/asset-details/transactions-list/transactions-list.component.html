@@ -1,1 +1,47 @@
-<p>transactions-list works!</p>
+<div class='transaction-grid labels-bar'>
+  @for (label of labels; track $index) {
+
+  @let className = sortKey() && sortKey() === label.sortKey
+  ? (isAscOrder() ? 'asc' : 'desc')
+  : '';
+
+  <ms-label-button [content]="label.content" (labelClick)="onSortLabelClick(label.sortKey)" [className]="className"
+    [sortKey]="label.sortKey" />
+  }
+</div>
+
+@for (tranx of transactions(); track tranx.id) {
+@let coinPrice = tranx.coin_price_usd;
+@let type = tranx.type;
+
+<div class="transaction-grid transaction-bar">
+  <div>
+    <p [class]="type === 'sell' ? 'red' : 'green'">
+      {{type | titlecase}}
+    </p>
+    <p>{{tranx.date | date:'dd MMM yyyy, hh:mm a'}}</p>
+  </div>
+
+  <p>
+    ${{coinPrice | number : `1.0-${1 > coinPrice ? '10' : '2'}`}}
+  </p>
+
+  <div>
+    <p>
+      ${{coinPrice*tranx.quantity | number:'1.2-2'}}
+    </p>
+    <p [class]="type === 'sell' ? 'red' : 'green'">
+      <span>{{type === 'buy' ? '+' : '-'}}</span>{{tranx.quantity}}
+
+      <span class="coin-symbol">
+        {{assetSymbol() | uppercase}}
+      </span>
+    </p>
+  </div>
+
+  <button class="icon-button" (click)="onRemoveClick(tranx.id)" matTooltip="Remove Transaction">
+    <i class='bi bi-trash3'></i>
+  </button>
+
+</div>
+}

@@ -1,1 +1,8 @@
-<p>asset-details works!</p>
+@let ast = asset();
+
+<div class="component-container-with-padding">
+  @if (ast) {
+  <ms-asset-panes [asset]="ast" />
+  <ms-transactions-list [transactions]="transactions()" [assetSymbol]="ast.symbol" />
+  }
+</div>

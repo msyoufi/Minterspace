@@ -41,3 +41,13 @@ const assetSortKeys = {
 } as const;
 
 type AssetSortKey = keyof typeof assetSortKeys;
+
+
+const transactionSortKeys = {
+  date: '',
+  coin_price_usd: '',
+  quantity: '',
+  '': ''
+} as const;
+
+type TransactionSortKey = keyof typeof transactionSortKeys;
