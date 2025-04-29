@@ -1,73 +1,102 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
-import globalMarketData from '../mock/globalMarket.json';
-import allCategories from '../mock/all-categories.json';
+import globalMarketMock from '../mock/globalMarket.json';
+import allCategoriesMock from '../mock/all-categories.json';
+import trendingMock from '../mock/trending.json';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CoingeckoService {
-  http = inject(HttpClient);
+  private http = inject(HttpClient);
+  private errorService = inject(ErrorService);
 
   public globalMarket = signal<GlobalMarket | null>(null);
   public coinCategories = signal<CoinCategory[]>([]);
   public TrendingCoins = signal<CoinTrending[]>([]);
 
-  BASE_URL = 'http://127.0.0.1:8000/api/coingecko';
+  private BASE_URL = 'http://127.0.0.1:8000/api/coingecko';
 
   constructor() {
-    this.getGlobalMarketData();
-    this.getCoinCategories();
-    this.getTrendingAssetes();
+    // this.getGlobalMarketData();
+    // this.getCoinCategories();
+    // this.getTrendingAssetes();
+    this.populateWithMockData();
+  }
+
+  populateWithMockData(): void {
+    this.globalMarket.set(globalMarketMock);
+    this.coinCategories.set(allCategoriesMock);
+    this.TrendingCoins.set(trendingMock as CoinTrending[]);
   }
 
   async getGlobalMarketData(): Promise<void> {
-    const url = `${this.BASE_URL}/global`;
+    try {
+      const response$ = this.http.get<GlobalMarket>(`${this.BASE_URL}/global`);
+      const globalMarket = await firstValueFrom(response$);
 
-    const response$ = this.http.get<GlobalMarket>(url);
-    const globalMarket = await firstValueFrom(response$);
+      this.globalMarket.set(globalMarket);
 
-    this.globalMarket.set(globalMarket);
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+    }
   }
 
   async getCoinsList(additionalParams: { [key: string]: any }): Promise<CoinBasic[]> {
-    const url = `${this.BASE_URL}/coins`;
-
     const params = {
       vs_currency: 'usd',
       ...additionalParams
     };
 
-    const response$ = this.http.get<CoinBasic[]>(url, { params });
-    return await firstValueFrom(response$);
+    try {
+      const response$ = this.http.get<CoinBasic[]>(`${this.BASE_URL}/coins`, { params });
+      return await firstValueFrom(response$);
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return [];
+    }
   }
 
-  async getCoinDetails(coinId: string): Promise<CoinDetails> {
-    const url = `${this.BASE_URL}/coins/${coinId}`;
-    const response$ = this.http.get<CoinDetails>(url);
-    return await firstValueFrom(response$);
+  async getCoinDetails(coinId: string): Promise<CoinDetails | null> {
+    try {
+      const response$ = this.http.get<CoinDetails>(`${this.BASE_URL}/coins/${coinId}`);
+      return await firstValueFrom(response$);
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return null;
+    }
   }
 
-  async getCoinChartsData(coinId: string, days: number): Promise<CoinCharts> {
-    const url = `${this.BASE_URL}/coins/charts/${coinId}`;
-
+  async getCoinChartsData(coinId: string, days: number): Promise<CoinCharts | null> {
     const params = {
       vs_currency: 'usd',
       days
     };
 
-    const response$ = this.http.get<CoinCharts>(url, { params });
-    return await firstValueFrom(response$);
+    try {
+      const response$ = this.http.get<CoinCharts>(`${this.BASE_URL}/coins/charts/${coinId}`, { params });
+      return await firstValueFrom(response$);
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return null;
+    }
   }
 
   async getCoinCategories(): Promise<void> {
-    const url = `${this.BASE_URL}/categories`;
+    try {
+      const response$ = this.http.get<CoinCategory[]>(`${this.BASE_URL}/categories`);
+      const categories = await firstValueFrom(response$);
 
-    const response$ = this.http.get<CoinCategory[]>(url);
-    const categories = await firstValueFrom(response$);
+      this.coinCategories.set(categories);
 
-    this.coinCategories.set(categories);
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+    }
   }
 
   searchCoinGecko(query: string): Observable<SearchResults> {
@@ -76,12 +105,15 @@ export class CoingeckoService {
   }
 
   async getTrendingAssetes(): Promise<void> {
-    const url = `${this.BASE_URL}/trending`;
+    try {
+      const response$ = this.http.get<TrendingAssets>(`${this.BASE_URL}/trending`);
+      const trendingAssets = await firstValueFrom(response$);
 
-    const response$ = this.http.get<TrendingAssets>(url);
-    const trendingAssets = await firstValueFrom(response$);
+      const trendingCoins = trendingAssets.coins.map(c => c.item);
+      this.TrendingCoins.set(trendingCoins);
 
-    const trendingCoins = trendingAssets.coins.map(c => c.item);
-    this.TrendingCoins.set(trendingCoins);
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+    }
   }
 }

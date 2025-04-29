@@ -1,8 +1,8 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { firstValueFrom } from 'rxjs';
-import { SnackBarService } from './snack-bar.service';
+import { ErrorService } from './error.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { SnackBarService } from './snack-bar.service';
 export class WatchlistService {
   private authService = inject(AuthService);
   private http = inject(HttpClient);
-  private snackbar = inject(SnackBarService);
+  private errorService = inject(ErrorService);
 
   private BASE_URL = 'http://127.0.0.1:8000/api/watchlist/';
 
@@ -45,7 +45,7 @@ export class WatchlistService {
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
-      this.handleError(err);
+      this.errorService.handleError(err);
       return [];
     }
   }
@@ -66,7 +66,7 @@ export class WatchlistService {
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
-      this.handleError(err);
+      this.errorService.handleError(err);
       return null;
     }
   }
@@ -93,7 +93,7 @@ export class WatchlistService {
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
-      this.handleError(err);
+      this.errorService.handleError(err);
       return null;
     }
   }
@@ -119,7 +119,7 @@ export class WatchlistService {
       return true;
 
     } catch (err: unknown) {
-      this.handleError(err);
+      this.errorService.handleError(err);
       return false;
     }
   }
@@ -127,35 +127,5 @@ export class WatchlistService {
   private setWatchlists(all: Watchlist[], current: Watchlist | null): void {
     this.watchlists$.set(all);
     this.currentWatchlist$.set(current);
-  }
-
-  private handleError(err: unknown): void {
-    let message = 'An unexpected error occurred.';
-
-    if (err instanceof HttpErrorResponse) {
-      const error = err.error;
-
-      if (typeof error?.detail === 'string') {
-        message = error.detail;
-
-      } else if (typeof error === 'object') {
-        const firstError = Object.values(error).flat()[0];
-
-        message = typeof firstError === 'string'
-          ? firstError
-          : `HTTP Error: ${err.status} - ${err.statusText}`;
-
-      } else if (typeof error === 'string') {
-        message = error;
-
-      } else {
-        message = `HTTP Error: ${err.status} - ${err.statusText}`;
-      }
-
-    } else if (err instanceof Error) {
-      message = err.message;
-    }
-
-    this.snackbar.show(message, 'red', 5000);
   }
 }

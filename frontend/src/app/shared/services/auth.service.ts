@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, DestroyRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, filter, firstValueFrom, Observable, take, tap, throwError, timeout } from 'rxjs';
+import { ErrorService } from './error.service';
 
 interface RegisterResponse {
   user: User,
@@ -20,6 +21,7 @@ export class AuthService {
   http = inject(HttpClient);
   router = inject(Router);
   destroyRef = inject(DestroyRef);
+  private errorService = inject(ErrorService);
 
   public user$ = signal<User | null>(null);
   public isAuthModalOpen$ = signal<boolean>(false);
@@ -49,7 +51,7 @@ export class AuthService {
       return true;
 
     } catch (err: unknown) {
-      console.log(err);
+      this.errorService.handleError(err);
       return false;
     }
   }
