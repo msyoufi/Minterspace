@@ -12,6 +12,8 @@
     </div>
 
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <input type="hidden" formControlName="coinId">
+
       <div class="coin-bar">
         <div class="coin-data">
 
@@ -46,8 +48,8 @@
       </div>
 
       <div class="control-field">
-        <input type="number" class="ms-input" min="0" id="price" formControlName="pricePerCoin">
-        <label for="price" [class.top]="form.get('pricePerCoin')?.value">
+        <input type="number" class="ms-input" min="0" id="price" formControlName="coinPrice_usd">
+        <label for="price" [class.top]="form.get('coinPrice_usd')?.value">
           Price Per Coin
         </label>
       </div>

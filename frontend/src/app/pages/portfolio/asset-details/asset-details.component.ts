@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 })
 export class AssetDetailsComponent {
   portfolioService = inject(PortfolioService);
-  transactionModal = inject(TransactionModalService);
+  transactionModalService = inject(TransactionModalService);
 
   coinId = signal<string>('');
   asset = signal<Asset | null>(null);
@@ -41,5 +41,12 @@ export class AssetDetailsComponent {
 
     this.asset.set(asset);
     this.transactions.set(transactions);
+  }
+
+  openTransactionModal(coinId: string): void {
+    const portfolioId = this.portfolioService.currentPortfolio$()?.id;
+    if (!portfolioId) return;
+
+    this.transactionModalService.openModal(portfolioId, coinId);
   }
 }

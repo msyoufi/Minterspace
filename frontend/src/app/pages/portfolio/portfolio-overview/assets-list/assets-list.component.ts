@@ -1,4 +1,4 @@
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, effect, inject, output, signal } from '@angular/core';
 import { PortfolioService } from '../../../../shared/services/portfolio.service';
 import { AssetBarComponent } from './asset-bar/asset-bar.component';
 import { AssetsLabelsBarComponent } from './assets-labels-bar/assets-labels-bar.component';
@@ -20,6 +20,8 @@ export class AssetsListComponent {
 
   sortKey = signal<AssetSortKey>('');
   isAscOrder = signal<boolean>(true);
+
+  addAssetClick = output<void>();
 
   constructor() {
     effect(() => this.populateAssets());
@@ -56,5 +58,9 @@ export class AssetsListComponent {
 
     this.sortKey.set(sortKey);
     this.isAscOrder.set(isNewAscOrder)
+  }
+
+  onAddAssetClick(): void {
+    this.addAssetClick.emit();
   }
 }

@@ -34,7 +34,7 @@
 
   .portfolio-buttons {
     display: flex;
-    align-items: center;
+    align-items: baseline;
     column-gap: .5rem;
 
     i {
@@ -44,7 +44,6 @@
     .icon-button:hover i {
       color: var(--primary-color);
     }
-
   }
 }
 

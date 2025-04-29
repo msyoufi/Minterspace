@@ -12,7 +12,7 @@ import { SnackBarService } from '../services/snack-bar.service';
   template: `
     <div>
       @if(isLoading()) {
-      <mat-spinner [diameter]="20" [strokeWidth]="2" />
+      <mat-spinner [diameter]="15" [strokeWidth]="2" />
 
       } @else {
       <button class="icon-button" (click)="onStarClick($event)"

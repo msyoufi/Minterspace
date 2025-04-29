@@ -9,15 +9,18 @@ export class TransactionModalService {
 
   public isModalOpen$ = signal<boolean>(false);
   public selectedCoin = signal<CoinBasic | null>(null);
+  public selectedPortfolioId = signal<number | bigint | null>(null);
 
-  openModal(coinId: string): void {
+  openModal(portfolioId: number | bigint, coinId: string): void {
     this.setSelectedCoin(coinId);
+    this.selectedPortfolioId.set(portfolioId);
     this.isModalOpen$.set(true);
   }
 
   closeModal(): void {
     this.isModalOpen$.set(false);
     this.selectedCoin.set(null);
+    this.selectedPortfolioId.set(null);
   }
 
   async setSelectedCoin(coinId: string): Promise<void> {
@@ -27,8 +30,8 @@ export class TransactionModalService {
 
   async getCoinData(coinId: string): Promise<CoinBasic | null> {
     const params = { ids: coinId };
-    const coin = await this.coinService.getCoinsList(params);
+    const coins = await this.coinService.getCoinsList(params);
 
-    return coin[0] ?? null;
+    return coins[0] ?? null;
   }
 }

@@ -6,7 +6,18 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { TransactionService } from '../../shared/services/transaction.service';
+import { SnackBarService } from '../../shared/services/snack-bar.service';
 import MsValidators from '../../shared/utils/ms.validators';
+
+interface TransctionFormValues {
+  coinId: string,
+  type: 'buy' | 'sell',
+  quantity: number,
+  coinPrice_usd: number,
+  date: string,
+  time: string
+};
 
 @Component({
   selector: 'ms-transaction-form-modal',
@@ -15,16 +26,19 @@ import MsValidators from '../../shared/utils/ms.validators';
   styleUrl: './transaction-form-modal.component.scss'
 })
 export class TransactionFormModalComponent {
+  transactionService = inject(TransactionService);
   transactionModalService = inject(TransactionModalService);
+  snackbar = inject(SnackBarService);
   destoryRef = inject(DestroyRef);
 
   isLoading = signal(false);
   totalCost = signal(0);
 
   form = new FormGroup({
+    coinId: new FormControl('', Validators.required),
     type: new FormControl<'buy' | 'sell'>('buy', Validators.required),
     quantity: new FormControl<number | null>(null, [Validators.required, MsValidators.greaterThanZero]),
-    pricePerCoin: new FormControl<number | null>(null, [Validators.required, MsValidators.greaterThanZero]),
+    coinPrice_usd: new FormControl<number | null>(null, [Validators.required, MsValidators.greaterThanZero]),
     date: new FormControl('', Validators.required),
     time: new FormControl('', Validators.required)
   });
@@ -43,7 +57,8 @@ export class TransactionFormModalComponent {
     const timeStr = now.toTimeString().slice(0, 5);
 
     this.form.patchValue({
-      pricePerCoin: coin.current_price,
+      coinId: coin.id,
+      coinPrice_usd: coin.current_price,
       date: dateStr,
       time: timeStr
     });
@@ -53,10 +68,10 @@ export class TransactionFormModalComponent {
     this.form.valueChanges
       .pipe(takeUntilDestroyed(this.destoryRef))
       .subscribe(value => {
-        const { quantity, pricePerCoin } = value;
+        const { quantity, coinPrice_usd } = value;
 
-        const newTotal = quantity && pricePerCoin
-          ? quantity * pricePerCoin
+        const newTotal = quantity && coinPrice_usd
+          ? quantity * coinPrice_usd
           : 0;
 
         this.totalCost.set(newTotal);
@@ -68,9 +83,36 @@ export class TransactionFormModalComponent {
 
     this.isLoading.set(true);
 
-    console.log(this.form.value);
+    const transaction = this.createTransaction(this.form.value as TransctionFormValues);
+    if (!transaction) return;
+
+    const newTransaction = await this.transactionService.createTransaction(transaction);
 
     this.isLoading.set(false);
+
+    if (!newTransaction) return;
+
+    this.transactionModalService.closeModal();
+    this.snackbar.show('Transaction Added', 'green');
+  }
+
+  createTransaction(values: TransctionFormValues): Omit<Transaction, 'id'> | null {
+    const portfolioId = this.transactionModalService.selectedPortfolioId();
+    if (!portfolioId) return null;
+
+    const { type, quantity, coinPrice_usd, coinId, date, time } = values;
+
+    const timeWithSeconds = time.length === 5 ? `${time}:00` : time;
+    const dateISOString = `${date}T${timeWithSeconds}`;
+
+    return {
+      portfolio_id: portfolioId,
+      coin_id: coinId,
+      type,
+      quantity,
+      coin_price_usd: coinPrice_usd,
+      date: dateISOString
+    };
   }
 
   closeModal(): void {

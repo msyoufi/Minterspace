@@ -6,6 +6,7 @@ import { MiniCoinBarComponent } from '../../../../shared/components/mini-coin-ba
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 import { TransactionModalService } from '../../../../shared/services/transaction-modal.service';
 import { CoingeckoService } from '../../../../shared/services/coingecko.service';
+import { PortfolioService } from '../../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'ms-portfolio-coin-select-menu',
@@ -14,6 +15,7 @@ import { CoingeckoService } from '../../../../shared/services/coingecko.service'
   styleUrl: './portfolio-coin-select-menu.component.scss'
 })
 export class PortfolioCoinSelectMenuComponent implements OnInit {
+  portfolioService = inject(PortfolioService);
   coinService = inject(CoingeckoService);
   transactionModalService = inject(TransactionModalService);
   snackBar = inject(SnackBarService);
@@ -41,7 +43,10 @@ export class PortfolioCoinSelectMenuComponent implements OnInit {
   }
 
   onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {
-    this.transactionModalService.openModal(coin.id);
+    const portfolioId = this.portfolioService.currentPortfolio$()?.id;
+    if (!portfolioId) return;
+
+    this.transactionModalService.openModal(portfolioId, coin.id);
     this.closeMenu();
   }
 
