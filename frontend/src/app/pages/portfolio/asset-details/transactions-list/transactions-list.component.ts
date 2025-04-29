@@ -1,9 +1,11 @@
 import { Component, effect, inject, input, signal } from '@angular/core';
 import { LabelButtonComponent } from '../../../../shared/components/label-button.component';
 import { CommonModule } from '@angular/common';
-import { TransactionModalService } from '../../../../shared/services/transaction-modal.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { PortfolioService } from '../../../../shared/services/portfolio.service';
+import { TransactionService } from '../../../../shared/services/transaction.service';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
+import { ConfirmDialogService } from '../../../../shared/components/confirm-dialog/confirm-dialog.service';
 
 @Component({
   selector: 'ms-transactions-list',
@@ -13,7 +15,9 @@ import { PortfolioService } from '../../../../shared/services/portfolio.service'
 })
 export class TransactionsListComponent {
   portfolioService = inject(PortfolioService);
-  transactionModal = inject(TransactionModalService);
+  transactionService = inject(TransactionService);
+  confirmDialog = inject(ConfirmDialogService);
+  snackbar = inject(SnackBarService);
 
   transactions = input.required<Transaction[]>();
   assetSymbol = input.required<string>();
@@ -50,10 +54,24 @@ export class TransactionsListComponent {
     this.isAscOrder.set(isNewAscOrder)
   }
 
+  async onRemoveClick(transactionId: number | bigint): Promise<void> {
+    const confirm = await this.confirmDialog.open({
+      title: 'Delete Transaction',
+      message: 'Delete this transaction permanently?',
+      actionButton: 'Delete'
+    });
 
-  onRemoveClick(tranxId: number | bigint): void {
-    // TODO
-    console.log(tranxId)
+    if (!confirm) return;
+
+    const portfolioId = this.transactions().find(trx => trx.id === transactionId)!.portfolio_id;
+    this.deleteTransaction(portfolioId, transactionId);
+  }
+
+  async deleteTransaction(portfolioId: number | bigint, transactionId: number | bigint): Promise<void> {
+    const result = await this.transactionService.deleteTransaction(portfolioId, transactionId);
+
+    if (result)
+      this.snackbar.show('Transaction Deleted', 'green');
   }
 
   labels: { content: string, sortKey: TransactionSortKey }[] = [

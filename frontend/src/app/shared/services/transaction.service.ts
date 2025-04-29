@@ -1,0 +1,45 @@
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
+import { ErrorService } from './error.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class TransactionService {
+  private http = inject(HttpClient);
+  private errorService = inject(ErrorService);
+
+  private BASE_URL = 'http://127.0.0.1:8000/api/portfolio/transaction/';
+
+  async createTransaction(transaction: Omit<Transaction, 'id'>): Promise<Transaction | null> {
+    const { portfolio_id, ...transactionData } = transaction;
+    const url = this.BASE_URL + portfolio_id;
+
+    try {
+      const response$ = this.http.post<Transaction>(url, transactionData);
+      return await firstValueFrom(response$);
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return null;
+    }
+  }
+
+  async deleteTransaction(portfolioId: number | bigint, transactionId: number | bigint): Promise<boolean> {
+    const url = this.BASE_URL + portfolioId + '/' + transactionId;
+
+    console.log(url);
+
+    try {
+      const response$ = this.http.delete<null>(url);
+      await firstValueFrom(response$);
+
+      return true;
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return false;
+    }
+  }
+}
