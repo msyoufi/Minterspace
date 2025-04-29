@@ -1,4 +1,4 @@
-.grid-bar {
+.coin-grid {
   display: grid;
   grid-template-columns: 2% 5% auto 9% 6% 13% 13% 17% 11rem;
   padding: 0 .25rem;
@@ -18,7 +18,7 @@
 }
 
 @media (max-width: 1250px) {
-  .grid-bar {
+  .coin-grid {
     grid-template-columns: 2% 5% auto 10% 8% 17% 17% 20%;
 
     &>span:last-child,
@@ -29,7 +29,7 @@
 }
 
 @media (max-width: 1000px) {
-  .grid-bar {
+  .coin-grid {
     grid-template-columns: 3% 5% auto 15% 8% 20% 20%;
 
     ms-label-button:nth-child(8),
@@ -40,7 +40,7 @@
 }
 
 @media (max-width: 850px) {
-  .grid-bar {
+  .coin-grid {
     grid-template-columns: 3% 7% auto 15% 10% 25%;
 
     ms-label-button:nth-child(7),
@@ -51,7 +51,7 @@
 }
 
 @media (max-width: 700px) {
-  .grid-bar {
+  .coin-grid {
     grid-template-columns: 4% 7% auto 25% 15%;
 
     ms-label-button:nth-child(6),
@@ -62,7 +62,7 @@
 }
 
 @media (max-width: 500px) {
-  .grid-bar {
+  .coin-grid {
     grid-template-columns: 4% 9% auto 25% 20%;
 
     span,

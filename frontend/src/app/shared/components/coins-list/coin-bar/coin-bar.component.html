@@ -2,7 +2,7 @@
 @let isChangePositive = cn.price_change_percentage_24h >= 0;
 
 <li>
-  <a [routerLink]="'/coins/' + cn.id" class='grid-bar coin-bar'>
+  <a [routerLink]="'/coins/' + cn.id" class='coin-grid coin-bar'>
     <ms-watchlist-star [coinId]="cn.id" />
 
     <span>{{cn.market_cap_rank}}</span>
