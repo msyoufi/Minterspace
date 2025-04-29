@@ -14,6 +14,7 @@ class TransactionSerializer(serializers.ModelSerializer):
         fields = (
             "id",
             "coin_id",
+            "portfolio_id",
             "type",
             "quantity",
             "coin_price_usd",

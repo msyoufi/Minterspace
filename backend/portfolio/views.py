@@ -75,30 +75,44 @@ def portfolio_data_view(request, portfolio_id=None):
     return Response(portfolio_data, status=200)
 
 
-# TODO
-@api_view(["POST", "PATCH", "DELETE"])
+@api_view(["POST", "DELETE"])
 @permission_classes([IsAuthenticated])
-def transaction_view(request, transaction_id=None):
+def transaction_view(request, portfolio_id=None, transaction_id=None):
+    if portfolio_id is None:
+        return Response({"error": "portfolio_id must be provided"}, status=400)
+
+    try:
+        portfolio = get_object_or_404(Portfolio, pk=portfolio_id)
+
+        if portfolio.user != request.user:
+            return Response(status=403)
+
+    except:
+        return Response(status=404)
+
     if request.method == "POST":
-        return create_transaction(request.data)
+        return create_transaction(portfolio, request.data)
 
     if transaction_id is None:
         return Response({"error": "transaction_id must be provided"}, status=400)
 
-    if request.method == "PATCH":
-        return update_transaction(transaction_id, request.data)
+    try:
+        transaction = get_object_or_404(Transaction, pk=transaction_id)
+
+    except:
+        return Response(status=404)
 
     if request.method == "DELETE":
-        return delete_transaction(transaction_id)
+        transaction.delete()
+        return Response(status=204)
 
 
-def create_transaction(data):
-    return Response(status=201)
+def create_transaction(portfolio, data):
+    serializer = TransactionSerializer(data=data)
 
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
 
-def update_transaction(transaction_id, data):
-    return Response(status=200)
+    serializer.save(portfolio=portfolio)
 
-
-def delete_transaction(transaction_id):
-    return Response(status=204)
+    return Response(serializer.data, status=201)
