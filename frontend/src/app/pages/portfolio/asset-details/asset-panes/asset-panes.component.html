@@ -1,1 +1,52 @@
-<p>asset-panes works!</p>
+@let ast = asset();
+@let profit = ast.profit_loss;
+
+<div class="asset-panes-container">
+  <div class="pane link" [routerLink]="'/coins/'+ast.coin_id">
+    <div class="image-name-container">
+      <img [src]="ast.image">
+      {{ast.name}}
+    </div>
+    <p class="value" matTooltip="Current Price">
+      ${{ast.current_price | number : '1.0-10'}}
+    </p>
+  </div>
+
+  <div class="pane">
+    <p class="title">Value / Quantity</p>
+    <p class="value">
+      ${{ast.current_value | number : '1.2-10' }}
+    </p>
+
+    <p class="value">
+      {{ast.current_quantity}}
+      <span class="coin-symbol">
+        {{ast.symbol | uppercase}}
+      </span>
+    </p>
+  </div>
+
+  <div class="pane">
+    <p class="title">Avg. Buy Price</p>
+    <p class="value">
+      ${{ast.avrg_buy_price | number : `1.0-${1 > ast.avrg_buy_price ? '12' : '2'}`}}
+    </p>
+  </div>
+
+  <div class="pane">
+    <p class="title">Pofit / Loss</p>
+    <p class="value" [class]="profit > 0 ? 'green': 'red'">
+      {{
+      profit > 0 ? '+' : '-'
+      }}${{
+      profit | absolut | number : `1.0-${0.01 > (profit | absolut) ? '12' : '2'}`
+      }}
+    </p>
+
+    <p class="percent">
+      <span [class]="ast.profit_loss_percentage > 0 ? 'asc green' : 'desc red'">
+        {{ast.profit_loss_percentage | absolut | number : '1.1-1'}}%
+      </span>
+    </p>
+  </div>
+</div>

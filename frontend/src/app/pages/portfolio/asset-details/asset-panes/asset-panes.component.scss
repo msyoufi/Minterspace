@@ -1,0 +1,17 @@
+.asset-panes-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: .5rem;
+}
+
+.image-name-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: .25rem;
+  column-gap: .5rem;
+}
+
+.link {
+  cursor: pointer;
+}
