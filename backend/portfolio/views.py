@@ -69,8 +69,7 @@ def portfolio_data_view(request, portfolio_id=None):
     if portfolio_id is None:
         return Response({"error": "portfolio_id must be provided"}, status=400)
 
-    transactions = Transaction.objects.filter(portfolio=portfolio_id).values()
-    portfolio_data = calculate_portfolio_data(transactions)
+    portfolio_data = get_portfolio_data(portfolio_id)
 
     return Response(portfolio_data, status=200)
 
@@ -90,29 +89,36 @@ def transaction_view(request, portfolio_id=None, transaction_id=None):
     except:
         return Response(status=404)
 
+    status = 200
+
     if request.method == "POST":
-        return create_transaction(portfolio, request.data)
+        serializer = TransactionSerializer(data=request.data)
 
-    if transaction_id is None:
-        return Response({"error": "transaction_id must be provided"}, status=400)
+        if not serializer.is_valid():
+            return Response(serializer.errors, status=400)
 
-    try:
-        transaction = get_object_or_404(Transaction, pk=transaction_id)
+        serializer.save(portfolio=portfolio)
+        status = 201
 
-    except:
-        return Response(status=404)
+    elif request.method == "DELETE":
+        if transaction_id is None:
+            return Response({"error": "transaction_id must be provided"}, status=400)
 
-    if request.method == "DELETE":
+        try:
+            transaction = get_object_or_404(Transaction, pk=transaction_id)
+
+        except:
+            return Response(status=404)
+
         transaction.delete()
-        return Response(status=204)
+
+    portfolio_data = get_portfolio_data(portfolio_id)
+
+    return Response(portfolio_data, status=status)
 
 
-def create_transaction(portfolio, data):
-    serializer = TransactionSerializer(data=data)
+def get_portfolio_data(portfolio_id):
+    transactions = Transaction.objects.filter(portfolio=portfolio_id).values()
+    portfolio_data = calculate_portfolio_data(transactions)
 
-    if not serializer.is_valid():
-        return Response(serializer.errors, status=400)
-
-    serializer.save(portfolio=portfolio)
-
-    return Response(serializer.data, status=201)
+    return portfolio_data
