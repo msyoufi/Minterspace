@@ -1,4 +1,5 @@
 @let ast = asset();
+@let profit = ast.profit_loss;
 
 <li>
   <a [routerLink]="ast.coin_id" class="asset-grid asset-bar">
@@ -37,14 +38,10 @@
     </div>
 
     <span>
-      ${{
-      ast.avrg_buy_price | number : `1.0-${1 > ast.avrg_buy_price ? '12' : '2'}`
-      }}
+      ${{ast.avrg_buy_price | number : `1.0-${1 > ast.avrg_buy_price ? '12' : '2'}`}}
     </span>
 
     <div class="profit-loss">
-      @let profit = ast.profit_loss;
-
       <span [class]="profit > 0 ? 'green': 'red'">
         {{
         profit > 0 ? '+' : '-'
@@ -53,9 +50,11 @@
         }}
       </span>
 
-      <span [class]="ast.profit_loss_percentage > 0 ? 'asc green' : 'desc red'">
-        {{ast.profit_loss_percentage | absolut | number : '1.1-1'}}%
-      </span>
+      <p class="percent">
+        <span [class]="ast.profit_loss_percentage > 0 ? 'asc green' : 'desc red'">
+          {{ast.profit_loss_percentage | absolut | number : '1.1-1'}}%
+        </span>
+      </p>
     </div>
 
     <div class="action-buttons-container">

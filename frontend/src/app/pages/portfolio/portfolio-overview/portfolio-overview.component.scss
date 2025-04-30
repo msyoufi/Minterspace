@@ -20,3 +20,14 @@ ms-portfolio-stats-panes,
     top: 1rem;
   }
 }
+
+@media (max-width: 900px) {
+  .portfolio-header {
+    flex-direction: column;
+  }
+
+  ms-portfolio-stats-panes,
+  .chart-wrapper {
+    width: 100%;
+  }
+}

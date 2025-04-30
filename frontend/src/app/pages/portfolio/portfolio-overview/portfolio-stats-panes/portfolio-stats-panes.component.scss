@@ -26,3 +26,9 @@
   width: 50%;
   padding: 1rem 1.5rem;
 }
+
+@media (max-width: 450px) {
+  .gainer-container {
+    display: none;
+  }
+}

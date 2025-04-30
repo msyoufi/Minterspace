@@ -21,3 +21,20 @@
     justify-self: right;
   }
 }
+
+@media (max-width: 550px) {
+  .transaction-grid {
+    grid-template-columns: 10rem auto 2.5rem;
+    font-size: .8rem;
+  }
+}
+
+@media (max-width: 550px) {
+  .transaction-grid {
+
+    ms-label-button:nth-child(2),
+    &>p:nth-child(2) {
+      display: none;
+    }
+  }
+}

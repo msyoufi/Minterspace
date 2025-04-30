@@ -114,8 +114,8 @@ a:hover {
   border: 3px solid var(--primary-color);
 
   img {
-    width: 2rem;
-    height: 2rem;
+    width: 1.75rem;
+    height: 1.75rem;
   }
 
   .percent {
@@ -124,16 +124,20 @@ a:hover {
     span {
       position: relative;
       margin-right: .5rem;
+      font-size: .85rem;
+      font-weight: 600;
     }
   }
 
   .title {
     font-size: .9rem;
+    font-weight: 550;
     color: var(--gray);
   }
 
   .value {
-    font-size: 1.4rem;
+    width: fit-content;
+    font-size: 1.2rem;
     font-weight: 600;
   }
 }

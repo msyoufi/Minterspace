@@ -9,10 +9,21 @@
 .component-container-with-padding {
   display: flex;
   padding-top: 2rem;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 ms-transactions-list,
 ms-asset-panes {
   width: 50%;
+}
+
+@media (max-width: 1000px) {
+  .component-container-with-padding {
+    flex-direction: column;
+  }
+
+  ms-transactions-list,
+  ms-asset-panes {
+    width: 100%;
+  }
 }
