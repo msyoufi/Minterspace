@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import portfolio_view, portfolio_data_view, transaction_view
+from .views import portfolio_view, portfolio_data_view, transaction_view, asset_view
 
 urlpatterns = [
     path("", portfolio_view),
@@ -7,4 +7,5 @@ urlpatterns = [
     path("data/<int:portfolio_id>", portfolio_data_view),
     path("transaction/<int:portfolio_id>", transaction_view),
     path("transaction/<int:portfolio_id>/<int:transaction_id>", transaction_view),
+    path("asset/<int:portfolio_id>/<str:coin_id>", asset_view),
 ]

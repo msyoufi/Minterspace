@@ -117,6 +117,32 @@ def transaction_view(request, portfolio_id=None, transaction_id=None):
     return Response(portfolio_data, status=status)
 
 
+@api_view(["DELETE"])
+@permission_classes([IsAuthenticated])
+def asset_view(request, portfolio_id=None, coin_id=None):
+    if portfolio_id is None or coin_id is None:
+        return Response(
+            {"error": "portfolio_id and coin_id must be provided"},
+            status=400,
+        )
+
+    try:
+        portfolio = get_object_or_404(Portfolio, pk=portfolio_id)
+
+        if portfolio.user != request.user:
+            return Response(status=403)
+
+        transactions = Transaction.objects.filter(portfolio=portfolio, coin_id=coin_id)
+        transactions.delete()
+
+        portfolio_data = get_portfolio_data(portfolio_id)
+
+        return Response(portfolio_data, status=200)
+
+    except:
+        return Response(status=404)
+
+
 def get_portfolio_data(portfolio_id):
     transactions = Transaction.objects.filter(portfolio=portfolio_id).values()
     portfolio_data = calculate_portfolio_data(transactions)

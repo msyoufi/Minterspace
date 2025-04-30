@@ -12,11 +12,11 @@ export class TransactionService {
   private http = inject(HttpClient);
   private errorService = inject(ErrorService);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/portfolio/transaction/';
+  private BASE_URL = 'http://127.0.0.1:8000/api/portfolio';
 
   async createTransaction(transaction: Omit<Transaction, 'id'>): Promise<boolean> {
     const { portfolio_id, ...transactionData } = transaction;
-    const url = this.BASE_URL + portfolio_id;
+    const url = `${this.BASE_URL}/transaction/${portfolio_id}`;
 
     try {
       const response$ = this.http.post<PortfolioData>(url, transactionData);
@@ -33,8 +33,16 @@ export class TransactionService {
   }
 
   async deleteTransaction(portfolioId: number | bigint, transactionId: number | bigint): Promise<boolean> {
-    const url = this.BASE_URL + portfolioId + '/' + transactionId;
+    const url = `${this.BASE_URL}/transaction/${portfolioId}/${transactionId}`;
+    return await this.delete(url);
+  }
 
+  async deleteAsset(portfolioId: number | bigint, coinId: string): Promise<boolean> {
+    const url = `${this.BASE_URL}/asset/${portfolioId}/${coinId}`;
+    return await this.delete(url);
+  }
+
+  private async delete(url: string): Promise<boolean> {
     try {
       const response$ = this.http.delete<PortfolioData>(url);
       const newPortfolioData = await firstValueFrom(response$);
