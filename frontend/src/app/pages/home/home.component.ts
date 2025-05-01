@@ -30,16 +30,16 @@ export class HomeComponent {
   }
 
   async getCoinsList(): Promise<void> {
-    this.isLoading.set(true);
+    // this.isLoading.set(true);
 
-    const coins = await this.coinService.getCoinsList(this.getParams());
+    // const coins = await this.coinService.getCoinsList(this.getParams());
 
-    this.coins.set(coins);
-    this.isEndOfCoins = coins.length < parseInt(this.perPage);
-    this.isLoading.set(false);
-
-    // this.coins.set(mockCoins);
+    // this.coins.set(coins);
+    // this.isEndOfCoins = coins.length < parseInt(this.perPage);
     // this.isLoading.set(false);
+
+    this.coins.set(mockCoins);
+    this.isLoading.set(false);
   }
 
   getParams(): { [key: string]: string | number | boolean } {

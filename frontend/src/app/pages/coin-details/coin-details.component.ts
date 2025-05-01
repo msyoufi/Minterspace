@@ -5,7 +5,6 @@ import { CoinMarketDataComponent } from "./coin-market-data/coin-market-data.com
 import { CoinChartsComponent } from "./coin-charts/coin-charts.component";
 import { ChartService } from './coin-charts/chart.service';
 import { CoinDetailsLoaderComponent } from "./coin-details-loader/coin-details-loader.component";
-
 import coinDetailsMockData from '../../shared/mock/coin-details.json';
 
 @Component({
@@ -21,10 +20,10 @@ export class CoinDetailsComponent {
   coin = signal<CoinDetails | null>(null);
 
   @Input() set id(coinId: string) {
-    this.getCoinData(coinId);
-    this.chartService.getCoinCharts(coinId, 1);
+    // this.getCoinData(coinId);
+    // this.chartService.getCoinCharts(coinId, 1);
 
-    // this.coin.set(coinDetailsMockData);
+    this.coin.set(coinDetailsMockData);
   }
 
   async getCoinData(coinId: string): Promise<void> {
