@@ -22,6 +22,7 @@ interface Portfolio {
 }
 
 interface PortfolioData {
+  id: number | bigint,
   stats: PortfolioStats,
   allocation_chart: AllocationChartDataPoint[],
   assets: Asset[],

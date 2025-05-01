@@ -65,6 +65,7 @@ def calculate_portfolio_data(transactions):
     )
 
     return {
+        "id": transactions[0]["portfolio_id"],
         "stats": stats,
         "allocation_chart": allocation_chart,
         "assets": assets,
