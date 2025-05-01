@@ -2,7 +2,6 @@ import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import portfolioMock from '../mock/portfolio.json';
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -84,7 +83,7 @@ export class PortfolioService {
     return createdPortfolio;
   }
 
-  private async create(portfolioData: Omit<Portfolio, 'id'>): Promise<Portfolio | null> {
+  private async create(portfolioData: Omit<Portfolio, 'coins' | 'id'>): Promise<Portfolio | null> {
     try {
       const response$ = this.http.post<Portfolio>(this.BASE_URL, portfolioData);
       return await firstValueFrom(response$);
@@ -95,7 +94,10 @@ export class PortfolioService {
     }
   }
 
-  async updatePortfolio(portfolioId: number | bigint, changes: { name: string }): Promise<Portfolio | null> {
+  async updatePortfolio(portfolioId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Portfolio | null> {
+    if (!changes.coins && !changes.name)
+      return null;
+
     const updatedPortfolio = await this.update(portfolioId, changes);
     if (!updatedPortfolio) return null;
 
@@ -108,7 +110,7 @@ export class PortfolioService {
     return updatedPortfolio;
   }
 
-  private async update(portfolioId: number | bigint, changes: { name: string }): Promise<Portfolio | null> {
+  private async update(portfolioId: number | bigint, changes: { name?: string, coins?: string[] }): Promise<Portfolio | null> {
     try {
       const response$ = this.http.patch<Portfolio>(this.BASE_URL + portfolioId, changes);
       return await firstValueFrom(response$);

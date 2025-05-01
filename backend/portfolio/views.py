@@ -53,7 +53,7 @@ def create_portfolio(user, data):
 
 
 def update_portfolio(user, portfolio, data):
-    serializer = PortfolioSerializer(portfolio, data=data)
+    serializer = PortfolioSerializer(portfolio, data=data, partial=True)
 
     if not serializer.is_valid():
         return Response(serializer.errors, status=400)

@@ -6,4 +6,3 @@ class WatchlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watchlist
         fields = ("id", "is_main", "name", "coins")
-        read_only_fields = ("id",)

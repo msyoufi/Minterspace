@@ -17,7 +17,8 @@ interface Watchlist {
 interface Portfolio {
   id: number | bigint,
   name: string,
-  is_main: boolean
+  is_main: boolean,
+  coins: string[]
 }
 
 interface PortfolioData {

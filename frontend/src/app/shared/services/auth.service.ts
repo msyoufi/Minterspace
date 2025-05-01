@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal, DestroyRef } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, filter, firstValueFrom, Observable, take, tap, throwError, timeout } from 'rxjs';
 import { ErrorService } from './error.service';
@@ -18,9 +18,8 @@ interface AuthTokens {
   providedIn: 'root'
 })
 export class AuthService {
-  http = inject(HttpClient);
-  router = inject(Router);
-  destroyRef = inject(DestroyRef);
+  private http = inject(HttpClient);
+  private router = inject(Router);
   private errorService = inject(ErrorService);
 
   public user$ = signal<User | null>(null);
@@ -76,7 +75,6 @@ export class AuthService {
 
     this.storeTokens(tokens);
     const result = await this.setCurrentUser();
-    console.log('login result', result)
 
     if (!result)
       throw new Error('Log in faild');

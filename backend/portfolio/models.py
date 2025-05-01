@@ -9,6 +9,7 @@ class Portfolio(models.Model):
     )
     is_main = models.BooleanField(default=False)
     name = models.CharField(max_length=50)
+    coins = models.JSONField(default=list, blank=True)
 
     def __str__(self):
         return f"{self.user} - {self.name} - {self.id}"
