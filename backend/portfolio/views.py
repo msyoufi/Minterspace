@@ -69,7 +69,8 @@ def portfolio_data_view(request, portfolio_id=None):
     if portfolio_id is None:
         return Response({"error": "portfolio_id must be provided"}, status=400)
 
-    portfolio_data = get_portfolio_data(portfolio_id)
+    transactions = Transaction.objects.filter(portfolio=portfolio_id).values()
+    portfolio_data = calculate_portfolio_data(transactions)
 
     return Response(portfolio_data, status=200)
 
@@ -89,32 +90,31 @@ def transaction_view(request, portfolio_id=None, transaction_id=None):
     except:
         return Response(status=404)
 
-    status = 200
-
     if request.method == "POST":
-        serializer = TransactionSerializer(data=request.data)
+        return create_transaction(portfolio, request.data)
 
-        if not serializer.is_valid():
-            return Response(serializer.errors, status=400)
+    if transaction_id is None:
+        return Response({"error": "transaction_id must be provided"}, status=400)
 
-        serializer.save(portfolio=portfolio)
-        status = 201
+    try:
+        transaction = get_object_or_404(Transaction, pk=transaction_id)
+    except:
+        return Response(status=404)
 
-    elif request.method == "DELETE":
-        if transaction_id is None:
-            return Response({"error": "transaction_id must be provided"}, status=400)
-
-        try:
-            transaction = get_object_or_404(Transaction, pk=transaction_id)
-
-        except:
-            return Response(status=404)
-
+    if request.method == "DELETE":
         transaction.delete()
+        return Response(status=204)
 
-    portfolio_data = get_portfolio_data(portfolio_id)
 
-    return Response(portfolio_data, status=status)
+def create_transaction(portfolio, data):
+    serializer = TransactionSerializer(data=data)
+
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+
+    serializer.save(portfolio=portfolio)
+
+    return Response(serializer.data, status=201)
 
 
 @api_view(["DELETE"])
@@ -135,16 +135,7 @@ def asset_view(request, portfolio_id=None, coin_id=None):
         transactions = Transaction.objects.filter(portfolio=portfolio, coin_id=coin_id)
         transactions.delete()
 
-        portfolio_data = get_portfolio_data(portfolio_id)
-
-        return Response(portfolio_data, status=200)
+        return Response(status=204)
 
     except:
         return Response(status=404)
-
-
-def get_portfolio_data(portfolio_id):
-    transactions = Transaction.objects.filter(portfolio=portfolio_id).values()
-    portfolio_data = calculate_portfolio_data(transactions)
-
-    return portfolio_data
