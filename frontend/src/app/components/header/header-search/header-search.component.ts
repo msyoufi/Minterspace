@@ -1,9 +1,10 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { ClickOutsideDirective } from '../../../shared/directives/click-outside.directive';
 import { SearchBarComponent } from '../../../shared/components/search-bar/search-bar.component';
 import { EscapePressDirective } from '../../../shared/directives/escape-press.directive';
 import { Router } from '@angular/router';
 import { MiniCoinBarComponent } from '../../../shared/components/mini-coin-bar/mini-coin-bar.component';
+import { CoingeckoService } from '../../../shared/services/coingecko.service';
 
 @Component({
   selector: 'ms-header-search',
@@ -12,24 +13,29 @@ import { MiniCoinBarComponent } from '../../../shared/components/mini-coin-bar/m
   styleUrl: './header-search.component.scss'
 })
 export class HeaderSearchComponent {
+  coinService = inject(CoingeckoService);
   router = inject(Router);
 
-  searchResults = signal<SearchResults | null>(null);
+  coins = signal<(CoinTrending | CoinSearch)[]>([]);
   isSearchPanelOpen = signal(false);
   isSearching = signal(false);
   startMessage = 'Search coins by name or ticker symbol';
   message = signal(this.startMessage);
+
+  constructor() {
+    effect(() => this.coins.set(this.coinService.TrendingCoins()));
+  }
 
   onSearchResults(searchResults: SearchResults | null): void {
     if (!searchResults)
       return this.closeSearchPanel();
 
     if (!searchResults.coins.length) {
-      this.searchResults.set(null);
+      this.coins.set([]);
       return this.message.set('No results found!');
     }
 
-    this.searchResults.set(searchResults);
+    this.coins.set(searchResults.coins);
   }
 
   onIsSearching(isSearching: boolean): void {
@@ -48,7 +54,7 @@ export class HeaderSearchComponent {
 
   closeSearchPanel(): void {
     this.isSearchPanelOpen.set(false);
-    this.searchResults.set(null);
+    this.coins.set(this.coinService.TrendingCoins());
     this.message.set(this.startMessage);
   }
 }

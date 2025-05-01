@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, output, signal } from '@angular/core';
+import { Component, effect, inject, OnInit, output, signal } from '@angular/core';
 import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
 import { EscapePressDirective } from '../../../../shared/directives/escape-press.directive';
 import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
@@ -14,21 +14,21 @@ import { PortfolioService } from '../../../../shared/services/portfolio.service'
   templateUrl: './portfolio-coin-select-menu.component.html',
   styleUrl: './portfolio-coin-select-menu.component.scss'
 })
-export class PortfolioCoinSelectMenuComponent implements OnInit {
+export class PortfolioCoinSelectMenuComponent {
   portfolioService = inject(PortfolioService);
   coinService = inject(CoingeckoService);
   transactionModalService = inject(TransactionModalService);
   snackBar = inject(SnackBarService);
 
-  coins = signal<(CoinSearch | CoinBasic)[]>([]);
+  coins = signal<(CoinSearch | CoinTrending)[]>([]);
   isLoading = signal<boolean>(false);
   isSaving = signal<boolean>(false);
   message = signal('');
 
   selectMenuClose = output<void>();
 
-  ngOnInit(): void {
-
+  constructor() {
+    effect(() => this.coins.set(this.coinService.TrendingCoins()));
   }
 
   onSearchResults(searchResults: SearchResults | null): void {

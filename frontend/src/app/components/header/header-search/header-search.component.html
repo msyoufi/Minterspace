@@ -1,5 +1,3 @@
-@let results = searchResults();
-
 <div class="header-search-bar-container">
   <input role="button" placeholder='Search' [disabled]="isSearchPanelOpen()" (click)="openSearchPanel($event)"
     (focus)="openSearchPanel($event)" />
@@ -21,9 +19,9 @@
       </li>
       }
 
-      } @else if (results) {
+      } @else if (coins().length) {
 
-      @for (coin of results.coins; track coin.id) {
+      @for (coin of coins(); track coin.id) {
       <li>
         <ms-mini-coin-bar [coin]="coin" (coinBarClick)="onCoinBarClick($event)" />
       </li>
