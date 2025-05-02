@@ -24,7 +24,6 @@ export class PortfolioStateService {
     this.portfolioService.fetchPortfolioDataObservable()
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(portfolioData => {
-        console.log(portfolioData)
         if ('assets' in portfolioData) {
           this.portfolioData$.set(portfolioData);
 

@@ -63,10 +63,7 @@ export class PortfolioService {
   fetchPortfolioDataObservable(): Observable<PortfolioData | EmptyPortfolio> {
     return this.fetchNewData.pipe(
       filter(portfolioId => portfolioId > 0),
-      tap((portfolioId) => {
-        console.log('getting data for:', portfolioId)
-        this.isFetching.set(true)
-      }),
+      tap(() => this.isFetching.set(true)),
       switchMap(portfolioId =>
         this.http.get<PortfolioData | null>(this.BASE_URL + 'data/' + portfolioId).pipe(
           map((res: PortfolioData | null) =>

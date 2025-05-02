@@ -24,6 +24,7 @@ export class TransactionsListComponent {
 
   sortKey = signal<TransactionSortKey>('');
   isAscOrder = signal<boolean>(true);
+  isLoading = signal<boolean>(false);
 
   constructor() {
     effect(() => this.sortTransactions());
@@ -68,11 +69,14 @@ export class TransactionsListComponent {
   }
 
   async deleteTransaction(portfolioId: number | bigint, transactionId: number | bigint): Promise<void> {
+    this.isLoading.set(true);
+
     const result = await this.transactionService.deleteTransaction(portfolioId, transactionId);
     if (!result) return;
 
     this.portfolioService.getPortfolioDataById(portfolioId);
     this.snackbar.show('Transaction Deleted', 'green');
+    this.isLoading.set(false);
   }
 
   labels: { content: string, sortKey: TransactionSortKey }[] = [
