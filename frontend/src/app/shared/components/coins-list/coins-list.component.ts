@@ -1,7 +1,7 @@
 import { Component, computed, effect, input, signal } from '@angular/core';
 import { CoinBarComponent } from "./coin-bar/coin-bar.component";
 import { LabelsBarComponent } from './labels-bar/labels-bar.component';
-import { CoinBarLoaderComponent } from "./coin-bar/coin-bar-loader/coin-bar-loader.component";
+import { CoinBarLoaderComponent } from "./coin-bar-loader/coin-bar-loader.component";
 
 @Component({
   selector: 'ms-coins-list',

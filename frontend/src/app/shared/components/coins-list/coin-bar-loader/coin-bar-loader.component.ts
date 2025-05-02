@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   templateUrl: './coin-bar-loader.component.html',
   styleUrls: [
     './coin-bar-loader.component.scss',
-    '../../coins-list.component.scss'
+    '../coins-list.component.scss'
   ]
 })
 export class CoinBarLoaderComponent {
