@@ -1,10 +1,10 @@
 import { Component, effect, inject, Input, signal } from '@angular/core';
-import { PortfolioService } from '../../../shared/services/portfolio.service';
 import { TransactionsListComponent } from './transactions-list/transactions-list.component';
 import { AssetPanesComponent } from './asset-panes/asset-panes.component';
 import { TransactionModalService } from '../../../shared/services/transaction-modal.service';
 import { MatTooltip } from '@angular/material/tooltip';
 import { RouterLink } from '@angular/router';
+import { PortfolioStateService } from '../portfolio-state.service';
 
 @Component({
   selector: 'ms-asset-details',
@@ -13,7 +13,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './asset-details.component.scss'
 })
 export class AssetDetailsComponent {
-  portfolioService = inject(PortfolioService);
+  portfolioState = inject(PortfolioStateService);
   transactionModalService = inject(TransactionModalService);
 
   coinId = signal<string>('');
@@ -31,7 +31,7 @@ export class AssetDetailsComponent {
   getAssetData(coinId: string): void {
     if (!coinId) return;
 
-    const portfolioData = this.portfolioService.currentPortfolioData$();
+    const portfolioData = this.portfolioState.portfolioData$();
     if (!portfolioData) return;
 
     const { assets, transactions_by_coin } = portfolioData;
@@ -44,7 +44,7 @@ export class AssetDetailsComponent {
   }
 
   openTransactionModal(coinId: string): void {
-    const portfolioId = this.portfolioService.currentPortfolio$()?.id;
+    const portfolioId = this.portfolioState.currentId;
     if (!portfolioId) return;
 
     this.transactionModalService.openModal(portfolioId, coinId);

@@ -4,8 +4,9 @@ import { EmtpyPortfolioSVGComponent } from './emtpy-portfolio-svg/emtpy-portfoli
 import { PortfolioStatsPanesComponent } from './portfolio-stats-panes/portfolio-stats-panes.component';
 import { AssetAllocationChartComponent } from './asset-allocation-chart/asset-allocation-chart.component';
 import { AssetsListComponent } from './assets-list/assets-list.component';
-import { PortfolioService } from '../../../shared/services/portfolio.service';
 import { PortfolioCoinSelectMenuComponent } from './portfolio-coin-select-menu/portfolio-coin-select-menu.component';
+import { PortfolioStateService } from '../portfolio-state.service';
+import { PortfolioService } from '../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'ms-portfolio-overview',
@@ -15,6 +16,7 @@ import { PortfolioCoinSelectMenuComponent } from './portfolio-coin-select-menu/p
 })
 export class PortfolioOverviewComponent {
   portfolioService = inject(PortfolioService);
+  portfolioState = inject(PortfolioStateService);
 
   isCoinSelectMenuOpen = signal(false);
 

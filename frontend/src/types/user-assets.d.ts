@@ -29,6 +29,10 @@ interface PortfolioData {
   transactions_by_coin: Record<string, Transaction[]> // keys are coin_ids
 }
 
+interface EmptyPortfolio {
+  id: number | bigint,
+}
+
 interface PortfolioStats {
   total_balance: number,
   total_profit_loss: number,

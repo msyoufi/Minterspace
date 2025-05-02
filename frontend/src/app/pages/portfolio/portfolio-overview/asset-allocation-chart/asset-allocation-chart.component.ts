@@ -1,6 +1,5 @@
-import { Component, effect, ElementRef, inject, OnDestroy, viewChild } from '@angular/core';
+import { Component, effect, ElementRef, input, OnDestroy, viewChild } from '@angular/core';
 import { ECharts, EChartsOption, init } from 'echarts';
-import { PortfolioService } from '../../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'ms-asset-allocation-chart',
@@ -16,20 +15,13 @@ import { PortfolioService } from '../../../../shared/services/portfolio.service'
   }
 })
 export class AssetAllocationChartComponent implements OnDestroy {
-  portfolioService = inject(PortfolioService);
+  chartData = input.required<AllocationChartDataPoint[]>();
 
   chartContainer = viewChild.required<ElementRef<HTMLDivElement>>('chartContainer');
   chart: ECharts | undefined;
 
   constructor() {
-    effect(() => this.onChartDataChange());
-  }
-
-  onChartDataChange(): void {
-    const chartData = this.portfolioService.currentPortfolioData$()?.allocation_chart;
-    if (!chartData) return;
-
-    this.drawChart(chartData);
+    effect(() => this.drawChart(this.chartData()));
   }
 
   drawChart(chartData: AllocationChartDataPoint[]): void {

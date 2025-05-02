@@ -4,11 +4,11 @@ import { RouterLink } from '@angular/router';
 import { AbsolutPipe } from '../../../../../shared/pipes/absolut.pipe';
 import { SparklineComponent } from '../../../../../shared/components/sparkline.component';
 import { MatTooltip } from '@angular/material/tooltip';
-import { PortfolioService } from '../../../../../shared/services/portfolio.service';
 import { ConfirmDialogService } from '../../../../../shared/components/confirm-dialog/confirm-dialog.service';
 import { TransactionModalService } from '../../../../../shared/services/transaction-modal.service';
 import { TransactionService } from '../../../../../shared/services/transaction.service';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
+import { PortfolioStateService } from '../../../portfolio-state.service';
 
 @Component({
   selector: 'ms-asset-bar',
@@ -20,7 +20,7 @@ import { SnackBarService } from '../../../../../shared/services/snack-bar.servic
   ]
 })
 export class AssetBarComponent {
-  portfolioService = inject(PortfolioService);
+  portfolioState = inject(PortfolioStateService);
   transactionService = inject(TransactionService);
   transactionModalService = inject(TransactionModalService);
   confirmDialog = inject(ConfirmDialogService);
@@ -32,7 +32,7 @@ export class AssetBarComponent {
     event.stopPropagation();
     event.preventDefault();
 
-    const portfolioId = this.getPortfolioId();
+    const portfolioId = this.portfolioState.currentId;
     if (!portfolioId) return;
 
     this.transactionModalService.openModal(portfolioId, this.asset().coin_id);
@@ -53,7 +53,7 @@ export class AssetBarComponent {
   }
 
   async deleteAsset(): Promise<void> {
-    const portfolioId = this.getPortfolioId();
+    const portfolioId = this.portfolioState.currentId;
     if (!portfolioId) return;
 
     const { coin_id, name } = this.asset();
@@ -62,9 +62,5 @@ export class AssetBarComponent {
 
     if (result)
       this.snackbar.show(`${name} Deleted`, 'green');
-  }
-
-  getPortfolioId(): number | bigint | undefined {
-    return this.portfolioService.currentPortfolio$()?.id;
   }
 }

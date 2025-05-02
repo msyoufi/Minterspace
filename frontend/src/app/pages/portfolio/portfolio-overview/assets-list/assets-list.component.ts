@@ -1,5 +1,4 @@
-import { Component, effect, inject, output, signal } from '@angular/core';
-import { PortfolioService } from '../../../../shared/services/portfolio.service';
+import { Component, effect, input, output, signal } from '@angular/core';
 import { AssetBarComponent } from './asset-bar/asset-bar.component';
 import { AssetsLabelsBarComponent } from './assets-labels-bar/assets-labels-bar.component';
 
@@ -10,29 +9,14 @@ import { AssetsLabelsBarComponent } from './assets-labels-bar/assets-labels-bar.
   styleUrl: './assets-list.component.scss'
 })
 export class AssetsListComponent {
-  portfolioService = inject(PortfolioService);
-
-  assets = signal<Asset[]>([]);
-
-  // isLoading = input.required<boolean>();
-  // loaderBarCount = input.required<number | string>();
-  // loaderArr = computed(() => Array.from({ length: Number(this.loaderBarCount()) }));
-
+  assets = input.required<Asset[]>();
   sortKey = signal<AssetSortKey>('');
   isAscOrder = signal<boolean>(true);
 
   addAssetClick = output<void>();
 
   constructor() {
-    effect(() => this.populateAssets());
     effect(() => this.sortAssets());
-  }
-
-  populateAssets(): void {
-    const assets = this.portfolioService.currentPortfolioData$()?.assets;
-    if (!assets) return;
-
-    this.assets.set(assets);
   }
 
   sortAssets(): void {

@@ -1,4 +1,4 @@
-import { Component, effect, inject, OnInit, output, signal } from '@angular/core';
+import { Component, effect, inject, output, signal } from '@angular/core';
 import { ClickOutsideDirective } from '../../../../shared/directives/click-outside.directive';
 import { EscapePressDirective } from '../../../../shared/directives/escape-press.directive';
 import { SearchBarComponent } from '../../../../shared/components/search-bar/search-bar.component';
@@ -6,7 +6,7 @@ import { MiniCoinBarComponent } from '../../../../shared/components/mini-coin-ba
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 import { TransactionModalService } from '../../../../shared/services/transaction-modal.service';
 import { CoingeckoService } from '../../../../shared/services/coingecko.service';
-import { PortfolioService } from '../../../../shared/services/portfolio.service';
+import { PortfolioStateService } from '../../portfolio-state.service';
 
 @Component({
   selector: 'ms-portfolio-coin-select-menu',
@@ -15,7 +15,7 @@ import { PortfolioService } from '../../../../shared/services/portfolio.service'
   styleUrl: './portfolio-coin-select-menu.component.scss'
 })
 export class PortfolioCoinSelectMenuComponent {
-  portfolioService = inject(PortfolioService);
+  portfolioState = inject(PortfolioStateService);
   coinService = inject(CoingeckoService);
   transactionModalService = inject(TransactionModalService);
   snackBar = inject(SnackBarService);
@@ -43,7 +43,7 @@ export class PortfolioCoinSelectMenuComponent {
   }
 
   onCoinBarClick(coin: CoinBasic | CoinSearch | CoinTrending): void {
-    const portfolioId = this.portfolioService.currentPortfolio$()?.id;
+    const portfolioId = this.portfolioState.currentId;
     if (!portfolioId) return;
 
     this.transactionModalService.openModal(portfolioId, coin.id);

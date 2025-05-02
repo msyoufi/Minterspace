@@ -16,32 +16,37 @@ export class PortfolioService {
 
   public portfolios$ = signal<Portfolio[]>([]);
   public currentPortfolio$ = signal<Portfolio | null>(null);
-  public currentPortfolioData$ = signal<PortfolioData | null>(null);
 
   // The main Portfolio is created on accout creation and cannot be deleted by the user
   public mainPortfolio = computed(() =>
     this.portfolios$().find(pf => pf.is_main) ?? null
   );
 
-  constructor() {
-    effect(() => this.getUserPortfolios());
-    effect(() => this.getPortfolioData());
+  public mustFetchNewData = signal<boolean>(true);
+
+  get currentId(): number | bigint | null {
+    return this.currentPortfolio$()?.id ?? null;
   }
 
-  getUserPortfolios(): void {
+  constructor() {
+    effect(() => this.getUserPortfolios());
+  }
+
+  private getUserPortfolios(): void {
     this.authService.user$()
       ? this.getAllPortfolios()
       : this.setPortfolios([], null);
   }
 
-  async getAllPortfolios(): Promise<void> {
-    const portfolios = await this.fetchMetaData();
+  private async getAllPortfolios(): Promise<void> {
+    const portfolios = await this.fetchPortfolios();
     const mainPortfolio = portfolios.find(pf => pf.is_main) ?? null;
 
     this.setPortfolios(portfolios, mainPortfolio);
   }
 
-  private async fetchMetaData(): Promise<Portfolio[]> {
+  private async fetchPortfolios(): Promise<Portfolio[]> {
+    console.log('fetch meta data')
     try {
       const response$ = this.http.get<Portfolio[]>(this.BASE_URL);
       return await firstValueFrom(response$);
@@ -52,20 +57,16 @@ export class PortfolioService {
     }
   }
 
-  async getPortfolioData(): Promise<void> {
-    const portfolioId = this.currentPortfolio$()?.id;
-    if (!portfolioId) return;
-
-    const portfolioData = await this.fetchPortoflioData(portfolioId);
-    console.log(portfolioData)
-
-    this.currentPortfolioData$.set(portfolioData);
-  }
-
-  private async fetchPortoflioData(portfolioId: number | bigint): Promise<PortfolioData | null> {
+  async fetchPortfolioData(portfolioId: number | bigint): Promise<PortfolioData | EmptyPortfolio | null> {
+    console.log('fetch data')
     try {
       const response$ = this.http.get<PortfolioData>(this.BASE_URL + 'data/' + portfolioId);
-      return await firstValueFrom(response$);
+      const data = await firstValueFrom(response$);
+
+      if (!data)
+        return { id: portfolioId }
+
+      return data;
 
     } catch (err: unknown) {
       this.errorService.handleError(err);
@@ -155,5 +156,29 @@ export class PortfolioService {
   public setCurrentPortfolioById(id: number | bigint): void {
     const portfolio = this.portfolios$().find(pf => pf.id === id) ?? null;
     this.currentPortfolio$.set(portfolio);
+    this.mustFetchNewData.set(true);
+  }
+
+  syncPortfolioCoins(newData: PortfolioData | EmptyPortfolio): void {
+    const currentPortfolio = this.currentPortfolio$();
+    if (!currentPortfolio) return;
+
+    let newCoins: string[] = [];
+
+    if ('assets' in newData)
+      newCoins = Object.keys(newData.transactions_by_coin);
+
+    if (newCoins.length === currentPortfolio.coins.length)
+      return;
+
+    console.log('sync coins')
+
+    const updatedPortfolio = { ...currentPortfolio, coins: newCoins };
+
+    const newPortfolios = this.portfolios$().map(pf =>
+      pf.id === newData.id ? updatedPortfolio : pf
+    );
+
+    this.setPortfolios(newPortfolios, updatedPortfolio);
   }
 }

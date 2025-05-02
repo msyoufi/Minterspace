@@ -2,7 +2,6 @@ import { Component, effect, inject, input, signal } from '@angular/core';
 import { LabelButtonComponent } from '../../../../shared/components/label-button.component';
 import { CommonModule } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
-import { PortfolioService } from '../../../../shared/services/portfolio.service';
 import { TransactionService } from '../../../../shared/services/transaction.service';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 import { ConfirmDialogService } from '../../../../shared/components/confirm-dialog/confirm-dialog.service';
@@ -14,7 +13,6 @@ import { ConfirmDialogService } from '../../../../shared/components/confirm-dial
   styleUrl: './transactions-list.component.scss'
 })
 export class TransactionsListComponent {
-  portfolioService = inject(PortfolioService);
   transactionService = inject(TransactionService);
   confirmDialog = inject(ConfirmDialogService);
   snackbar = inject(SnackBarService);

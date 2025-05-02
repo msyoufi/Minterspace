@@ -1,17 +1,28 @@
+@let portfolioCoinsCount = portfolioService.currentPortfolio$()?.coins?.length ?? 0;
+@let portfolioData = portfolioState.portfolioData$();
+
 <ms-portfolio-control-bar (addAssetClick)="openSelectMenu()" />
 
-@if (portfolioService.currentPortfolioData$()) {
+@if (portfolioCoinsCount) {
 
+@if (portfolioData) {
 <div class="portfolio-header">
   <ms-portfolio-stats-panes />
 
   <div class="chart-wrapper">
     <p>Asset Allocation</p>
-    <ms-asset-allocation-chart />
+    <ms-asset-allocation-chart [chartData]="portfolioData.allocation_chart" />
   </div>
 </div>
 
-<ms-assets-list (addAssetClick)="openSelectMenu()" />
+<ms-assets-list [assets]="portfolioData.assets" (addAssetClick)="openSelectMenu()" />
+
+} @else {
+
+<p>is loading</p>
+<p>{{portfolioCoinsCount}}</p>
+}
+
 
 } @else {
 <div class="empty-watchlist_portfolio-container">
