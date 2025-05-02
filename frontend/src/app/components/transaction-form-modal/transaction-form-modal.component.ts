@@ -9,6 +9,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { TransactionService } from '../../shared/services/transaction.service';
 import { SnackBarService } from '../../shared/services/snack-bar.service';
 import MsValidators from '../../shared/utils/ms.validators';
+import { Router } from '@angular/router';
+import { PortfolioService } from '../../shared/services/portfolio.service';
 
 interface TransctionFormValues {
   coinId: string,
@@ -26,8 +28,10 @@ interface TransctionFormValues {
   styleUrl: './transaction-form-modal.component.scss'
 })
 export class TransactionFormModalComponent {
+  portfolioService = inject(PortfolioService);
   transactionService = inject(TransactionService);
   transactionModalService = inject(TransactionModalService);
+  router = inject(Router);
   snackbar = inject(SnackBarService);
   destoryRef = inject(DestroyRef);
 
@@ -91,6 +95,9 @@ export class TransactionFormModalComponent {
     this.isLoading.set(false);
 
     if (!newTransaction) return;
+
+    if (this.router.url.includes('portfolio'))
+      this.portfolioService.getPortfolioDataById(newTransaction.portfolio_id);
 
     this.transactionModalService.closeModal();
     this.snackbar.show('Transaction Added', 'green');

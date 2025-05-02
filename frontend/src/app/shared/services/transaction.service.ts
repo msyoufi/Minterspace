@@ -2,14 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ErrorService } from './error.service';
-import { PortfolioService } from './portfolio.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TransactionService {
   private http = inject(HttpClient);
-  private portfolioService = inject(PortfolioService);
   private errorService = inject(ErrorService);
 
   private BASE_URL = 'http://127.0.0.1:8000/api/portfolio';
@@ -20,9 +18,6 @@ export class TransactionService {
 
     try {
       const response$ = this.http.post<Transaction>(url, transactionData);
-      
-      this.sendMustFetchSignal();
-
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
@@ -46,17 +41,11 @@ export class TransactionService {
       const response$ = this.http.delete<null>(url);
       await firstValueFrom(response$);
 
-      this.sendMustFetchSignal();
-
       return true;
 
     } catch (err: unknown) {
       this.errorService.handleError(err);
       return false;
     }
-  }
-
-  private sendMustFetchSignal(): void {
-    this.portfolioService.mustFetchNewData.set(true);
   }
 }

@@ -9,6 +9,7 @@ import { TransactionModalService } from '../../../../../shared/services/transact
 import { TransactionService } from '../../../../../shared/services/transaction.service';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';
 import { PortfolioStateService } from '../../../portfolio-state.service';
+import { PortfolioService } from '../../../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'ms-asset-bar',
@@ -20,6 +21,7 @@ import { PortfolioStateService } from '../../../portfolio-state.service';
   ]
 })
 export class AssetBarComponent {
+  portfolioService = inject(PortfolioService);
   portfolioState = inject(PortfolioStateService);
   transactionService = inject(TransactionService);
   transactionModalService = inject(TransactionModalService);
@@ -59,8 +61,9 @@ export class AssetBarComponent {
     const { coin_id, name } = this.asset();
 
     const result = await this.transactionService.deleteAsset(portfolioId, coin_id);
+    if (!result) return;
 
-    if (result)
-      this.snackbar.show(`${name} Deleted`, 'green');
+    this.portfolioService.getPortfolioDataById(portfolioId);
+    this.snackbar.show(`${name} Deleted`, 'green');
   }
 }

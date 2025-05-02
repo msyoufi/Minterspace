@@ -1,46 +1,41 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
+import { DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
 import { PortfolioService } from '../../shared/services/portfolio.service';
 import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class PortfolioStateService {
   private portfolioService = inject(PortfolioService);
-  router = inject(Router);
+  private router = inject(Router);
+  private destroyRef = inject(DestroyRef);
 
   public portfolioData$ = signal<PortfolioData | null>(null);
 
   get currentId(): number | bigint | null {
-    return this.portfolioService.currentPortfolioId$();
+    return this.portfolioService.currentPortfolio$()?.id ?? null;
   }
 
   constructor() {
-    this.portfolioService.mustFetchNewData.set(true);
-    effect(() => this.getPortfolioData());
+    this.subscribeToPortfolioData();
+    effect(() => this.onDataFetching())
   }
 
-  async getPortfolioData(): Promise<void> {
-    if (!this.portfolioService.mustFetchNewData())
-      return;
+  async subscribeToPortfolioData(): Promise<void> {
+    this.portfolioService.fetchPortfolioDataObservable()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(portfolioData => {
+        console.log(portfolioData)
+        if ('assets' in portfolioData) {
+          this.portfolioData$.set(portfolioData);
 
-    const portfolioId = this.currentId;
-    if (!portfolioId) return;
+        } else {
+          this.portfolioData$.set(null);
+          this.router.navigateByUrl('/portfolio');
+        }
+      });
+  }
 
-    this.portfolioData$.set(null);
-
-    const portfolioData = await this.portfolioService.fetchPortfolioData(portfolioId);
-    if (!portfolioData) return;
-
-    console.log(portfolioData)
-
-    if ('assets' in portfolioData) {
-      this.portfolioData$.set(portfolioData);
-
-    } else {
-      this.portfolioData$.set(null);
-      this.router.navigateByUrl('/portfolio');
-    }
-
-    this.portfolioService.syncPortfolioCoins(portfolioData);
-    this.portfolioService.mustFetchNewData.set(false);
+  onDataFetching(): void {
+    this.portfolioService.isFetching() && this.portfolioData$.set(null);
   }
 }

@@ -5,6 +5,7 @@ import { MatTooltip } from '@angular/material/tooltip';
 import { TransactionService } from '../../../../shared/services/transaction.service';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 import { ConfirmDialogService } from '../../../../shared/components/confirm-dialog/confirm-dialog.service';
+import { PortfolioService } from '../../../../shared/services/portfolio.service';
 
 @Component({
   selector: 'ms-transactions-list',
@@ -13,6 +14,7 @@ import { ConfirmDialogService } from '../../../../shared/components/confirm-dial
   styleUrl: './transactions-list.component.scss'
 })
 export class TransactionsListComponent {
+  portfolioService = inject(PortfolioService);
   transactionService = inject(TransactionService);
   confirmDialog = inject(ConfirmDialogService);
   snackbar = inject(SnackBarService);
@@ -67,9 +69,10 @@ export class TransactionsListComponent {
 
   async deleteTransaction(portfolioId: number | bigint, transactionId: number | bigint): Promise<void> {
     const result = await this.transactionService.deleteTransaction(portfolioId, transactionId);
+    if (!result) return;
 
-    if (result)
-      this.snackbar.show('Transaction Deleted', 'green');
+    this.portfolioService.getPortfolioDataById(portfolioId);
+    this.snackbar.show('Transaction Deleted', 'green');
   }
 
   labels: { content: string, sortKey: TransactionSortKey }[] = [

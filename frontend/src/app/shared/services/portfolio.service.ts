@@ -1,7 +1,7 @@
 import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { BehaviorSubject, catchError, filter, firstValueFrom, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -16,37 +16,37 @@ export class PortfolioService {
 
   public portfolios$ = signal<Portfolio[]>([]);
   public currentPortfolio$ = signal<Portfolio | null>(null);
-  public currentPortfolioId$ = computed(() => this.currentPortfolio$()?.id ?? 0);
+  public currentPortfolioId$ = computed<number | bigint>(() => this.currentPortfolio$()?.id ?? 0);
+  public isFetching = signal(false);
 
   // The main Portfolio is created on accout creation and cannot be deleted by the user
   public mainPortfolio = computed(() =>
     this.portfolios$().find(pf => pf.is_main) ?? null
   );
 
-  public mustFetchNewData = signal<boolean>(true);
+  public fetchNewData = new BehaviorSubject<number | bigint>(0);
 
   constructor() {
     effect(() => this.getUserPortfolios());
-    effect(() => this.onPortfolioSelect());
+    effect(() => this.onPortfolioIdChange());
   }
 
   private getUserPortfolios(): void {
     this.authService.user$()
-      ? this.getAllPortfolios()
+      ? this.getAllPortfoliosMetadata()
       : this.setPortfolios([], null);
   }
 
-  private async getAllPortfolios(): Promise<void> {
-    const portfolios = await this.fetchPortfolios();
+  private async getAllPortfoliosMetadata(): Promise<void> {
+    const portfolios = await this.fetchPortfoliosMetadata();
     const mainPortfolio = portfolios.find(pf => pf.is_main) ?? null;
 
     this.setPortfolios(portfolios, mainPortfolio);
   }
 
-  private async fetchPortfolios(): Promise<Portfolio[]> {
-    console.log('fetch meta data')
+  private async fetchPortfoliosMetadata(): Promise<Portfolio[]> {
     try {
-      const response$ = this.http.get<Portfolio[]>(this.BASE_URL);
+      const response$ = this.http.get<Portfolio[]>(this.BASE_URL)
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
@@ -55,21 +55,52 @@ export class PortfolioService {
     }
   }
 
-  async fetchPortfolioData(portfolioId: number | bigint): Promise<PortfolioData | EmptyPortfolio | null> {
-    console.log('fetch data')
-    try {
-      const response$ = this.http.get<PortfolioData>(this.BASE_URL + 'data/' + portfolioId);
-      const data = await firstValueFrom(response$);
+  private onPortfolioIdChange(): void {
+    const id = this.currentPortfolioId$();
+    this.getPortfolioDataById(id);
+  }
 
-      if (!data)
-        return { id: portfolioId }
+  fetchPortfolioDataObservable(): Observable<PortfolioData | EmptyPortfolio> {
+    return this.fetchNewData.pipe(
+      filter(portfolioId => portfolioId > 0),
+      tap((portfolioId) => {
+        console.log('getting data for:', portfolioId)
+        this.isFetching.set(true)
+      }),
+      switchMap(portfolioId =>
+        this.http.get<PortfolioData | null>(this.BASE_URL + 'data/' + portfolioId).pipe(
+          map((res: PortfolioData | null) =>
+            res ? res : { id: portfolioId }
+          ),
+          tap(res => {
+            this.isFetching.set(false);
+            this.syncLocalPortfolioCoins(res);
+          }),
+          catchError((err: unknown) => {
+            this.errorService.handleError(err);
+            return of({ id: portfolioId });
+          }))));
+  }
 
-      return data;
+  private syncLocalPortfolioCoins(newData: PortfolioData | EmptyPortfolio): void {
+    const { id } = newData;
+    const changedPortfolio = this.portfolios$().find(pf => pf.id === id);
+    if (!changedPortfolio) return;
 
-    } catch (err: unknown) {
-      this.errorService.handleError(err);
-      return null;
-    }
+    const newCoins: string[] = 'assets' in newData
+      ? Object.keys(newData.transactions_by_coin)
+      : [];
+
+    if (newCoins.length === changedPortfolio.coins.length)
+      return;
+
+    const updatedPortfolio = { ...changedPortfolio, coins: newCoins };
+    const newPortfolios = this.portfolios$().map(pf => pf.id === id ? updatedPortfolio : pf);
+
+    this.portfolios$.set(newPortfolios);
+
+    if (this.currentPortfolio$()?.id === id)
+      this.currentPortfolio$.set(updatedPortfolio);
   }
 
   async createPortfolio(name: string, is_main = false): Promise<Portfolio | null> {
@@ -151,36 +182,12 @@ export class PortfolioService {
     this.currentPortfolio$.set(current);
   }
 
+  public getPortfolioDataById(portfolioId: number | bigint): void {
+    this.fetchNewData.next(portfolioId);
+  }
+
   public setCurrentPortfolioById(id: number | bigint): void {
     const portfolio = this.portfolios$().find(pf => pf.id === id) ?? null;
     this.currentPortfolio$.set(portfolio);
-  }
-
-  onPortfolioSelect(): void {
-    this.currentPortfolioId$();
-    this.mustFetchNewData.set(true);
-  }
-
-  syncPortfolioCoins(newData: PortfolioData | EmptyPortfolio): void {
-    const currentPortfolio = this.currentPortfolio$();
-    if (!currentPortfolio) return;
-
-    let newCoins: string[] = [];
-
-    if ('assets' in newData)
-      newCoins = Object.keys(newData.transactions_by_coin);
-
-    if (newCoins.length === currentPortfolio.coins.length)
-      return;
-
-    console.log('sync coins')
-
-    const updatedPortfolio = { ...currentPortfolio, coins: newCoins };
-
-    const newPortfolios = this.portfolios$().map(pf =>
-      pf.id === newData.id ? updatedPortfolio : pf
-    );
-
-    this.setPortfolios(newPortfolios, updatedPortfolio);
   }
 }
