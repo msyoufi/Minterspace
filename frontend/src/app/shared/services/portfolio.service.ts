@@ -16,6 +16,7 @@ export class PortfolioService {
 
   public portfolios$ = signal<Portfolio[]>([]);
   public currentPortfolio$ = signal<Portfolio | null>(null);
+  public currentPortfolioId$ = computed(() => this.currentPortfolio$()?.id ?? 0);
 
   // The main Portfolio is created on accout creation and cannot be deleted by the user
   public mainPortfolio = computed(() =>
@@ -24,12 +25,9 @@ export class PortfolioService {
 
   public mustFetchNewData = signal<boolean>(true);
 
-  get currentId(): number | bigint | null {
-    return this.currentPortfolio$()?.id ?? null;
-  }
-
   constructor() {
     effect(() => this.getUserPortfolios());
+    effect(() => this.onPortfolioSelect());
   }
 
   private getUserPortfolios(): void {
@@ -156,6 +154,10 @@ export class PortfolioService {
   public setCurrentPortfolioById(id: number | bigint): void {
     const portfolio = this.portfolios$().find(pf => pf.id === id) ?? null;
     this.currentPortfolio$.set(portfolio);
+  }
+
+  onPortfolioSelect(): void {
+    this.currentPortfolioId$();
     this.mustFetchNewData.set(true);
   }
 

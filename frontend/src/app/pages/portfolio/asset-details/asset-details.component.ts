@@ -3,7 +3,7 @@ import { TransactionsListComponent } from './transactions-list/transactions-list
 import { AssetPanesComponent } from './asset-panes/asset-panes.component';
 import { TransactionModalService } from '../../../shared/services/transaction-modal.service';
 import { MatTooltip } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { PortfolioStateService } from '../portfolio-state.service';
 
 @Component({
@@ -15,6 +15,7 @@ import { PortfolioStateService } from '../portfolio-state.service';
 export class AssetDetailsComponent {
   portfolioState = inject(PortfolioStateService);
   transactionModalService = inject(TransactionModalService);
+  router = inject(Router);
 
   coinId = signal<string>('');
   asset = signal<Asset | null>(null);
@@ -25,10 +26,11 @@ export class AssetDetailsComponent {
   }
 
   constructor() {
-    effect(() => this.getAssetData(this.coinId()));
+    effect(() => this.getAssetData());
   }
 
-  getAssetData(coinId: string): void {
+  getAssetData(): void {
+    const coinId = this.coinId();
     if (!coinId) return;
 
     const portfolioData = this.portfolioState.portfolioData$();
@@ -37,6 +39,12 @@ export class AssetDetailsComponent {
     const { assets, transactions_by_coin } = portfolioData;
 
     const asset = assets.find(ast => ast.coin_id === coinId) ?? null;
+
+    if (!asset) {
+      this.router.navigateByUrl('/portfolio');
+      return;
+    }
+
     const transactions = transactions_by_coin[coinId];
 
     this.asset.set(asset);

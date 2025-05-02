@@ -1,0 +1,23 @@
+.skeleton-bar {
+  height: 4.5rem;
+
+  .skeleton {
+    display: flex;
+  }
+
+  div:first-child {
+    display: flex;
+    align-items: center;
+    column-gap: .5rem;
+  }
+
+  &>span:nth-child(2),
+  &>span:nth-child(3) {
+    width: 4rem;
+  }
+
+  span:nth-child(4) {
+    width: 9rem;
+    height: 3rem;
+  }
+}

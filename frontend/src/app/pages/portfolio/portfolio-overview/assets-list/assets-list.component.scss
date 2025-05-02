@@ -16,6 +16,7 @@
   .asset-grid {
     grid-template-columns: auto 9% 8% 15% 15% 15% 5rem;
 
+    .skeleton:nth-child(4),
     ms-label-button:nth-child(4),
     ms-sparkline {
       display: none;
@@ -28,6 +29,7 @@
     grid-template-columns: auto 9% 10% 17% 17% 5rem;
     font-size: .8rem;
 
+    .skeleton:nth-child(6),
     ms-label-button:nth-child(6),
     span:nth-child(6) {
       display: none;
@@ -39,6 +41,7 @@
   .asset-grid {
     grid-template-columns: auto 10% 22% 22%;
 
+    .skeleton:nth-child(3),
     ms-label-button:nth-child(3),
     p:nth-child(3),
     ms-label-button:last-child,
@@ -52,6 +55,7 @@
   .asset-grid {
     grid-template-columns: auto 15% 27%;
 
+    .skeleton:nth-child(5),
     ms-label-button:nth-child(5),
     div:nth-child(5) {
       display: none;

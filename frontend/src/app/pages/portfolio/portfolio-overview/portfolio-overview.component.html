@@ -1,9 +1,8 @@
-@let portfolioCoinsCount = portfolioService.currentPortfolio$()?.coins?.length ?? 0;
 @let portfolioData = portfolioState.portfolioData$();
 
 <ms-portfolio-control-bar (addAssetClick)="openSelectMenu()" />
 
-@if (portfolioCoinsCount) {
+@if (portfolioCoinsCount()) {
 
 @if (portfolioData) {
 <div class="portfolio-header">
@@ -18,9 +17,15 @@
 <ms-assets-list [assets]="portfolioData.assets" (addAssetClick)="openSelectMenu()" />
 
 } @else {
+<div class="portfolio-header">
+  <p class="skeleton"></p>
+  <p class="skeleton"></p>
+</div>
 
-<p>is loading</p>
-<p>{{portfolioCoinsCount}}</p>
+@for (loader of emptyAssetsArray(); track $index) {
+<ms-asset-bar-loader />
+}
+
 }
 
 

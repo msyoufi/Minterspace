@@ -2,6 +2,11 @@
   display: flex;
   gap: 1rem;
   padding: 2rem 0;
+
+  .skeleton {
+    width: 50%;
+    height: 270px;
+  }
 }
 
 ms-portfolio-stats-panes,
@@ -24,10 +29,25 @@ ms-portfolio-stats-panes,
 @media (max-width: 900px) {
   .portfolio-header {
     flex-direction: column;
+
+    .skeleton {
+      width: 100%;
+    }
   }
 
   ms-portfolio-stats-panes,
   .chart-wrapper {
     width: 100%;
+  }
+}
+
+
+@media (max-width: 450px) {
+  .portfolio-header {
+    flex-direction: column;
+
+    .skeleton:first-child {
+      height: 130px;
+    }
   }
 }

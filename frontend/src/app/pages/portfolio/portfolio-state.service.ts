@@ -1,14 +1,16 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { PortfolioService } from '../../shared/services/portfolio.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class PortfolioStateService {
   private portfolioService = inject(PortfolioService);
+  router = inject(Router);
 
   public portfolioData$ = signal<PortfolioData | null>(null);
 
   get currentId(): number | bigint | null {
-    return this.portfolioService.currentId;
+    return this.portfolioService.currentPortfolioId$();
   }
 
   constructor() {
@@ -17,22 +19,28 @@ export class PortfolioStateService {
   }
 
   async getPortfolioData(): Promise<void> {
-    const portfolioId = this.portfolioService.currentPortfolio$()?.id;
-    if (!portfolioId) return;
-
     if (!this.portfolioService.mustFetchNewData())
       return;
+
+    const portfolioId = this.currentId;
+    if (!portfolioId) return;
+
+    this.portfolioData$.set(null);
 
     const portfolioData = await this.portfolioService.fetchPortfolioData(portfolioId);
     if (!portfolioData) return;
 
-    if ('assets' in portfolioData)
+    console.log(portfolioData)
+
+    if ('assets' in portfolioData) {
       this.portfolioData$.set(portfolioData);
-    else
+
+    } else {
       this.portfolioData$.set(null);
+      this.router.navigateByUrl('/portfolio');
+    }
 
     this.portfolioService.syncPortfolioCoins(portfolioData);
-
     this.portfolioService.mustFetchNewData.set(false);
   }
 }
