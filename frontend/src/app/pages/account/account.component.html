@@ -1,3 +1,32 @@
-<button (click)="onLogoutClick()">
-  logout
-</button>
+<div class="component-container-with-padding">
+  <div class="sidebar">
+    <div class="user-avatar">
+      <i class="bi bi-person-circle"></i>
+      <p class="username">Username</p>
+    </div>
+
+    <ul class="nav-list">
+      <li>
+        <button type="button" [class.selected]="tab() === 'profile'" (click)="setTab('profile')">
+          Profile Settings
+        </button>
+      </li>
+      <li>
+        <button type="button" [class.selected]="tab() === 'security'" (click)="setTab('security')">
+          Security Settings
+        </button>
+      </li>
+    </ul>
+  </div>
+
+  <div class="tabs-container">
+    @switch (tab()) {
+    @case ('profile') {
+    <ms-profile-settings />
+    }
+    @case ('security') {
+    <ms-security-settings />
+    }
+    }
+  </div>
+</div>

@@ -1,0 +1,47 @@
+.component-container-with-padding {
+  display: grid;
+  grid-template-columns: 20% auto;
+  column-gap: 1rem;
+}
+
+.sidebar {
+  border-right: 1px solid var(--border-color);
+  min-height: 50vh;
+}
+
+.user-avatar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+
+  .bi-person-circle {
+    font-size: 6rem;
+    color: var(--gray);
+  }
+
+  .username {
+    font-weight: 600;
+  }
+}
+
+.nav-list {
+  margin-top: 2rem;
+
+  button {
+    width: 100%;
+    padding: .5rem 1rem;
+    font-weight: 550;
+    text-align: left;
+    border-radius: var(--radius-l) 0 0 var(--radius-l);
+    transition: var(--transition);
+  }
+
+  button:hover {
+    background-color: var(--accent1-color);
+  }
+
+  button.selected {
+    background-color: var(--tertiary-color);
+  }
+}
