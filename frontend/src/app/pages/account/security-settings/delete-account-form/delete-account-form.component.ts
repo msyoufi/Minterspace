@@ -4,8 +4,8 @@ import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansi
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
-import { Router } from '@angular/router';
 import { AuthService } from '../../../../shared/services/auth.service';
+import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'ms-delete-account-form',
@@ -16,6 +16,7 @@ import { AuthService } from '../../../../shared/services/auth.service';
 export class DeleteAccountFormComponent {
   accountService = inject(AccountService);
   authService = inject(AuthService);
+  confirmDialog = inject(ConfirmDialogService);
   snackbar = inject(SnackBarService);
 
   panel = viewChild<MatExpansionPanel>('panel');
@@ -25,6 +26,17 @@ export class DeleteAccountFormComponent {
   async onSubmit(): Promise<void> {
     if (this.form().invalid) return;
 
+    const confirm = await this.confirmDialog.open({
+      title: 'Account Deletion',
+      message: 'Are you sure you want to delete your account and all related data permanently?',
+      actionButton: 'Delete Account',
+    });
+
+    if (confirm)
+      this.delteAccount();
+  }
+
+  async delteAccount(): Promise<void> {
     this.isLoading.set(true);
 
     const { password } = this.form().value;
@@ -37,6 +49,8 @@ export class DeleteAccountFormComponent {
     this.authService.logout();
     this.snackbar.show('Account Deleted', 'green', 4000);
   }
+
+
 
   onCancelClick(): void {
     this.panel()?.close()
