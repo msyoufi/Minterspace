@@ -33,6 +33,9 @@
       supporting-text-size: .75rem,
       supporting-text-weight: 600,
     ));
+  @include mat.expansion-overrides((header-collapsed-state-height: 5rem,
+      header-expanded-state-height: 5rem,
+      header-indicator-color:var(--gray)));
 }
 
 * {
@@ -81,12 +84,9 @@ ms-root {
   min-height: 100vh;
 }
 
-ul {
+ul,
+li {
   list-style: none;
-}
-
-ms-mini-coins-list {
-  overflow-y: auto;
 }
 
 .snack-bar {
@@ -110,4 +110,10 @@ ms-mini-coins-list {
 
 .mdc-tooltip__surface {
   border-radius: 5px !important;
+}
+
+mat-expansion-panel {
+  box-shadow: none !important;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0 !important;
 }

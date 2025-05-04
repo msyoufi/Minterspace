@@ -1,1 +1,23 @@
-<p>profile-settings works!</p>
+<mat-accordion [displayMode]="'flat'">
+
+  <ms-username-form />
+
+  <ms-bio-form />
+
+  <mat-expansion-panel disabled>
+    <mat-expansion-panel-header>
+      <mat-panel-title>Date Joined</mat-panel-title>
+      <mat-panel-description>
+        01.01.2000
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel disabled class="no-border">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Logout</mat-panel-title>
+      <button class="ms-button red-button" (click)="onLogoutClick()">Log out</button>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+</mat-accordion>

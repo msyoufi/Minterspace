@@ -1,0 +1,18 @@
+<mat-expansion-panel (afterExpand)="input.focus()">
+  <mat-expansion-panel-header>
+    <mat-panel-title>Bio</mat-panel-title>
+    <mat-panel-description>bio</mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <form #form="ngForm" (submit)="onSubmit()" class="expansion-panel-body">
+    <div class="control-field">
+      <input type="text" class="ms-input" name="bio" ngModel id="bio" minlength="3" #input>
+      <label for="bio" [class.top]="input.value">New Bio</label>
+    </div>
+
+    <div class="expansion-panel-buttons">
+      <button type="submit" class="ms-button primary">Save</button>
+      <button type="reset" class="ms-button red-button">Cancel</button>
+    </div>
+  </form>
+</mat-expansion-panel>
