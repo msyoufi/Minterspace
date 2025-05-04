@@ -2,6 +2,7 @@ interface User {
   id: number | bigint,
   username: string,
   email: string,
+  bio: string,
   role: 'admin' | 'user'
   date_joined: string,
   last_login: string

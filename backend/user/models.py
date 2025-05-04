@@ -33,7 +33,8 @@ class User(AbstractBaseUser):
     is_superuser = models.BooleanField(default=False, editable=False)
 
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150)
+    username = models.CharField(max_length=15)
+    bio = models.CharField(max_length=150, blank=True, default="")
     role = models.CharField(
         choices=[("admin", "Admin"), ("user", "User")],
         default="user",
