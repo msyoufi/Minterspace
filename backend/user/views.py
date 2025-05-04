@@ -11,7 +11,6 @@ def register_view(request):
     serializer = UserRegistrationSerializer(data=request.data)
 
     if not serializer.is_valid():
-        print(serializer.errors)
         return Response(serializer.errors, status=400)
 
     user = serializer.save()
@@ -27,6 +26,5 @@ def register_view(request):
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
 def user_view(request):
-    serializer = UserRegistrationSerializer(instance=request.user)
-
+    serializer = UserSerializer(instance=request.user)
     return Response(serializer.data, status=200)
