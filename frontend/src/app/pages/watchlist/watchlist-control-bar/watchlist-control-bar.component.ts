@@ -5,7 +5,7 @@ import { EscapePressDirective } from '../../../shared/directives/escape-press.di
 import { NameInputPaneComponent } from '../../../shared/components/name-input-pane/name-input-pane.component';
 import { MatTooltip } from '@angular/material/tooltip';
 import { SnackBarService } from '../../../shared/services/snack-bar.service';
-import { ConfirmDialogService } from '../../../shared/components/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogService } from '../../../shared/services/confirm-dialog.service';
 
 @Component({
   selector: 'ms-watchlist-control-bar',

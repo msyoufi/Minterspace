@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { AbsolutPipe } from '../../../../../shared/pipes/absolut.pipe';
 import { SparklineComponent } from '../../../../../shared/components/sparkline.component';
 import { MatTooltip } from '@angular/material/tooltip';
-import { ConfirmDialogService } from '../../../../../shared/components/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogService } from '../../../../../shared/services/confirm-dialog.service';
 import { TransactionModalService } from '../../../../../shared/services/transaction-modal.service';
 import { TransactionService } from '../../../../../shared/services/transaction.service';
 import { SnackBarService } from '../../../../../shared/services/snack-bar.service';

@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { MatTooltip } from '@angular/material/tooltip';
 import { TransactionService } from '../../../../shared/services/transaction.service';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
-import { ConfirmDialogService } from '../../../../shared/components/confirm-dialog/confirm-dialog.service';
+import { ConfirmDialogService } from '../../../../shared/services/confirm-dialog.service';
 import { PortfolioService } from '../../../../shared/services/portfolio.service';
 
 @Component({
