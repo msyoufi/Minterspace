@@ -1,0 +1,29 @@
+<mat-expansion-panel (afterExpand)="input.focus()" (afterCollapse)="form.reset()" #panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title class="red">Delete Account</mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <form #form="ngForm" (submit)="onSubmit()" class="expansion-panel-body">
+    <p class="delete-account-hint">
+      This account will no longer be available, and all your saved data will be permanently deleted. This action cannot
+      be undone!
+    </p>
+
+    <div class="control-field">
+      <input type="password" class="ms-input" name="password" id="account_password" ngModel required #input>
+      <label for="account_password" [class.top]="input.value">Password</label>
+    </div>
+
+    <div class="expansion-panel-buttons">
+      <button type="submit" class="ms-button red-button" [disabled]="form.invalid || isLoading()">
+        Delete Account
+        @if (isLoading()) {
+        <mat-spinner [diameter]="15" [strokeWidth]="2" />
+        }
+      </button>
+      <button type="reset" class="ms-button primary" (click)="onCancelClick()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</mat-expansion-panel>

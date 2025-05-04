@@ -1,0 +1,30 @@
+<mat-expansion-panel (afterExpand)="emailInput.focus()" (afterCollapse)="form.reset()" #panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>Email</mat-panel-title>
+    <mat-panel-description>{{email()}}</mat-panel-description>
+  </mat-expansion-panel-header>
+
+  <form #form="ngForm" (submit)="onSubmit()" class="expansion-panel-body">
+    <div class="control-field">
+      <input type="email" class="ms-input" name="email" id="email" ngModel email required #emailInput>
+      <label for="email" [class.top]="emailInput.value">New Email</label>
+    </div>
+
+    <div class="control-field">
+      <input type="password" class="ms-input" name="password" id="password" ngModel required #passwordInput>
+      <label for="password" [class.top]="passwordInput.value">Password</label>
+    </div>
+
+    <div class="expansion-panel-buttons">
+      <button type="submit" class="ms-button primary" [disabled]="form.invalid || isLoading()">
+        Save
+        @if (isLoading()) {
+        <mat-spinner [diameter]="15" [strokeWidth]="2" />
+        }
+      </button>
+      <button type="reset" class="ms-button red-button" (click)="onCancelClick()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</mat-expansion-panel>

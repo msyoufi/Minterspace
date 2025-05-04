@@ -1,1 +1,20 @@
-<p>security-settings works!</p>
+@let user = authService.user$();
+
+@if (user) {
+<mat-accordion [displayMode]="'flat'">
+
+  <ms-update-email-form [email]="user.email" />
+
+  <ms-update-password-form />
+
+  <ms-delete-account-form />
+
+  <mat-expansion-panel disabled class="no-border">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Last Login</mat-panel-title>
+      <mat-panel-description>{{user.last_login | date : 'medium'}}</mat-panel-description>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+</mat-accordion>
+}

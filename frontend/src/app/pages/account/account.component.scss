@@ -1,7 +1,7 @@
-.component-container-with-padding {
+.account-component-container {
   display: grid;
   grid-template-columns: 220px auto;
-  column-gap: 1rem;
+  column-gap: 2rem;
   min-height: 60vh;
 }
 
@@ -24,6 +24,16 @@
   .username {
     font-weight: 600;
   }
+}
+
+.red {
+  color: var(--red);
+}
+
+.delete-account-hint {
+  margin-bottom: 1rem;
+  font-size: .9rem;
+  padding: 0 .25rem;
 }
 
 .nav-list {
@@ -50,7 +60,7 @@
 .expansion-panel-body {
   display: flex;
   flex-direction: column;
-  gap: .5rem;
+  gap: .75rem;
 }
 
 .expansion-panel-buttons {
@@ -68,4 +78,20 @@ mat-panel-description {
 
 .no-border {
   border: none;
+}
+
+@media (max-width: 700px) {
+  .account-component-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 2rem;
+    min-height: 60vh;
+  }
+
+  .sidebar {
+    border: none;
+    min-height: 0;
+  }
+
 }

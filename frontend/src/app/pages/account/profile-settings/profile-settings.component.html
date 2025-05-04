@@ -1,6 +1,7 @@
 @let user = authService.user$();
 
-@if (user) {<mat-accordion [displayMode]="'flat'">
+@if (user) {
+<mat-accordion [displayMode]="'flat'">
 
   <ms-username-form [username]="user.username" />
 
@@ -20,4 +21,5 @@
     </mat-expansion-panel-header>
   </mat-expansion-panel>
 
-</mat-accordion>}
+</mat-accordion>
+}
