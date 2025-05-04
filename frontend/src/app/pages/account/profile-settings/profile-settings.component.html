@@ -1,15 +1,15 @@
-<mat-accordion [displayMode]="'flat'">
+@let user = authService.user$();
 
-  <ms-username-form />
+@if (user) {<mat-accordion [displayMode]="'flat'">
 
-  <ms-bio-form />
+  <ms-username-form [username]="user.username" />
+
+  <ms-bio-form [bio]="user.bio" />
 
   <mat-expansion-panel disabled>
     <mat-expansion-panel-header>
       <mat-panel-title>Date Joined</mat-panel-title>
-      <mat-panel-description>
-        01.01.2000
-      </mat-panel-description>
+      <mat-panel-description>{{user.date_joined | date}}</mat-panel-description>
     </mat-expansion-panel-header>
   </mat-expansion-panel>
 
@@ -20,4 +20,4 @@
     </mat-expansion-panel-header>
   </mat-expansion-panel>
 
-</mat-accordion>
+</mat-accordion>}

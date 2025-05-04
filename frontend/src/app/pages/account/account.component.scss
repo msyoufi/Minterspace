@@ -46,3 +46,26 @@
     background-color: var(--tertiary-color);
   }
 }
+
+.expansion-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.expansion-panel-buttons {
+  display: flex;
+  gap: .5rem;
+
+  button {
+    min-width: 5rem;
+  }
+}
+
+mat-panel-description {
+  color: var(--gray) !important;
+}
+
+.no-border {
+  border: none;
+}

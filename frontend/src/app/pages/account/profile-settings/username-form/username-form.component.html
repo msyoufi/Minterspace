@@ -1,18 +1,26 @@
-<mat-expansion-panel (afterExpand)="input.focus()">
+<mat-expansion-panel (afterExpand)="input.focus()" (afterCollapse)="form.reset()" #panel>
   <mat-expansion-panel-header>
     <mat-panel-title>Username</mat-panel-title>
-    <mat-panel-description>username</mat-panel-description>
+    <mat-panel-description>{{username()}}</mat-panel-description>
   </mat-expansion-panel-header>
 
   <form #form="ngForm" (submit)="onSubmit()" class="expansion-panel-body">
     <div class="control-field">
-      <input type="text" class="ms-input" name="username" ngModel id="username" minlength="3" #input>
+      <input type="text" class="ms-input" name="username" id="username" ngModel minlength="3" maxlength="15" required
+        #input>
       <label for="username" [class.top]="input.value">New Username</label>
     </div>
 
     <div class="expansion-panel-buttons">
-      <button type="submit" class="ms-button primary">Save</button>
-      <button type="reset" class="ms-button red-button">Cancel</button>
+      <button type="submit" class="ms-button primary" [disabled]="form.invalid || isLoading()">
+        Save
+        @if (isLoading()) {
+        <mat-spinner [diameter]="15" [strokeWidth]="2" />
+        }
+      </button>
+      <button type="reset" class="ms-button red-button" (click)="onCancelClick()">
+        Cancel
+      </button>
     </div>
   </form>
 </mat-expansion-panel>

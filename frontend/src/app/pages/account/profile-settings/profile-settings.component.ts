@@ -3,12 +3,13 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { UsernameFormComponent } from './username-form/username-form.component';
 import { BioFormComponent } from './bio-form/bio-form.component';
 import { AuthService } from '../../../shared/services/auth.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'ms-profile-settings',
-  imports: [MatExpansionModule, UsernameFormComponent, BioFormComponent],
+  imports: [MatExpansionModule, UsernameFormComponent, BioFormComponent, CommonModule],
   templateUrl: './profile-settings.component.html',
-  styleUrl: './profile-settings.component.scss'
+  styleUrl: '../account.component.scss'
 })
 export class ProfileSettingsComponent {
   authService = inject(AuthService);

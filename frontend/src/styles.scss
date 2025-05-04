@@ -35,7 +35,8 @@
     ));
   @include mat.expansion-overrides((header-collapsed-state-height: 5rem,
       header-expanded-state-height: 5rem,
-      header-indicator-color:var(--gray)));
+      header-indicator-color:var(--gray),
+      header-text-size: .9rem));
 }
 
 * {
