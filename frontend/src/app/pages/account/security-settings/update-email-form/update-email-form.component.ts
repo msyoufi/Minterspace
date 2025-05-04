@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'ms-update-email-form',
@@ -12,19 +13,26 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class UpdateEmailFormComponent {
   accountService = inject(AccountService);
+  snackbar = inject(SnackBarService);
 
   email = input.required<string>();
-
   panel = viewChild<MatExpansionPanel>('panel');
   form = viewChild.required<NgForm>('form');
-
   isLoading = signal(false);
 
-  onSubmit(): void {
-    // TODO
+  async onSubmit(): Promise<void> {
+    if (this.form().invalid) return;
+
+    this.isLoading.set(true);
+
     const { email, password } = this.form().value;
-    console.log(email);
-    console.log(password);
+    const result = await this.accountService.updateEmail(email, password);
+
+    this.isLoading.set(false);
+    console.log(result);
+
+    if (result)
+      this.snackbar.show('Email Changed', 'green');
   }
 
   onCancelClick(): void {

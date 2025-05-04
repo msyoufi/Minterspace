@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'ms-username-form',
@@ -12,18 +13,25 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class UsernameFormComponent {
   accountService = inject(AccountService);
+  snackbar = inject(SnackBarService);
 
   username = input.required<string>();
-
   panel = viewChild<MatExpansionPanel>('panel');
   form = viewChild.required<NgForm>('form');
-
   isLoading = signal(false);
 
-  onSubmit(): void {
-    // TODO
+  async onSubmit(): Promise<void> {
+    if (this.form().invalid) return;
+
+    this.isLoading.set(true);
+
     const { username } = this.form().value;
-    console.log(username);
+    const result = await this.accountService.updateUsername(username);
+
+    this.isLoading.set(false);
+
+    if (result)
+      this.snackbar.show('Username Changed', 'green');
   }
 
   onCancelClick(): void {

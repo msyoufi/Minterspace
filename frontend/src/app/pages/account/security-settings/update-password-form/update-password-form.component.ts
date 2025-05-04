@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'ms-update-password-form',
@@ -12,17 +13,25 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class UpdatePasswordFormComponent {
   accountService = inject(AccountService);
+  snackbar = inject(SnackBarService);
 
   panel = viewChild<MatExpansionPanel>('panel');
   form = viewChild.required<NgForm>('form');
-
   isLoading = signal(false);
 
-  onSubmit(): void {
-    // TODO
+  async onSubmit(): Promise<void> {
+    if (this.form().invalid) return;
+
+    this.isLoading.set(true);
+
     const { newPassword, currentPassword } = this.form().value;
-    console.log(newPassword);
-    console.log(currentPassword);
+    const result = await this.accountService.updatePassword(newPassword, currentPassword);
+
+    this.isLoading.set(false);
+    console.log(result);
+
+    if (result)
+      this.snackbar.show('Password Changed', 'green');
   }
 
   onCancelClick(): void {

@@ -3,6 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 
 @Component({
   selector: 'ms-bio-form',
@@ -12,19 +13,25 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class BioFormComponent {
   accountService = inject(AccountService);
+  snackbar = inject(SnackBarService);
 
   bio = input.required<string>();
-
   panel = viewChild<MatExpansionPanel>('panel');
   form = viewChild.required<NgForm>('form');
-
   isLoading = signal(false);
 
+  async onSubmit(): Promise<void> {
+    if (this.form().invalid) return;
 
-  onSubmit(): void {
-    // TODO
+    this.isLoading.set(true);
+
     const { bio } = this.form().value;
-    console.log(bio);
+    const result = await this.accountService.updateUsername(bio);
+
+    this.isLoading.set(false);
+
+    if (result)
+      this.snackbar.show('Username Changed', 'green');
   }
 
   onCancelClick(): void {

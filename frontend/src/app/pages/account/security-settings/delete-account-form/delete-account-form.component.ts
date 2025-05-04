@@ -3,6 +3,9 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { SnackBarService } from '../../../../shared/services/snack-bar.service';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'ms-delete-account-form',
@@ -12,16 +15,27 @@ import { MatProgressSpinner } from '@angular/material/progress-spinner';
 })
 export class DeleteAccountFormComponent {
   accountService = inject(AccountService);
+  authService = inject(AuthService);
+  snackbar = inject(SnackBarService);
 
   panel = viewChild<MatExpansionPanel>('panel');
   form = viewChild.required<NgForm>('form');
-
   isLoading = signal(false);
 
-  onSubmit(): void {
-    // TODO
+  async onSubmit(): Promise<void> {
+    if (this.form().invalid) return;
+
+    this.isLoading.set(true);
+
     const { password } = this.form().value;
-    console.log(password);
+    const result = await this.accountService.deleteAccount(password);
+
+    this.isLoading.set(false);
+    console.log(result);
+
+    if (!result) return;
+    this.authService.logout();
+    this.snackbar.show('Account Deleted', 'green', 4000);
   }
 
   onCancelClick(): void {
