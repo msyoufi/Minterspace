@@ -34,7 +34,7 @@ class User(AbstractBaseUser):
 
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=15)
-    bio = models.CharField(max_length=150, blank=True, default="")
+    bio = models.CharField(max_length=150, blank=True, null=True, default="")
     role = models.CharField(
         choices=[("admin", "Admin"), ("user", "User")],
         default="user",

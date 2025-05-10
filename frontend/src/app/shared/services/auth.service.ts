@@ -40,7 +40,7 @@ export class AuthService {
       return true;
     }
 
-    const url = `${this.BASE_URL}/me`;
+    const url = this.BASE_URL + '/me';
 
     try {
       const response$ = this.http.get<User>(url).pipe(timeout(10000));
@@ -56,7 +56,7 @@ export class AuthService {
   }
 
   async register(email: string, password: string): Promise<void> {
-    const url = `${this.BASE_URL}/register`;
+    const url = this.BASE_URL + '/register';
     const body = { email, password };
 
     const response$ = this.http.post<RegisterResponse>(url, body).pipe(timeout(10000));
@@ -67,7 +67,7 @@ export class AuthService {
   }
 
   async login(email: string, password: string): Promise<void> {
-    const url = `${this.BASE_URL}/token`;
+    const url = this.BASE_URL + '/token';
     const body = { email, password };
 
     const response$ = this.http.post<AuthTokens>(url, body).pipe(timeout(10000));
@@ -89,7 +89,7 @@ export class AuthService {
   }
 
   refreshAccessToken(): Observable<{ access: string }> {
-    const url = `${this.BASE_URL}/token/refresh`;
+    const url = this.BASE_URL + '/token/refresh';
     const refresh = this.getRefreshToken();
 
     if (!refresh) {

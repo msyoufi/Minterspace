@@ -1,19 +1,27 @@
 import { inject, Injectable } from '@angular/core';
 import { ErrorService } from './error.service';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AccountService {
-  errorService = inject(ErrorService);
-  authService = inject(AuthService);
+  private http = inject(HttpClient);
+  private authService = inject(AuthService);
+  private errorService = inject(ErrorService);
 
-  constructor() { }
+  private BASE_URL = 'http://127.0.0.1:8000/api/user';
 
   async updateUsername(username: string): Promise<boolean> {
+    const url = this.BASE_URL + '/me';
+
     try {
-      console.log(username);
+      const response$ = this.http.patch<User>(url, { username });
+      const user = await firstValueFrom(response$);
+
+      this.authService.user$.set(user);
 
       return true;
 
@@ -24,8 +32,13 @@ export class AccountService {
   }
 
   async updateUserBio(bio: string): Promise<boolean> {
+    const url = this.BASE_URL + '/me';
+
     try {
-      console.log(bio);
+      const response$ = this.http.patch<User>(url, { bio });
+      const user = await firstValueFrom(response$);
+      
+      this.authService.user$.set(user);
 
       return true;
 

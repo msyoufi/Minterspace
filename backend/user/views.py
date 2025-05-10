@@ -23,8 +23,26 @@ def register_view(request):
     return Response(response_data, status=201)
 
 
-@api_view(["GET"])
+@api_view(["GET", "PATCH", "DELETE"])
 @permission_classes([IsAuthenticated])
 def user_view(request):
-    serializer = UserSerializer(instance=request.user)
+    user = request.user
+
+    if request.method == "GET":
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status=200)
+
+    if request.method == "PATCH":
+        return update_user(user, request.data)
+
+
+def update_user(user, data):
+    print(data)
+    serializer = UserSerializer(user, data=data, partial=True)
+
+    if not serializer.is_valid():
+        return Response(serializer.errors, status=400)
+
+    serializer.save()
+
     return Response(serializer.data, status=200)

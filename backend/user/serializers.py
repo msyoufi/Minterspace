@@ -14,7 +14,11 @@ class UserSerializer(serializers.ModelSerializer):
             "date_joined",
             "last_login",
         )
-        read_only_fields = ("role",)
+        read_only_fields = (
+            "role",
+            "date_joined",
+            "last_login",
+        )
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -32,7 +36,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             "date_joined",
             "last_login",
         )
-        read_only_fields = ("username", "role")
+        read_only_fields = (
+            "username",
+            "role",
+            "date_joined",
+            "last_login",
+        )
 
     def validate_email(self, value):
         if User.objects.filter(email=value).exists():

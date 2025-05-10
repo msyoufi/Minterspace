@@ -6,12 +6,12 @@
 
   <form #form="ngForm" (submit)="onSubmit()" class="expansion-panel-body">
     <div class="control-field">
-      <input type="text" class="ms-input" name="bio" id="bio" minlength="3" maxlength="150" ngModel required #input>
+      <input type="text" class="ms-input" name="bio" id="bio" maxlength="150" ngModel #input>
       <label for="bio" [class.top]="input.value">New Bio</label>
     </div>
 
     <div class="expansion-panel-buttons">
-      <button type="submit" class="ms-button primary" [disabled]="form.invalid || isLoading()">
+      <button type="submit" class="ms-button primary" [disabled]="isLoading() || (!bio() && !input.value)">
         Save
         @if (isLoading()) {
         <mat-spinner [diameter]="15" [strokeWidth]="2" />
