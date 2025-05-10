@@ -30,11 +30,13 @@ export class UsernameFormComponent {
 
     this.isLoading.set(false);
 
-    if (result)
-      this.snackbar.show('Username Changed', 'green');
+    if (!result) return;
+
+    this.snackbar.show('Username Changed', 'green');
+    this.closePanel();
   }
 
-  onCancelClick(): void {
+  closePanel(): void {
     this.panel()?.close()
   }
 }

@@ -13,6 +13,7 @@
     <div class="control-field">
       <input type="password" class="ms-input" name="password" id="password" ngModel required #passwordInput>
       <label for="password" [class.top]="passwordInput.value">Password</label>
+      <ms-password-eye [input]="passwordInput" />
     </div>
 
     <div class="expansion-panel-buttons">
@@ -22,7 +23,7 @@
         <mat-spinner [diameter]="15" [strokeWidth]="2" />
         }
       </button>
-      <button type="reset" class="ms-button red-button" (click)="onCancelClick()">
+      <button type="reset" class="ms-button red-button" (click)="closePanel()">
         Cancel
       </button>
     </div>

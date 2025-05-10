@@ -5,13 +5,15 @@
 
   <form #form="ngForm" (submit)="onSubmit()" class="expansion-panel-body">
     <p class="delete-account-hint">
-      This account will no longer be available, and all your saved data will be permanently deleted. This action cannot
+      This account will no longer be available, and all your watchlists and portfolios will be permanently deleted. This
+      action cannot
       be undone!
     </p>
 
     <div class="control-field">
       <input type="password" class="ms-input" name="password" id="account_password" ngModel required #input>
       <label for="account_password" [class.top]="input.value">Password</label>
+      <ms-password-eye [input]="input" />
     </div>
 
     <div class="expansion-panel-buttons">

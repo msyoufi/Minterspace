@@ -26,15 +26,17 @@ export class BioFormComponent {
     this.isLoading.set(true);
 
     const { bio } = this.form().value;
-    const result = await this.accountService.updateUsername(bio);
+    const result = await this.accountService.updateUserBio(bio);
 
     this.isLoading.set(false);
 
-    if (result)
-      this.snackbar.show('Username Changed', 'green');
+    if (!result) return;
+
+    this.snackbar.show('Username Changed', 'green');
+    this.closePanel();
   }
 
-  onCancelClick(): void {
+  closePanel(): void {
     this.panel()?.close()
   }
 }

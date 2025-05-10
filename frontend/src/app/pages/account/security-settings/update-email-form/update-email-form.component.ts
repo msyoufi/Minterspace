@@ -4,10 +4,11 @@ import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansi
 import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
+import { PasswordEyeComponent } from '../../../../shared/components/password-eye.component';
 
 @Component({
   selector: 'ms-update-email-form',
-  imports: [MatExpansionModule, FormsModule, MatProgressSpinner],
+  imports: [MatExpansionModule, FormsModule, MatProgressSpinner, PasswordEyeComponent],
   templateUrl: './update-email-form.component.html',
   styleUrl: '../../account.component.scss'
 })
@@ -29,13 +30,14 @@ export class UpdateEmailFormComponent {
     const result = await this.accountService.updateEmail(email, password);
 
     this.isLoading.set(false);
-    console.log(result);
 
-    if (result)
-      this.snackbar.show('Email Changed', 'green');
+    if (!result) return;
+
+    this.snackbar.show('Username Changed', 'green');
+    this.closePanel();
   }
 
-  onCancelClick(): void {
+  closePanel(): void {
     this.panel()?.close()
   }
 }

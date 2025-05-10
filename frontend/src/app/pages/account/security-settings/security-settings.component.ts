@@ -14,5 +14,4 @@ import { DeleteAccountFormComponent } from './delete-account-form/delete-account
 })
 export class SecuritySettingsComponent {
   authService = inject(AuthService);
-
 }
