@@ -8,7 +8,7 @@ import { Component, EventEmitter, Input, input, Output } from '@angular/core';
 })
 export class PaginatorComponent {
   isLoading = input.required<boolean>();
-  isEndOfCoins = input.required<boolean>();
+  isEnd = input.required<boolean>();
 
   @Input({ required: true }) page: number = 1;
   @Output() pageChange = new EventEmitter<number>();
