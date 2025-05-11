@@ -6,4 +6,4 @@
 
 <ms-coins-list [coins]="coins()" [loaderBarCount]="perPage" [isLoading]="isLoading()" />
 
-<ms-paginator [(page)]="page" [isEndOfCoins]="isEndOfCoins" (pageChange)="onPageChange()" [isLoading]="isLoading()" />
+<ms-paginator [(page)]="page" [isEnd]="isEndOfCoins" (pageChange)="onPageChange()" [isLoading]="isLoading()" />

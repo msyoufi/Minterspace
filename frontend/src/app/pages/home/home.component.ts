@@ -3,7 +3,7 @@ import { CoinsListComponent } from "../../shared/components/coins-list/coins-lis
 import { CoingeckoService } from '../../shared/services/coingecko.service';
 import { CategoryPanelsComponent } from "./category-panels/category-panels.component";
 import { CoinsListConfigComponent } from "./coins-list-config/coins-list-config.component";
-import { PaginatorComponent } from "./paginator/paginator.component";
+import { PaginatorComponent } from "../../shared/components/paginator/paginator.component";
 import mockCoins from '../../shared/mock/coins.json';
 
 @Component({
@@ -30,6 +30,8 @@ export class HomeComponent {
   }
 
   async getCoinsList(): Promise<void> {
+    // scroll({ top: 0 });
+
     // this.isLoading.set(true);
 
     // const coins = await this.coinService.getCoinsList(this.getParams());
