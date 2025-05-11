@@ -23,7 +23,7 @@
 
 .exchange-grid {
   display: grid;
-  grid-template-columns: 5% auto 10% 25% 20% 15%;
+  grid-template-columns: 5% auto 10% 15% 25% 15%;
   padding: 0 .25rem;
   font-size: .9rem;
   align-items: center;
@@ -40,5 +40,48 @@
   ms-label-button:nth-child(2) {
     text-align: left;
     margin-left: 1rem;
+  }
+}
+
+
+@media (max-width: 850px) {
+  .exchange-grid {
+    grid-template-columns: 5% auto 10% 20% 25%;
+
+    &>span:last-child,
+    ms-label-button:last-child {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .exchange-grid {
+    grid-template-columns: 5% auto 10% 30%;
+    font-size: .8rem;
+
+    &>span:nth-child(5),
+    ms-label-button:nth-child(5) {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 450px) {
+  .exchanges-list-header {
+    flex-direction: column;
+    gap: .75rem;
+    height: fit-content;
+  }
+
+  .exchange-grid {
+    grid-template-columns: 5% auto 30%;
+    font-size: .8rem;
+
+    &>span:nth-child(3),
+    &>div:nth-child(3),
+    ms-label-button:nth-child(3) {
+      display: none;
+    }
   }
 }
