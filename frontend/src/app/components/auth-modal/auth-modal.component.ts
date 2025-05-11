@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, ElementRef, inject, signal, viewChild } from '@angular/core';
 import { PasswordEyeComponent } from "../../shared/components/password-eye.component";
 import { ClickOutsideDirective } from '../../shared/directives/click-outside.directive';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
@@ -34,9 +34,14 @@ export class AuthModalComponent {
     password: new FormControl('', Validators.required)
   });
 
+  emailInput = viewChild.required<ElementRef<HTMLInputElement>>('emailInput');
   isLogin = signal(true);
   isLoading = signal(false);
   formError = signal<string | null>(null);
+
+  constructor() {
+    effect(() => this.emailInput().nativeElement.focus());
+  }
 
   async onSubmit(): Promise<void> {
     this.formError.set(null);
@@ -107,6 +112,7 @@ export class AuthModalComponent {
     this.formError.set(null);
     this.toggleIsAgreedControl();
     this.toggelPasswordValidators();
+    this.emailInput().nativeElement.focus();
   }
 
   toggleIsAgreedControl(): void {

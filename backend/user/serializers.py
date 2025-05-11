@@ -16,6 +16,8 @@ class UserSerializer(serializers.ModelSerializer):
         )
         read_only_fields = (
             "role",
+            "email",
+            "password",
             "date_joined",
             "last_login",
         )
@@ -53,3 +55,35 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         return User.objects.create_user(
             email=validated_data["email"], password=validated_data["password"]
         )
+
+
+class UpdateEmailSerializer(serializers.Serializer):
+    email = serializers.EmailField(required=True)
+    password = serializers.CharField(write_only=True, required=True)
+
+    def validate_password(self, value):
+        user = self.context["user"]
+
+        if not user.check_password(value):
+            raise serializers.ValidationError("Incorrect password")
+
+        return value
+
+    def validate_email(self, value):
+        if User.objects.filter(email__iexact=value).exists():
+            raise serializers.ValidationError("Email address already in use")
+
+        return value
+
+
+class UpdatePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(write_only=True, required=True)
+    new_password = serializers.CharField(write_only=True, required=True)
+
+    def validate_current_password(self, value):
+        user = self.context["user"]
+
+        if not user.check_password(value):
+            raise serializers.ValidationError("Incorrect current password")
+
+        return value

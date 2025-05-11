@@ -12,13 +12,11 @@ export class AccountService {
   private authService = inject(AuthService);
   private errorService = inject(ErrorService);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/user';
+  private BASE_URL = 'http://127.0.0.1:8000/api/user/me';
 
   async updateUsername(username: string): Promise<boolean> {
-    const url = this.BASE_URL + '/me';
-
     try {
-      const response$ = this.http.patch<User>(url, { username });
+      const response$ = this.http.patch<User>(this.BASE_URL, { username });
       const user = await firstValueFrom(response$);
 
       this.authService.user$.set(user);
@@ -32,12 +30,10 @@ export class AccountService {
   }
 
   async updateUserBio(bio: string): Promise<boolean> {
-    const url = this.BASE_URL + '/me';
-
     try {
-      const response$ = this.http.patch<User>(url, { bio });
+      const response$ = this.http.patch<User>(this.BASE_URL, { bio });
       const user = await firstValueFrom(response$);
-      
+
       this.authService.user$.set(user);
 
       return true;
@@ -49,9 +45,11 @@ export class AccountService {
   }
 
   async updateEmail(email: string, password: string): Promise<boolean> {
+    const url = this.BASE_URL + '/email';
+
     try {
-      console.log(email);
-      console.log(password);
+      const response$ = this.http.post<void>(url, { email, password });
+      await firstValueFrom(response$);
 
       return true;
 
@@ -61,10 +59,12 @@ export class AccountService {
     }
   }
 
-  async updatePassword(newPassword: string, currentPassword: string): Promise<boolean> {
+  async updatePassword(new_password: string, current_password: string): Promise<boolean> {
+    const url = this.BASE_URL + '/password';
+
     try {
-      console.log(newPassword);
-      console.log(currentPassword);
+      const response$ = this.http.post<void>(url, { new_password, current_password });
+      await firstValueFrom(response$);
 
       return true;
 
@@ -75,8 +75,11 @@ export class AccountService {
   }
 
   async deleteAccount(password: string): Promise<boolean> {
+    const url = this.BASE_URL + '/delete';
+
     try {
-      console.log(password);
+      const response$ = this.http.post<void>(url, { password });
+      await firstValueFrom(response$);
 
       return true;
 

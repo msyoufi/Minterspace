@@ -37,7 +37,7 @@ export class UpdatePasswordFormComponent {
 
     if (!result) return;
 
-    this.snackbar.show('Username Changed', 'green');
+    this.snackbar.show('Password Changed', 'green');
     this.closePanel();
   }
 

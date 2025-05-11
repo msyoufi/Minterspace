@@ -46,6 +46,7 @@ export class DeleteAccountFormComponent {
     this.isLoading.set(false);
 
     if (!result) return;
+    
     this.authService.logout();
     this.snackbar.show('Account Deleted', 'green', 4000);
   }

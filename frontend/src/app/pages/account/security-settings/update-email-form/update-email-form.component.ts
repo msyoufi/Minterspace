@@ -5,6 +5,7 @@ import { AccountService } from '../../../../shared/services/account.service';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { SnackBarService } from '../../../../shared/services/snack-bar.service';
 import { PasswordEyeComponent } from '../../../../shared/components/password-eye.component';
+import { AuthService } from '../../../../shared/services/auth.service';
 
 @Component({
   selector: 'ms-update-email-form',
@@ -14,6 +15,7 @@ import { PasswordEyeComponent } from '../../../../shared/components/password-eye
 })
 export class UpdateEmailFormComponent {
   accountService = inject(AccountService);
+  authService = inject(AuthService);
   snackbar = inject(SnackBarService);
 
   email = input.required<string>();
@@ -33,8 +35,12 @@ export class UpdateEmailFormComponent {
 
     if (!result) return;
 
-    this.snackbar.show('Username Changed', 'green');
-    this.closePanel();
+    this.authService.logout();
+    this.authService.openAuthModal('/account');
+    this.snackbar.show(
+      'Email Changed. Please log in again with the new email address',
+      'green',
+      6000);
   }
 
   closePanel(): void {
