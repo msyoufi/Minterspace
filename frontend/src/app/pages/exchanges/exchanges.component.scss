@@ -1,3 +1,26 @@
+.exchanges-list-header {
+  display: flex;
+  height: 7rem;
+  padding: 2rem .25rem 1rem;
+  justify-content: space-between;
+}
+
+.config-control-field {
+  display: flex;
+  align-items: center;
+  align-self: flex-end;
+  gap: .5rem;
+
+  label {
+    font-size: .8rem;
+  }
+
+  .ms-input {
+    padding: .4rem 1rem;
+    width: fit-content;
+  }
+}
+
 .exchange-grid {
   display: grid;
   grid-template-columns: 5% auto 10% 25% 20% 15%;
@@ -9,10 +32,11 @@
 
   span:nth-child(1),
   ms-label-button:nth-child(1) {
-    text-align: center;
+    justify-self: center;
   }
 
   a:nth-child(2),
+  div:nth-child(2),
   ms-label-button:nth-child(2) {
     text-align: left;
     margin-left: 1rem;

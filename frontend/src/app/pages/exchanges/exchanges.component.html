@@ -1,6 +1,36 @@
-<ms-exchanges-labels-bar (sortLabelClick)="onSortLabelClick($event)" [currentSortKey]="sortKey()"
-  [isAscOrder]="isAscOrder()" />
+<div class="exchanges-list-header">
+  <h2>Exchanges</h2>
 
-@for (exchange of exchanges(); track exchange.id) {
-<ms-exchange-bar [exchange]="exchange" />
-}
+  <div class="config-control-field">
+    <label for='perPage'>Exchanges per page</label>
+    <select class='ms-input' name='perPage' id='perPage' [(ngModel)]="perPage" (ngModelChange)="onPerPageChange()">
+      @for (num of [10, 25, 50, 100]; track $index){
+      <option [value]="num">{{num}}</option>
+      }
+    </select>
+  </div>
+</div>
+
+<div class="component-container-with-padding">
+  <ms-exchanges-labels-bar (sortLabelClick)="onSortLabelClick($event)" [currentSortKey]="sortKey()"
+    [isAscOrder]="isAscOrder()" />
+
+  <ul>
+    @if (isLoading()) {
+
+    @for (loader of getLoadingArray(); track $index) {
+    <ms-exchange-bar-loader />
+    }
+
+    } @else {
+
+    @for (exchange of exchanges(); track exchange.id) {
+    <ms-exchange-bar [exchange]="exchange" />
+    }
+
+    }
+  </ul>
+
+  <ms-paginator [(page)]="page" [isEnd]="isEndOfList" (pageChange)="onPageChange()" [isLoading]="isLoading()" />
+
+</div>

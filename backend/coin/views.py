@@ -50,4 +50,5 @@ def global_market(request):
 
 @api_view()
 def exchanges(request):
-    return get("exchanges", params=None)
+    params = request.query_params
+    return get("exchanges", params=params)

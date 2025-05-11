@@ -117,9 +117,9 @@ export class CoingeckoService {
     }
   }
 
-  async getExchanges(): Promise<Exchange[]> {
+  async getExchanges(params: { [key: string]: any }): Promise<Exchange[]> {
     try {
-      const response$ = this.http.get<Exchange[]>(`${this.BASE_URL}/exchanges`);
+      const response$ = this.http.get<Exchange[]>(`${this.BASE_URL}/exchanges`, { params });
       return await firstValueFrom(response$);
 
     } catch (err: unknown) {
