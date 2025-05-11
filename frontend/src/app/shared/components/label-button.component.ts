@@ -23,7 +23,7 @@ import { Component, input, output } from '@angular/core';
 })
 export class LabelButtonComponent {
   content = input.required<string>();
-  sortKey = input.required<CoinSortKey | AssetSortKey | TransactionSortKey>();
+  sortKey = input.required<CoinSortKey | AssetSortKey | TransactionSortKey | ExchangeSortKey>();
   className = input<'asc' | 'desc' | ''>('');
   labelClick = output<void>();
 }

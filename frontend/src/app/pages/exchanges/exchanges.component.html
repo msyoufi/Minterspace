@@ -1,0 +1,6 @@
+<ms-exchanges-labels-bar (sortLabelClick)="onSortLabelClick($event)" [currentSortKey]="sortKey()"
+  [isAscOrder]="isAscOrder()" />
+
+@for (exchange of exchanges(); track exchange.id) {
+<ms-exchange-bar [exchange]="exchange" />
+}

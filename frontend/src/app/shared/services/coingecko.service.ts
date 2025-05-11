@@ -116,4 +116,15 @@ export class CoingeckoService {
       this.errorService.handleError(err);
     }
   }
+
+  async getExchanges(): Promise<Exchange[]> {
+    try {
+      const response$ = this.http.get<Exchange[]>(`${this.BASE_URL}/exchanges`);
+      return await firstValueFrom(response$);
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return [];
+    }
+  }
 }

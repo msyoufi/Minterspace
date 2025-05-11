@@ -1,0 +1,20 @@
+.exchange-grid {
+  display: grid;
+  grid-template-columns: 5% auto 10% 25% 20% 15%;
+  padding: 0 .25rem;
+  font-size: .9rem;
+  align-items: center;
+  text-align: right;
+  border-bottom: 1px solid var(--border-color);
+
+  span:nth-child(1),
+  ms-label-button:nth-child(1) {
+    text-align: center;
+  }
+
+  a:nth-child(2),
+  ms-label-button:nth-child(2) {
+    text-align: left;
+    margin-left: 1rem;
+  }
+}

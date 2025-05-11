@@ -51,3 +51,14 @@ const transactionSortKeys = {
 } as const;
 
 type TransactionSortKey = keyof typeof transactionSortKeys;
+
+const exchangeSortKeys = {
+  trust_score_rank: '',
+  trust_score: '',
+  name: '',
+  trade_volume_24h_btc_normalized: '',
+  year_established: '',
+  '': ''
+} as const;
+
+type ExchangeSortKey = keyof typeof exchangeSortKeys;

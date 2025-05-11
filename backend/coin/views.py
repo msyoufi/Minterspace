@@ -46,3 +46,8 @@ def trending(request):
 @api_view()
 def global_market(request):
     return get("global", params=None)
+
+
+@api_view()
+def exchanges(request):
+    return get("exchanges", params=None)

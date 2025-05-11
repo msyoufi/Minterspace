@@ -9,4 +9,5 @@ urlpatterns = [
     path("trending", views.trending),
     path("categories", views.categories),
     path("global", views.global_market),
+    path("exchanges", views.exchanges),
 ]
