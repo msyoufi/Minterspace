@@ -11,6 +11,8 @@
     color: var(--gray);
     background-color: var(--background-color);
     transition: var(--transition);
+    pointer-events: none;
+    user-select: none;
   }
 
   label.top,
@@ -47,4 +49,9 @@
 
 .ng-invalid.ng-dirty.ng-touched+label {
   color: var(--red);
+}
+
+textarea {
+  min-height: 5rem;
+  resize: vertical;
 }

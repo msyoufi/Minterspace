@@ -8,6 +8,7 @@ import { PortfolioComponent } from './pages/portfolio/portfolio.component';
 import { AssetDetailsComponent } from './pages/portfolio/asset-details/asset-details.component';
 import { PortfolioOverviewComponent } from './pages/portfolio/portfolio-overview/portfolio-overview.component';
 import { ExchangesComponent } from './pages/exchanges/exchanges.component';
+import { ContactComponent } from './pages/contact/contact.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -21,4 +22,5 @@ export const routes: Routes = [
     ]
   },
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
+  { path: 'contact', component: ContactComponent },
 ];

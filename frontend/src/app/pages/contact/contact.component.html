@@ -1,0 +1,33 @@
+<form #form="ngForm" (ngSubmit)="onSubmit()">
+  <h2>
+    Please feel free to contacting us, regarding any issues with Minterspace
+  </h2>
+
+  <div class="control-field">
+    <input type="text" class="ms-input" name="name" ngModel #nameInput>
+    <label [class.top]="nameInput.value">Name</label>
+  </div>
+
+  <div class="control-field">
+    <input type="email" class="ms-input" name="email" ngModel required email #emailInput>
+    <label [class.top]="emailInput.value">Email*</label>
+  </div>
+
+  <div class="control-field">
+    <textarea id="message" class="ms-input" name="message" ngModel required minlength="15" #messageInput></textarea>
+    <label [class.top]="messageInput.value">Message*</label>
+  </div>
+
+  <div class="button-container">
+    <button class="ms-button primary" type="submit" [disabled]="form.invalid || isLoading()">
+      Send
+      @if (isLoading()) {
+      <mat-spinner [diameter]="20" [strokeWidth]="3" />
+      }
+    </button>
+
+    <button class="ms-button secondary" type="reset">Reset</button>
+  </div>
+
+  <small>* Required</small>
+</form>
