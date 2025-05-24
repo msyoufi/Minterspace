@@ -32,12 +32,12 @@ export class ChartService implements OnDestroy {
 
   renderChart(chartPane: HTMLDivElement, pricaData: ChartDataPoint[]): IChartApi {
     const color = pricaData[0].value > pricaData[pricaData.length - 1].value
-      ? '#d1383f'
+      ? '#f35757'
       : '#16C784';
 
     const areaOptions = {
       lineColor: color,
-      topColor: `${color}90`,
+      topColor: `${color}70`,
       bottomColor: 'transparent',
       priceFormat: { minMove: 0.000000001 }
     };
@@ -65,7 +65,7 @@ export class ChartService implements OnDestroy {
     autoSize: true,
     layout: {
       background: { color: 'transparent' },
-      fontSize: 16,
+      fontSize: 14,
       textColor: '#878787',
       attributionLogo: false
     },

@@ -1,30 +1,28 @@
-<button class="config-button" [disabled]="isLoading()">
+<button class="config-button" (mousedown)="togglePane($event)">
   <i class="bi bi-sliders"></i>
   <span>Preferences</span>
 </button>
 
-<div class="config-panel-container">
-  <form class="config-panel">
-    <div class="config-control-field">
-      <label for='categoryId'>Category</label>
-      <select class='ms-input' name='categoryId' id='categoryId' [(ngModel)]="categoryId"
-        (ngModelChange)="categoryIdChange.emit($event)">
-        <option value=''>All</option>
-        @for (category of coinService.coinCategories(); track category.id){
-        <option [value]="category.id">{{category.name}}</option>
-        }
-      </select>
-    </div>
+<form class="config-pane" [class.show]="isPaneOpen()" (msClickOutside)="closePane()" (msEscapePress)="closePane()">
+  <div class="config-control-field">
+    <label for='categoryId'>Category</label>
+    <select class='ms-input' name='categoryId' id='categoryId' [(ngModel)]="categoryId"
+      (ngModelChange)="categoryIdChange.emit($event)" [disabled]="isLoading()">
+      <option value=''>All</option>
+      @for (category of coinService.coinCategories(); track category.id){
+      <option [value]="category.id">{{category.name}}</option>
+      }
+    </select>
+  </div>
 
-    <div class="config-control-field">
-      <label for='perPage'>Coins per page</label>
-      <select class='ms-input' name='perPage' id='perPage' [(ngModel)]="perPage"
-        (ngModelChange)="perPageChange.emit($event)">
-        @for (num of [10, 25, 50, 100]; track $index){
-        <option [value]="num">{{num}}</option>
-        }
-      </select>
-    </div>
+  <div class="config-control-field">
+    <label for='perPage'>Coins per page</label>
+    <select class='ms-input' name='perPage' id='perPage' [(ngModel)]="perPage"
+      (ngModelChange)="perPageChange.emit($event)" [disabled]="isLoading()">
+      @for (num of [10, 25, 50, 100]; track $index){
+      <option [value]="num">{{num}}</option>
+      }
+    </select>
+  </div>
 
-  </form>
-</div>
+</form>

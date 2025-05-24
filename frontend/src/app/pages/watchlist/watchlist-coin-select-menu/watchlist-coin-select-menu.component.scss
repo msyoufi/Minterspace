@@ -20,14 +20,14 @@
   min-height: 5rem;
   gap: .5rem;
   border: .5rem solid transparent;
-  background-color: var(--accent2-color);
+  background-color: var(--tertiary-ligth-color);
   overflow: hidden auto;
 
   .icon-button {
     height: 1.5rem;
     padding: 0 .75rem;
     border-radius: var(--radius-l);
-    background-color: var(--accent1-color);
+    background-color: var(--tertiary-color);
   }
 
   .icon-button:hover {

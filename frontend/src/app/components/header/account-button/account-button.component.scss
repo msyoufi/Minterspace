@@ -3,7 +3,7 @@
   align-items: center;
   padding: .2rem .2rem .2rem .75rem;
   column-gap: .25rem;
-  background-color: var(--tertiary-color);
+  background-color: var(--secondary-color);
   border-radius: var(--radius-l);
   font-size: .9rem;
   font-weight: 600;
@@ -13,7 +13,7 @@
   i {
     display: flex;
     background-color: var(--background-color);
-    border: 2px solid var(--tertiary-color);
+    border: 2px solid var(--secondary-color);
     border-radius: 50%;
     font-size: 1.75rem;
     color: var(--primary-color);
@@ -22,5 +22,12 @@
   &:hover {
     background-color: var(--primary-color);
     color: #fff;
+  }
+}
+
+@media (max-width: 530px) {
+  .account-link {
+    padding: .2rem .2rem .2rem .75rem;
+    font-size: .8rem;
   }
 }

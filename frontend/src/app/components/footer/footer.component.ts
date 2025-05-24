@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { AppLogoComponent } from "../../shared/components/app-logo.component";
 import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ms-footer',
-  imports: [AppLogoComponent, RouterLink],
+  imports: [RouterLink],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.scss'
 })

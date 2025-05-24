@@ -3,7 +3,9 @@
   <div class="upper-header">
     <div class='upper-header-left'>
       <ms-navigation [user]="authService.user$()" />
-      <ms-app-logo />
+      <a routerLink="/">
+        <img class="app-logo" src="./assets/minterspace-logo.png" />
+      </a>
     </div>
 
     <div class="upper-header-right">
@@ -27,7 +29,9 @@
   </div>
 
   <div class="lower-header">
-    <ms-app-logo />
+    <a routerLink="/">
+      <img class="app-logo" src="./assets/minterspace-logo.png" />
+    </a>
     <ms-navigation [user]="authService.user$()" />
     <ms-header-search />
   </div>

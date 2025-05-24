@@ -1,18 +1,28 @@
 @use '@angular/material' as mat;
 
+body.light-theme {
+  --background-color: #ffffff;
+  --tertiary-color: #e9e3f0;
+  --tertiary-ligth-color: #cac0d6;
+  --gray: #6a7077;
+  --green: #2cb866;
+  --red: #d43434;
+  --text-color: #1c1b1d;
+  --border-color: #d2cbda;
+  --shadow: #16151f1e 0px 1px 0px, #16151f1e 0px 8px 24px, #16151f1e 0px 16px 48px;
+}
+
 :root {
-  // shared colors:
-  --primary-color: #6e3cda;
-  --secondary-color: #ffffff;
-  --tertiary-color: #7a4bdf57;
-  --red: #fe5e5e;
-  --green: #28c079;
+  --primary-color: #7d1bd8;
+  --secondary-color: #7d1bd860;
 
   // default dark-theme colors:
-  --background-color: #0f111c;
-  --accent1-color: #37374c;
-  --accent2-color: #4e4e69;
+  --background-color: #1a1720;
+  --tertiary-color: #3e3e50;
+  --tertiary-ligth-color: #585870;
   --gray: #b0bbca;
+  --green: #28da81;
+  --red: #f35757;
   --text-color: #fff;
   --border-color: #2e3842;
   --shadow: #c4c1f112 0px 1px 0px, #c4c1f112 0px 8px 24px, #c4c1f112 0px 16px 48px;
@@ -21,7 +31,7 @@
   --radius-s: 10px;
   --radius-l: 20px;
   --transition: .15s;
-  --app-width: 1200px;
+  --app-width: 1300px;
 
   @include mat.progress-spinner-overrides((active-indicator-color: var(--primary-color)));
   @include mat.snack-bar-overrides((supporting-text-color: #fff,
@@ -36,7 +46,8 @@
   @include mat.expansion-overrides((header-collapsed-state-height: 5rem,
       header-expanded-state-height: 5rem,
       header-indicator-color:var(--gray),
-      header-text-size: .9rem));
+      header-text-size: .9rem,
+      header-text-weight: 550));
 }
 
 * {
@@ -66,17 +77,6 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
-}
-
-body.light-theme {
-  --background-color: #fff;
-  --tertiary-color: #7a4bdf2b;
-  --accent1-color: #eeeefa;
-  --accent2-color: #d7d7f5;
-  --gray: #727272;
-  --text-color: #000;
-  --border-color: #d5d5d5;
-  --shadow: #16151f1e 0px 1px 0px, #16151f1e 0px 8px 24px, #16151f1e 0px 16px 48px;
 }
 
 ms-root {

@@ -50,7 +50,7 @@
     cursor: pointer;
 
     &:hover {
-      background-color: var(--accent2-color);
+      background-color: var(--tertiary-ligth-color);
     }
 
     &:disabled {
@@ -65,7 +65,7 @@
     }
 
     &.selected:disabled {
-      background-color: var(--accent1-color);
+      background-color: var(--tertiary-color);
       color: var(--text-color);
     }
   }

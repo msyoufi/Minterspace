@@ -39,7 +39,6 @@ export class HeaderSearchComponent {
   }
 
   onIsSearching(isSearching: boolean): void {
-    console.log('isSearching', isSearching)
     this.isSearching.set(isSearching);
   }
 

@@ -13,9 +13,10 @@
   </a>
 
   <div>
-    <span class="score"
-      [ngClass]="{'green':exg.trust_score >= 7,'yellow':exg.trust_score >= 4,'red':exg.trust_score < 4}">
-      {{exg.trust_score}}/10
+    @let score = exg.trust_score;
+
+    <span class="score" [ngClass]="{'green':score >= 7,'yellow':score >= 4,'red':score < 4}">
+      {{score ? score + '/10': 'N/A'}}
     </span>
   </div>
 
@@ -24,10 +25,10 @@
   </span>
 
   <span>
-    {{exg.country ? exg.country : '-'}}
+    {{exg.country ? exg.country : 'N/A'}}
   </span>
 
   <span>
-    {{exg.year_established ? exg.year_established : '-'}}
+    {{exg.year_established ? exg.year_established : 'N/A'}}
   </span>
 </li>

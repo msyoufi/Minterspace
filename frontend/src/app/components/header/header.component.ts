@@ -4,14 +4,14 @@ import { AccountButtonComponent } from "./account-button/account-button.componen
 import { NavigationComponent } from "./navigation/navigation.component";
 import { HeaderSearchComponent } from "./header-search/header-search.component";
 import { ThemeButtonComponent } from "./theme-button/theme-button.component";
-import { AppLogoComponent } from "../../shared/components/app-logo.component";
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../shared/services/auth.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'ms-header',
-  imports: [GlobalMarketBarComponent, AccountButtonComponent, NavigationComponent, HeaderSearchComponent, ThemeButtonComponent, AppLogoComponent],
+  imports: [RouterLink, GlobalMarketBarComponent, AccountButtonComponent, NavigationComponent, HeaderSearchComponent, ThemeButtonComponent],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })

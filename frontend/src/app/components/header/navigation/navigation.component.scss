@@ -1,7 +1,6 @@
 .navigation-toggle {
   display: none;
-  border-radius: var(--radius-s);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 
   i {
     color: var(--gray);
@@ -93,7 +92,7 @@
     }
 
     a:hover {
-      background-color: var(--tertiary-color);
+      background-color: var(--secondary-color);
       color: var(--text-color);
     }
 

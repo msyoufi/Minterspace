@@ -63,8 +63,8 @@ export class SparklineComponent implements OnDestroy {
 
   renderChart(chartData: ChartDataPoint[]): IChartApi {
     const chartColor = chartData[0].value > chartData[chartData.length - 1].value
-      ? '#fe5e5e'
-      : '#28c079';
+      ? '#f35757'
+      : '#16C784';
 
     const chart = createChart(this.chartBoxRef().nativeElement, this.chartOptions);
     const lineSeries = chart.addSeries(LineSeries, {

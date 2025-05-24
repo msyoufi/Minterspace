@@ -81,29 +81,23 @@
 }
 
 .explorers-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 1rem;
   position: relative;
 
   i {
-    font-size: 1.25rem;
+    font-size: 1rem;
     transition: transform .2s;
+    color: var(--gray);
   }
 
-  &:hover {
-    background-color: var(--accent1-color);
-  }
-
-  &:hover i {
+  .rotate {
     transform: rotate(180deg);
   }
 
-  &:hover .explorers-menu {
-    top: 3.85rem;
-    opacity: 1;
-    pointer-events: all;
+  .explorers-button {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
   }
 }
 
@@ -116,12 +110,18 @@
   top: 2rem;
   left: 0;
   font-size: .8rem;
-  background-color: var(--accent1-color);
+  background-color: var(--tertiary-color);
   border-radius: var(--radius-l);
   transition: all 0.2s ease-in-out;
   opacity: 0;
   pointer-events: none;
   z-index: 15;
+
+  &.show {
+    top: 3.85rem;
+    opacity: 1;
+    pointer-events: all;
+  }
 
   a {
     padding: .5rem 1rem;
@@ -131,7 +131,7 @@
   }
 
   a:hover {
-    background-color: var(--accent2-color);
+    background-color: var(--tertiary-ligth-color);
   }
 }
 

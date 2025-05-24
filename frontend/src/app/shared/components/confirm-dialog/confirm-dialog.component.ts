@@ -11,7 +11,7 @@ import { Component, Inject } from '@angular/core';
       <button type="button" class="ms-button red-button" (click)="dialogRef.close(true)">
         {{actionButton}}
       </button>
-      <button type="button" class="ms-button primary"(click)="dialogRef.close(false)">Cancel</button>
+      <button type="button" class="ms-button secondary"(click)="dialogRef.close(false)">Cancel</button>
     </div>
   `,
   styleUrl: './confirm-dialog.component.scss'

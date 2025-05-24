@@ -1,6 +1,6 @@
 @let cn = coin();
 
-@if (cn) {
+@if (!isLoading() && cn) {
 <ms-coin-details-header [coin]="cn" />
 
 <section class="data-and-charts-section">

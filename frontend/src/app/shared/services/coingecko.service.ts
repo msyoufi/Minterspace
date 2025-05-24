@@ -1,9 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
-import globalMarketMock from '../mock/globalMarket.json';
-import allCategoriesMock from '../mock/all-categories.json';
-import trendingMock from '../mock/trending.json';
 import { ErrorService } from './error.service';
 
 @Injectable({
@@ -20,16 +17,9 @@ export class CoingeckoService {
   private BASE_URL = 'http://127.0.0.1:8000/api/coingecko';
 
   constructor() {
-    // this.getGlobalMarketData();
-    // this.getCoinCategories();
-    // this.getTrendingAssetes();
-    this.populateWithMockData();
-  }
-
-  populateWithMockData(): void {
-    this.globalMarket.set(globalMarketMock);
-    this.coinCategories.set(allCategoriesMock);
-    this.TrendingCoins.set(trendingMock as CoinTrending[]);
+    this.getGlobalMarketData();
+    this.getCoinCategories();
+    this.getTrendingAssetes();
   }
 
   async getGlobalMarketData(): Promise<void> {

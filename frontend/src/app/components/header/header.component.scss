@@ -42,7 +42,17 @@ ms-navigation {
     border: none;
   }
 
+  .app-logo {
+    margin-bottom: -.25rem;
+  }
+
   ms-header-search {
+    width: 100%;
+  }
+}
+
+@media (max-width: 530px) {
+  .app-logo {
     width: 100%;
   }
 }

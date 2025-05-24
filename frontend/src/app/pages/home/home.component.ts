@@ -4,7 +4,6 @@ import { CoingeckoService } from '../../shared/services/coingecko.service';
 import { CategoryPanelsComponent } from "./category-panels/category-panels.component";
 import { CoinsListConfigComponent } from "./coins-list-config/coins-list-config.component";
 import { PaginatorComponent } from "../../shared/components/paginator/paginator.component";
-import mockCoins from '../../shared/mock/coins.json';
 
 @Component({
   selector: 'ms-home',
@@ -30,17 +29,13 @@ export class HomeComponent {
   }
 
   async getCoinsList(): Promise<void> {
-    // scroll({ top: 0 });
+    scroll({ top: 0 });
+    this.isLoading.set(true);
 
-    // this.isLoading.set(true);
+    const coins = await this.coinService.getCoinsList(this.getParams());
 
-    // const coins = await this.coinService.getCoinsList(this.getParams());
-
-    // this.coins.set(coins);
-    // this.isEndOfCoins = coins.length < parseInt(this.perPage);
-    // this.isLoading.set(false);
-
-    this.coins.set(mockCoins);
+    this.coins.set(coins);
+    this.isEndOfCoins = coins.length < parseInt(this.perPage);
     this.isLoading.set(false);
   }
 

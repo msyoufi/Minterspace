@@ -2,6 +2,7 @@
   max-width: 500px;
   padding: 2rem;
   row-gap: 2.25rem;
+  height: fit-content;
 }
 
 .dialog-header {
@@ -26,12 +27,12 @@
     font-weight: 600;
     text-align: center;
     color: var(--gray);
-    border-bottom: 2px solid var(--accent1-color);
+    border-bottom: 2px solid var(--tertiary-color);
     cursor: pointer;
     transition: var(--transition);
 
     &:hover {
-      border-color: var(--accent2-color);
+      border-color: var(--tertiary-ligth-color);
     }
 
     &.acitve {

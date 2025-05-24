@@ -2,6 +2,7 @@ import { Component, DestroyRef, effect, ElementRef, inject, output, viewChild } 
 import { CoingeckoService } from '../../services/coingecko.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, debounceTime, filter, of, Subject, switchMap, tap } from 'rxjs';
+import { SnackBarService } from '../../services/snack-bar.service';
 
 @Component({
   selector: 'ms-search-bar',
@@ -11,6 +12,7 @@ import { catchError, debounceTime, filter, of, Subject, switchMap, tap } from 'r
 })
 export class SearchBarComponent {
   coinService = inject(CoingeckoService);
+  snackbar = inject(SnackBarService);
   destroyRef = inject(DestroyRef);
 
   searchQuery$ = new Subject<string>();
@@ -31,8 +33,8 @@ export class SearchBarComponent {
         debounceTime(300),
         filter(query => this.validateQuery(query)),
         switchMap(query => this.coinService.searchCoinGecko(query)),
-        catchError(error => {
-          this.showMessage(error);
+        catchError(err => {
+          this.snackbar.show('Something went wrong!');
           this.isSearching.emit(false);
           return of(null);
         }),
@@ -45,7 +47,6 @@ export class SearchBarComponent {
   }
 
   validateQuery(query: string): boolean {
-    console.log(query)
     if (!query) {
       this.isSearching.emit(false);
       return false;
@@ -55,13 +56,9 @@ export class SearchBarComponent {
 
     if (!isValid) {
       this.isSearching.emit(false);
-      this.showMessage('query not valid');
+      this.snackbar.show('Query not valid!');
     }
 
     return isValid;
-  }
-
-  showMessage(msg: any): void {
-    console.log(msg);
   }
 }

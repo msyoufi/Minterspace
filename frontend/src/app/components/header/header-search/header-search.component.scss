@@ -18,13 +18,13 @@
     outline: none;
     border: none;
     border-radius: var(--radius-s);
-    background-color: var(--accent1-color);
+    background-color: var(--tertiary-color);
     color: var(--text-color);
     font-size: .9rem;
     transition: var(--transition);
 
     &:focus {
-      background-color: var(--accent2-color);
+      background-color: var(--tertiary-ligth-color);
     }
 
     &:focus+i {

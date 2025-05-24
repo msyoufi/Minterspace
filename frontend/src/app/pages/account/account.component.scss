@@ -1,8 +1,9 @@
 .account-component-container {
   display: grid;
   grid-template-columns: 220px auto;
-  column-gap: 2rem;
   min-height: 60vh;
+  padding-top: 2rem;
+  column-gap: 2rem;
 }
 
 .sidebar {
@@ -49,7 +50,7 @@
   }
 
   button:hover {
-    background-color: var(--accent1-color);
+    background-color: var(--tertiary-color);
   }
 
   button.selected {

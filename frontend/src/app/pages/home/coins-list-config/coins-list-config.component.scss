@@ -1,24 +1,14 @@
 .config-button {
   padding: .4rem .75rem;
   font-weight: 600;
-  background-color: var(--accent1-color);
+  background-color: var(--tertiary-color);
   color: var(--text-color);
   border-radius: var(--radius-s);
   border: none;
   transition: var(--transition);
 
   &:hover {
-    background-color: var(--accent2-color);
-  }
-
-  &:hover~.config-panel-container {
-    top: 0;
-    opacity: 1;
-    pointer-events: all;
-  }
-
-  &:disabled {
-    pointer-events: none;
+    background-color: var(--tertiary-ligth-color);
   }
 
   &>span {
@@ -26,31 +16,27 @@
   }
 }
 
-.config-panel-container {
-  padding-top: 2.5rem;
-  position: absolute;
-  right: 0;
-  top: -1rem;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 15;
-  transition: var(--transition);
-
-  &:hover {
-    top: 0;
-    opacity: 1;
-    pointer-events: all;
-  }
-}
-
-.config-panel {
+.config-pane {
   display: flex;
   flex-direction: column;
   row-gap: 1rem;
   padding: 1rem;
-  background-color: var(--background-color);
+  position: absolute;
+  right: 0;
+  top: 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 15;
+  background-color: var(--tertiary-color);
   border-radius: var(--radius-l);
-  border: 2px solid var(--accent2-color);
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+
+  &.show {
+    top: 2.5rem;
+    opacity: 1;
+    pointer-events: all;
+  }
 
   .config-control-field {
     display: flex;
@@ -65,6 +51,12 @@
     .ms-input {
       padding: .4rem 1rem;
       width: initial;
+      background-color: var(--tertiary-color);
+      border-color: var(--tertiary-ligth-color);
+    }
+
+    .ms-input:focus {
+      border-color: var(--primary-color);
     }
   }
 }

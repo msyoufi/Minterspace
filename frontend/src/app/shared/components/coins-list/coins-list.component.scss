@@ -22,6 +22,7 @@
     grid-template-columns: 2% 5% auto 10% 8% 17% 17% 20%;
 
     &>span:last-child,
+    ms-label-button:last-child,
     ms-sparkline:last-child {
       display: none;
     }

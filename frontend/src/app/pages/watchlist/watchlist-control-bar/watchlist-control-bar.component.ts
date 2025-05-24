@@ -36,8 +36,10 @@ export class WatchlistControlBarComponent {
   }
 
   async onNameFormSubmit(name: string): Promise<void> {
-    if (!/[a-zA-Z]/.test(name))
-      return console.log('invalid name');
+    if (!/[a-zA-Z]/.test(name)) {
+      this.snackbar.show('Invalid Name');
+      return;
+    }
 
     this.isLoading.set(true);
 

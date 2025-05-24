@@ -1,3 +1,7 @@
+.app-logo {
+  max-width: 150px;
+}
+
 .coin-symbol {
   margin-left: .1rem;
   color: var(--gray);
@@ -130,7 +134,7 @@ a:hover {
   }
 
   .title {
-    font-size: .9rem;
+    font-size: .85rem;
     font-weight: 550;
     color: var(--gray);
   }

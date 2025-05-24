@@ -29,7 +29,7 @@ form {
   justify-content: space-between;
   font-size: .9rem;
   border-radius: var(--radius-l);
-  background-color: var(--accent1-color);
+  background-color: var(--tertiary-color);
 
   .coin-data,
   .radios-container {
@@ -94,7 +94,7 @@ form {
 .total-pane {
   padding: 1.5rem;
   border-radius: var(--radius-l);
-  background-color: var(--accent1-color);
+  background-color: var(--tertiary-color);
 
   p:first-child {
     color: var(--gray);

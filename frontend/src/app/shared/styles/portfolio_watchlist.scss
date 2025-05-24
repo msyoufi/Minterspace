@@ -7,6 +7,7 @@
   justify-content: space-around;
   align-items: center;
   margin-top: 2rem;
+  padding: 1rem;
   gap: 1rem;
 
   h2 {
@@ -20,7 +21,24 @@
   }
 
   .placeholder-svg {
-    width: 30%;
+    width: 100%;
+    max-width: 320px;
+  }
+}
+
+@media (max-width: 900px) {
+  .empty-watchlist_portfolio-container h2 {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 750px) {
+  .empty-watchlist_portfolio-container {
+    flex-direction: column;
+
+    button {
+      margin-bottom: 2rem;
+    }
   }
 }
 
@@ -31,7 +49,7 @@
   padding: .75rem 1.5rem;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--tertiary-color);
+  background-color: var(--secondary-color);
   position: relative;
   border-radius: var(--radius-l);
 }
@@ -45,7 +63,7 @@
   font-weight: 600;
 
   &:hover {
-    background-color: var(--accent2-color);
+    background-color: var(--tertiary-ligth-color);
   }
 }
 
@@ -62,7 +80,7 @@
 .select-menu {
   width: max-content;
   padding: .5rem;
-  background-color: var(--accent1-color);
+  background-color: var(--tertiary-color);
   border-radius: var(--radius-l);
   position: absolute;
   top: 1.75rem;
@@ -88,7 +106,7 @@
   text-align: left;
 
   &:hover {
-    background-color: var(--accent2-color);
+    background-color: var(--tertiary-ligth-color);
   }
 
   &.selected {
