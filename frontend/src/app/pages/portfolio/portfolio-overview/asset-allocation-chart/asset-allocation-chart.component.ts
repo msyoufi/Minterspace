@@ -1,5 +1,12 @@
 import { Component, effect, ElementRef, input, OnDestroy, viewChild } from '@angular/core';
-import { ECharts, EChartsOption, init } from 'echarts';
+import * as echarts from 'echarts/core';
+import { type EChartsCoreOption, type ECharts, init } from 'echarts/core';
+import { PieChart } from 'echarts/charts';
+import { CanvasRenderer } from 'echarts/renderers';
+import { TooltipComponent, LegendComponent, DatasetComponent } from 'echarts/components'
+
+
+echarts.use([PieChart, CanvasRenderer, TooltipComponent, LegendComponent, DatasetComponent]);
 
 @Component({
   selector: 'ms-asset-allocation-chart',
@@ -27,7 +34,7 @@ export class AssetAllocationChartComponent implements OnDestroy {
   drawChart(chartData: AllocationChartDataPoint[]): void {
     this.chart?.dispose();
 
-    this.chartOptions.dataset = { source: chartData };
+    this.chartOptions['dataset'] = { source: chartData };
     this.chart = init(this.chartContainer().nativeElement);
     this.chart.setOption(this.chartOptions);
   }
@@ -40,11 +47,10 @@ export class AssetAllocationChartComponent implements OnDestroy {
     this.chart?.dispose();
   }
 
-  chartOptions: EChartsOption = {
+  chartOptions: EChartsCoreOption = {
     tooltip: {
       trigger: 'item',
-      formatter: function (params) {
-        //@ts-ignore
+      formatter: function (params: any) {
         const { marker, name, value, percent } = params;
         const inCurrency = value.value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
 

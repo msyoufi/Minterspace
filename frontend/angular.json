@@ -79,6 +79,12 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "analyze-bundle": {
+              "sourceMap": true,
+              "optimization": true,
+              "budgets": [],
+              "statsJson": true
             }
           },
           "defaultConfiguration": "production"
