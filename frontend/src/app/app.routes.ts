@@ -9,6 +9,7 @@ import { AssetDetailsComponent } from './pages/portfolio/asset-details/asset-det
 import { PortfolioOverviewComponent } from './pages/portfolio/portfolio-overview/portfolio-overview.component';
 import { ExchangesComponent } from './pages/exchanges/exchanges.component';
 import { ContactComponent } from './pages/contact/contact.component';
+import { AboutComponent } from './pages/about/about.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,4 +24,5 @@ export const routes: Routes = [
   },
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
   { path: 'contact', component: ContactComponent },
+  { path: 'about', component: AboutComponent },
 ];

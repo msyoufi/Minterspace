@@ -1,0 +1,33 @@
+.about-component-container {
+  display: flex;
+  flex-direction: column;
+  max-width: 60vw;
+  margin: 4rem auto;
+  gap: 3rem;
+  text-align: justify;
+}
+
+.app-logo {
+  max-width: 250px;
+}
+
+.desciption,
+.bulletpoints {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+
+  i {
+    color: var(--green);
+  }
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.trailing-text {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
