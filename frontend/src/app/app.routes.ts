@@ -10,6 +10,7 @@ import { PortfolioOverviewComponent } from './pages/portfolio/portfolio-overview
 import { ExchangesComponent } from './pages/exchanges/exchanges.component';
 import { ContactComponent } from './pages/contact/contact.component';
 import { AboutComponent } from './pages/about/about.component';
+import { TermsOfUseComponent } from './pages/terms-of-use/terms-of-use.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -25,4 +26,5 @@ export const routes: Routes = [
   { path: 'account', component: AccountComponent, canActivate: [authGuard] },
   { path: 'contact', component: ContactComponent },
   { path: 'about', component: AboutComponent },
+  { path: 'terms-of-use', component: TermsOfUseComponent },
 ];

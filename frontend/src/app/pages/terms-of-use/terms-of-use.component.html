@@ -1,0 +1,78 @@
+<div class="terms-component-container">
+  <h2><strong>MinterSpace Terms and Conditions</strong></h2>
+
+  <p>
+    Welcome to MinterSpace. Before using this application, please read the following comprehensive disclaimer carefully.
+    Your use of this application constitutes your acknowledgment and acceptance of the following terms:
+  </p>
+
+  <h3><strong>Prototype Status</strong></h3>
+  <p>
+    This application is currently in prototype status. As a prototype, it is not a fully developed or finalized product
+    and should not be used for any commercial purposes or relied upon for making any financial decisions. The features
+    and functionalities are subject to change without notice as we continue to develop and improve the application.
+  </p>
+
+  <h3><strong>No Financial Advice</strong></h3>
+  <p>
+    All content, charts, data, and portfolio tracking tools on the Service are for informational purposes only.
+    We do not provide investment advice.
+    We do not recommend buying, selling, or holding any cryptocurrency.
+    You are solely responsible for any investment decisions you make.
+  </p>
+
+  <h3><strong>Market Data Refresh Rate</strong></h3>
+  <p>
+    The market data for all cryptocurrencies provided within this application is updated at intervals of 60 seconds.
+    This means that the data displayed is not real-time and may lag behind actual market conditions or actual trading
+    prices on the exchanges. Users should be aware that the delayed updates could impact the accuracy of the market
+    information displayed and should not be used for real-time trading activities.
+    We are not liable for any losses resulting from reliance on our data.
+  </p>
+
+  <h3><strong>API Request Limitations</strong></h3>
+  <p>
+    The application's access to market data is limited by
+    <a href="https://www.coingecko.com/en/api" target="_blank">CoinGecko API</a>
+    usage policies.
+  </p>
+  <p>
+    Specifically, the application can make up to 30 requests per minute and is capped at 10,000 requests per month for
+    all users combined. Due to these limitations, there may be times when data retrieval is delayed or restricted,
+    impacting the availability and timeliness of market data.
+  </p>
+
+  <h3><strong>Price Historical Data Limitations</strong></h3>
+  <p>
+    The historical price chart data available within this application is restricted to a maximum of one year. Users
+    seeking data beyond this period will not find it within the application.
+  </p>
+
+  <h3><strong>Portfolio Tracker Accuracy</strong></h3>
+  <p>
+    The portfolios tracking feature is still under development and may not accurately reflect profits and losses.
+  </p>
+
+  <h3><strong>Liability Disclaimer</strong></h3>
+  <p>
+    By using this application, you acknowledge that MinterSpace and its developers are not responsible for
+    any financial losses, damages, or other adverse outcomes that may arise from the use of this application. The
+    information and features provided are offered "as is" without any guarantees of accuracy, reliability, or fitness
+    for a particular purpose. Users assume all risks associated with their use of the application.
+  </p>
+
+  <h3><strong>Continued Development and Feedback</strong></h3>
+  <p>
+    As this application is subjct to continuous development and improvements, user feedback is invaluable.
+    We encourage users to provide feedback and report any issues or suggestions for improvement. Your input will help us
+    enhance the application and address any limitations or inaccuracies. Please do not hesitate to
+    <a routerLink="/contact">contanct us</a>.
+  </p>
+
+  <div class="to-top-button-box">
+    <button class="to-top-btn" [class.show]="showScrollButton()" (click)="scrollToTop()">
+      <i class="bi bi-arrow-up-circle"></i>
+    </button>
+  </div>
+
+</div>
