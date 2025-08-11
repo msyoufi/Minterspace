@@ -2,13 +2,13 @@ import { HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from "@angul
 import { inject } from "@angular/core";
 import { catchError, Observable, switchMap, throwError } from "rxjs";
 import { AuthService } from "../services/auth.service";
+import API_URL from '../../../secrets/api-url';
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const authService = inject(AuthService);
-  const apiUrl = 'http://127.0.0.1:8000/api/';
   const accessToken = authService.getAccessToken();
 
-  if (req.url.startsWith(apiUrl) && accessToken)
+  if (req.url.startsWith(API_URL) && accessToken)
     req = setTokenHeader(req, accessToken);
 
   return next(req).pipe(catchError(err => {
