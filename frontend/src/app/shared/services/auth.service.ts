@@ -31,10 +31,6 @@ export class AuthService {
   private isRefreshingToken = false;
   private BASE_URL = API_URL + '/user';
 
-  get baseUrl(): string {
-    return this.BASE_URL;
-  }
-
   async setCurrentUser(): Promise<boolean> {
     if (!this.getAccessToken()) {
       this.user$.set(null);
@@ -56,15 +52,21 @@ export class AuthService {
     }
   }
 
-  async register(email: string, password: string): Promise<void> {
+  async register(email: string, password: string): Promise<User | null> {
     const url = this.BASE_URL + '/register';
     const body = { email, password };
 
-    const response$ = this.http.post<RegisterResponse>(url, body).pipe(timeout(10000));
-    const { user, tokens } = await firstValueFrom(response$);
+    try {
+      const response$ = this.http.post<RegisterResponse>(url, body).pipe(timeout(10000));
+      const { user, tokens } = await firstValueFrom(response$);
 
-    this.storeTokens(tokens);
-    this.user$.set(user);
+      this.storeTokens(tokens);
+      return user;
+
+    } catch (err: unknown) {
+      this.errorService.handleError(err);
+      return null;
+    }
   }
 
   async login(email: string, password: string): Promise<void> {

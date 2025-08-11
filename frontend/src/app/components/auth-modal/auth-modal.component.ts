@@ -80,11 +80,15 @@ export class AuthModalComponent {
   }
 
   async createUserAccount(email: string, password: string): Promise<void> {
-    await this.authService.register(email, password);
+    const user = await this.authService.register(email, password);
+    if (!user) return;
 
     // Only the first watchlist and portfolio on account creation musst be set to main.
     await this.watchlistService.createWatchlist('Main', true);
     await this.portfolioService.createPortfolio('Main', true);
+
+    // Propagate the newly registered user AFTER watchlist and portfolio are created
+    this.authService.user$.set(user);
   }
 
   handleAuthErrors(err: unknown): void {
