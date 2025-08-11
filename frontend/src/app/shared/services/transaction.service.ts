@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { firstValueFrom } from 'rxjs';
 import { ErrorService } from './error.service';
+import API_URL from '../../../secrets/api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class TransactionService {
   private http = inject(HttpClient);
   private errorService = inject(ErrorService);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/portfolio';
+  private BASE_URL = API_URL + '/portfolio';
 
   async createTransaction(transaction: Omit<Transaction, 'id'>): Promise<Transaction | null> {
     const { portfolio_id, ...transactionData } = transaction;

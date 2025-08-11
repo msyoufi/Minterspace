@@ -2,6 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
 import { ErrorService } from './error.service';
+import API_URL from '../../../secrets/api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class CoingeckoService {
   public coinCategories = signal<CoinCategory[]>([]);
   public TrendingCoins = signal<CoinTrending[]>([]);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/coingecko';
+  private BASE_URL = API_URL + '/coingecko';
 
   constructor() {
     this.getGlobalMarketData();

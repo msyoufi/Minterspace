@@ -3,6 +3,7 @@ import { ErrorService } from './error.service';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { AuthService } from './auth.service';
+import API_URL from '../../../secrets/api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AccountService {
   private authService = inject(AuthService);
   private errorService = inject(ErrorService);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/user/me';
+  private BASE_URL = API_URL + '/user/me';
 
   async updateUsername(username: string): Promise<boolean> {
     try {

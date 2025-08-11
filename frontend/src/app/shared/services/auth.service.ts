@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, filter, firstValueFrom, Observable, take, tap, throwError, timeout } from 'rxjs';
 import { ErrorService } from './error.service';
+import API_URL from '../../../secrets/api-url';
 
 interface RegisterResponse {
   user: User,
@@ -28,7 +29,7 @@ export class AuthService {
 
   private refreshTokenSubject = new BehaviorSubject<{ access: string } | null>(null);
   private isRefreshingToken = false;
-  private BASE_URL = 'http://127.0.0.1:8000/api/user';
+  private BASE_URL = API_URL + '/user';
 
   get baseUrl(): string {
     return this.BASE_URL;

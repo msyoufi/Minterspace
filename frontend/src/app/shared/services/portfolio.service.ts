@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, catchError, filter, firstValueFrom, map, Observable, of, switchMap, tap } from 'rxjs';
 import { ErrorService } from './error.service';
+import API_URL from '../../../secrets/api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class PortfolioService {
   private http = inject(HttpClient);
   private errorService = inject(ErrorService);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/portfolio/';
+  private BASE_URL = API_URL + '/portfolio/';
 
   public portfolios$ = signal<Portfolio[]>([]);
   public currentPortfolio$ = signal<Portfolio | null>(null);

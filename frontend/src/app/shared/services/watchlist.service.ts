@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { firstValueFrom } from 'rxjs';
 import { ErrorService } from './error.service';
+import API_URL from '../../../secrets/api-url';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class WatchlistService {
   private http = inject(HttpClient);
   private errorService = inject(ErrorService);
 
-  private BASE_URL = 'http://127.0.0.1:8000/api/watchlist/';
+  private BASE_URL = API_URL + '/watchlist/';
 
   public watchlists$ = signal<Watchlist[]>([]);
   public currentWatchlist$ = signal<Watchlist | null>(null);
